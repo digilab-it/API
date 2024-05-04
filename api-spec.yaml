@@ -1,0 +1,313 @@
+openapi: 3.0.0
+info:
+  title: Crawler API
+  version: 1.0.0
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.mydomain.com/v1
+paths:
+  /token:
+    post:
+      operationId: myOperationId
+      summary: Token
+      description: Obtain the authentication token to use in subsequent APIs.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "401":
+          description: Invalid credentials
+        "500":
+          description: Server error
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+              examples:
+                example1:
+                  value:
+                    token: "eyJhbGciOiJ****"
+  /locations:
+    get:
+      summary: Get Locations
+      description: Get all locations. This operation retrieves all the available locations in the system.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Location"
+              examples:
+                example1:
+                  value:
+                    - id: "1"
+                      name: "Location 1"
+                      description: "Description 1"
+                      address: "Address 1"
+                      coordinates: [1.0, 2.0]
+                    - id: "2"
+                      name: "Location 2"
+                      description: "Description 2"
+                      address: "Address 2"
+                      coordinates: [3.0, 4.0]
+        "401":
+          description: Unauthorized
+    post:
+      operationId: createLocation
+      summary: Create Location
+      description: Create a new location with the specified details
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Location"
+      responses:
+        "201":
+          description: Location created successfully
+        "401":
+          description: Unauthorized
+  /locations/{id}:
+    get:
+      operationId: getLocationById
+      summary: Get Location by ID
+      description: Get a specific location by its ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Location"
+        "404":
+          description: Location not found
+        "401":
+          description: Unauthorized
+    put:
+      operationId: updateLocation
+      summary: Update Location
+      description: Update a location with new information
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Location"
+      responses:
+        "200":
+          description: Location updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Location"
+        "404":
+          description: Location not found
+        "401":
+          description: Unauthorized
+    delete:
+      operationId: deleteLocation
+      summary: Delete Location
+      description: Delete a location. This operation deletes a specific location by its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: Location deleted successfully
+        "404":
+          description: Location not found
+        "401":
+          description: Unauthorized
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Person:
+      type: object
+      properties:
+        id:
+          type: string
+        extensions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Extension"
+        identifiers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Identifier"
+        firstName:
+          type: string
+        lastName:
+          type: string
+        department:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        deathDate:
+          type: string
+          format: date
+      required:
+        - firstName
+        - lastName
+        - department
+    Period:
+      type: object
+      properties:
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+      required:
+        - start
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+        identifiers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Identifier"
+        name:
+          type: string
+        description:
+          type: string
+        team:
+          type: array
+          items:
+            $ref: "#/components/schemas/Person"
+        periods:
+          type: object
+          $ref: "#/components/schemas/Period"
+    Location:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        extensions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Extension"
+        identifiers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Identifier"
+        description:
+          type: string
+        address:
+          type: string
+        coordinates:
+          type: array
+          items:
+            type: number
+          minItems: 2
+          maxItems: 2
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+        extensions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Extension"
+        identifiers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Identifier"
+        type:
+          type: string
+        Period:
+          type: object
+          $ref: "#/components/schemas/Period"
+        Location:
+          type: object
+          $ref: "#/components/schemas/Location"
+    Manuscript:
+      type: object
+      properties:
+        id:
+          type: string
+        extensions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Extension"
+        identifiers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Identifier"
+        events:
+          type: array
+          items:
+            $ref: "#/components/schemas/Event"
+        projects:
+          type: array
+          $ref: "#/components/schemas/Project"
+    Identifier:
+      type: object
+      properties:
+        type:
+          type: string
+        system:
+          type: string
+        value:
+          type: string
+    Extension:
+      type: object
+      properties:
+        uri:
+          type: string
+        value:
+          type: string
