@@ -356,6 +356,310 @@ paths:
           description: Unauthorized
         "404":
           description: Person not found
+  /events:
+    get:
+      operationId: getEvents
+      security:
+        - bearerAuth: []
+      tags:
+        - Events
+      summary: Get all events
+      description: This operation retrieves all events from the system.
+      responses:
+        "200":
+          description: A list of events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Event"
+        "401":
+          description: Unauthorized
+    post:
+      operationId: createEvent
+      security:
+        - bearerAuth: []
+      tags:
+        - Events
+      summary: Create a new event
+      description: This operation creates a new event in the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Event"
+      responses:
+        "201":
+          description: Event created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
+        "401":
+          description: Unauthorized
+  /events/{id}:
+    get:
+      operationId: getEventById
+      security:
+        - bearerAuth: []
+      tags:
+        - Events
+      summary: Get an event by ID
+      description: This operation retrieves an event from the system based on its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: An event
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Event not found
+    patch:
+      operationId: patchEventById
+      security:
+        - bearerAuth: []
+      tags:
+        - Events
+      summary: Update an event by ID
+      description: This operation updates an event in the system based on its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Event"
+      responses:
+        "200":
+          description: Event updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Event not found
+    delete:
+      operationId: deleteEventById
+      security:
+        - bearerAuth: []
+      tags:
+        - Events
+      summary: Delete an event by ID
+      description: This operation deletes an event from the system based on its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Event deleted
+        "401":
+          description: Unauthorized
+        "404":
+          description: Event not found
+    put:
+      operationId: replaceEventById
+      security:
+        - bearerAuth: []
+      tags:
+        - Events
+      summary: Replace an event by ID
+      description: This operation replaces an event in the system based on its ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Event"
+      responses:
+        "200":
+          description: Event replaced
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Event not found
+  /projects:
+    post:
+      tags:
+        - Projects
+      summary: Create a new project
+      description: This operation creates a new project in the system.
+      operationId: createProject
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Project"
+      responses:
+        "201":
+          description: Project created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "401":
+          description: Unauthorized
+    get:
+      tags:
+        - Projects
+      summary: Get all projects
+      description: This operation retrieves all projects from the system.
+      operationId: getProjects
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: A list of projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+        "401":
+          description: Unauthorized
+  /projects/{id}:
+    get:
+      tags:
+        - Projects
+      summary: Get a project by ID
+      description: This operation retrieves a project from the system based on its ID.
+      operationId: getProjectById
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Project not found
+    patch:
+      tags:
+        - Projects
+      summary: Update a project by ID
+      description: This operation updates a project in the system based on its ID.
+      operationId: updateProject
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Project"
+      responses:
+        "200":
+          description: Project updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Project not found
+    delete:
+      tags:
+        - Projects
+      summary: Delete a project by ID
+      description: This operation deletes a project from the system based on its ID.
+      operationId: deleteProject
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Project deleted
+        "401":
+          description: Unauthorized
+        "404":
+          description: Project not found
+    put:
+      tags:
+        - Projects
+      summary: Replace a project by ID
+      description: This operation replaces a project in the system based on its ID.
+      operationId: replaceProject
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Project"
+      responses:
+        "200":
+          description: Project replaced
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Project not found
 
 components:
   securitySchemes:
