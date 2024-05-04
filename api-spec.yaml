@@ -14,34 +14,6 @@ paths:
       operationId: createToken
       summary: Token
       description: Obtain the authentication token to use in subsequent APIs.
-      x-codeSamples:
-        - lang: "JavaScript"
-          source: |
-            fetch('https://your.api/your/path', {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            })
-        - lang: "C#"
-          source: |
-            var client = new RestClient("https://your.api/your/path");
-            var request = new RestRequest(Method.GET);
-            request.AddHeader("Content-Type", "application/json");
-            IRestResponse response = client.Execute(request);
-        - lang: "Java"
-          source: |
-            // Java code sample
-        - lang: "Go"
-          source: |
-            // Go code sample
-        - lang: "Python"
-          source: |
-            import requests
-            url = "https://your.api/your/path"
-            headers = {"Content-Type": "application/json"}
-            response = requests.request("GET", url, headers=headers)
-            print(response.text)
       requestBody:
         required: true
         content:
