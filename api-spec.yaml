@@ -45,6 +45,9 @@ paths:
                     token: "eyJhbGciOiJ****"
   /locations:
     get:
+      tags:
+        - Locations
+      operationId: getLocation
       summary: Get Locations
       description: Get all locations. This operation retrieves all the available locations in the system.
       security:
@@ -74,6 +77,8 @@ paths:
         "401":
           description: Unauthorized
     post:
+      tags:
+        - Locations
       operationId: createLocation
       summary: Create Location
       description: Create a new location with the specified details
@@ -92,6 +97,8 @@ paths:
           description: Unauthorized
   /locations/{id}:
     get:
+      tags:
+        - Locations
       operationId: getLocationById
       summary: Get Location by ID
       description: Get a specific location by its ID
@@ -115,6 +122,8 @@ paths:
         "401":
           description: Unauthorized
     put:
+      tags:
+        - Locations
       operationId: updateLocation
       summary: Update Location
       description: Update a location with new information
@@ -143,7 +152,41 @@ paths:
           description: Location not found
         "401":
           description: Unauthorized
+    patch:
+      tags:
+        - Locations
+      operationId: patchLocation
+      security:
+        - bearerAuth: []
+      summary: Patch Location
+      description: partial update a location with new information
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Location"
+      responses:
+        "200":
+          description: Location patched successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Location"
+        "404":
+          description: Location not found
+        "401":
+          description: Unauthorized
+
     delete:
+      tags:
+        - Locations
       operationId: deleteLocation
       summary: Delete Location
       description: Delete a location. This operation deletes a specific location by its ID.
