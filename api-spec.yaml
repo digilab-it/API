@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Digilab API
+  title: CSF API
   version: 1.0.0
   license:
     name: MIT
@@ -8,9 +8,84 @@ info:
 
 servers:
   - url: https://api.mydomain.com/v1
+tags:
+  - name: Getting Started
+    x-displayName: Getting Started
+    description: |
+      ## Getting Started
+      Welcome to the Common Semantics Framework (**CSF**) API. This API provides access to the CSF standard, which is a digital library standard that allows users to manage and access digital resources such as manuscripts, events, projects, and locations. The API provides endpoints for creating, updating, and deleting resources, as well as for retrieving information about resources. To get started, you will need to obtain an authentication token by calling the `/token` endpoint with your email and password. Once you have obtained a token, you can use it to authenticate your requests to other endpoints in the API.
+
+      ## Graph Querying
+      CSF resources can have relationships with other resources through graph relationships as showen in the follow image. 
+      ![graph](./images/getting_started/graph.png)
+
+      The list of linked resources is available in the related_resource property. To retrieve information about the linked resources, you need to specify the related_resource parameter in your search query. For example, if you want to retrieve information about resource1 and resource2, your search query should include related_resource=resource1,resource2.
+
+      The following api will return the data related with person 1 in the nodes locations and projects.
+      ```bash
+      GET /persons/1?related_resource=locations,projects
+      ```
+  - name: API - Authentication
+    description: ## Authentication
+      The authentication API provides endpoints for obtaining an authentication token that can be used to authenticate requests to other endpoints in the API.
+  - name: API - Locations
+    description: |
+      ## Locations
+      The locations API provides endpoints for managing locations in the Common Semantics Framework standard. Locations represent physical places where events, projects, and other resources are located.
+
+      ### Search Parameters
+      The locations API supports the following search parameters:
+        - **id**: The ID of the location
+        - **name**: The name of the location
+        - **address**: The address of the location
+        - **coordinates**: The coordinates of the location
+        - **related_resource**: The related resources to include in the response
+
+        **Examples**
+        ```bash
+        GET /locations/?coordinates=1.0,2.0
+        GET /locations/?id=4fdaf83a-0953-4f8e-b5d1-dd50bdec6830,67daf83a-0953-4f8e-b5d1-dd50bdec6832,11daf811-0953-4f8e-b5d1-dd50bdec6811
+        GET /locations/?related_resource=events,projects
+        ```
+
+  - name: API - Persons
+    description: All Persons related operations
+  - name: API - Projects
+    description: All Projects related operations
+  - name: API - Events
+    description: All Events related operations
+  - name: API - Manuscripts
+    description: All Manuscripts related operations
+  - name: Models
+    x-displayName: Resource types
+    description: |
+      ## Base Entity
+      <SchemaDefinition schemaRef="#/components/schemas/Base" />
+
+      ## Location
+      A location object extending the `Base Entity`
+      <SchemaDefinition schemaRef="#/components/schemas/Location" />
+
+      ## Person
+      A person object extending the `Base Entity`
+      <SchemaDefinition schemaRef="#/components/schemas/Person" />
+
+      ## Project
+      A project object extending the `Base Entity`
+      <SchemaDefinition schemaRef="#/components/schemas/Project" />  
+
+      ## Event
+      An event object extending the `Base Entity`
+      <SchemaDefinition schemaRef="#/components/schemas/Event" />  
+
+      ## Manuscript
+      A manuscript object extending the `Base Entity`
+      <SchemaDefinition schemaRef="#/components/schemas/Manuscript" />
 paths:
   /token:
     post:
+      tags:
+        - API - Authentication
       operationId: createToken
       summary: Token
       description: Obtain the authentication token to use in subsequent APIs.
@@ -46,10 +121,10 @@ paths:
   /locations:
     get:
       tags:
-        - Locations
+        - API - Locations
       operationId: getLocation
       summary: Get Locations
-      description: Get all locations. This operation retrieves all the available locations in the system.
+      description: Get all locations. This operation retrieves all the available locations in the standard.
       security:
         - bearerAuth: []
       responses:
@@ -78,7 +153,7 @@ paths:
           description: Unauthorized
     post:
       tags:
-        - Locations
+        - API - Locations
       operationId: createLocation
       summary: Create Location
       description: Create a new location with the specified details
@@ -98,7 +173,7 @@ paths:
   /locations/{id}:
     get:
       tags:
-        - Locations
+        - API - Locations
       operationId: getLocationById
       summary: Get Location by ID
       description: Get a specific location by its ID
@@ -123,7 +198,7 @@ paths:
           description: Unauthorized
     put:
       tags:
-        - Locations
+        - API - Locations
       operationId: updateLocation
       summary: Update Location
       description: Update a location with new information
@@ -154,7 +229,7 @@ paths:
           description: Unauthorized
     patch:
       tags:
-        - Locations
+        - API - Locations
       operationId: patchLocation
       security:
         - bearerAuth: []
@@ -185,7 +260,7 @@ paths:
           description: Unauthorized
     delete:
       tags:
-        - Locations
+        - API - Locations
       operationId: deleteLocation
       summary: Delete Location
       description: Delete a location. This operation deletes a specific location by its ID.
@@ -207,7 +282,7 @@ paths:
   /persons:
     post:
       tags:
-        - Persons
+        - API - Persons
       operationId: createPerson
       summary: Create Person
       description: Create a new person with the given information
@@ -231,9 +306,9 @@ paths:
     get:
       summary: Get persons
       tags:
-        - Persons
+        - API - Persons
       operationId: getPersons
-      description: Get all persons from the system
+      description: Get all persons from the standard
       security:
         - bearerAuth: []
       responses:
@@ -251,7 +326,7 @@ paths:
     get:
       summary: Get a specific person
       tags:
-        - Persons
+        - API - Persons
       operationId: getPersonById
       description: Get a person by ID. This operation retrieves a specific person by their ID.
       security:
@@ -276,7 +351,7 @@ paths:
     put:
       summary: Replace a person by ID
       tags:
-        - Persons
+        - API - Persons
       operationId: replacePerson
       description: Replace a person by ID with new information
       security:
@@ -307,7 +382,7 @@ paths:
     patch:
       summary: Patch a person by ID
       tags:
-        - Persons
+        - API - Persons
       operationId: patchPerson
       description: Update a person by ID. This operation updates a person's information based on their ID.
       security:
@@ -338,9 +413,9 @@ paths:
     delete:
       summary: Delete a person by ID
       tags:
-        - Persons
+        - API - Persons
       operationId: deletePerson
-      description: Delete a person by ID. This operation deletes a person from the system based on their ID.
+      description: Delete a person by ID. This operation deletes a person from the standard based on their ID.
       security:
         - bearerAuth: []
       parameters:
@@ -362,9 +437,9 @@ paths:
       security:
         - bearerAuth: []
       tags:
-        - Events
+        - API - Events
       summary: Get all events
-      description: This operation retrieves all events from the system.
+      description: This operation retrieves all events from the standard.
       responses:
         "200":
           description: A list of events
@@ -381,9 +456,9 @@ paths:
       security:
         - bearerAuth: []
       tags:
-        - Events
+        - API - Events
       summary: Create a new event
-      description: This operation creates a new event in the system.
+      description: This operation creates a new event in the standard.
       requestBody:
         required: true
         content:
@@ -405,9 +480,9 @@ paths:
       security:
         - bearerAuth: []
       tags:
-        - Events
+        - API - Events
       summary: Get an event by ID
-      description: This operation retrieves an event from the system based on its ID.
+      description: This operation retrieves an event from the standard based on its ID.
       parameters:
         - name: id
           in: path
@@ -430,9 +505,9 @@ paths:
       security:
         - bearerAuth: []
       tags:
-        - Events
+        - API - Events
       summary: Update an event by ID
-      description: This operation updates an event in the system based on its ID.
+      description: This operation updates an event in the standard based on its ID.
       parameters:
         - name: id
           in: path
@@ -461,9 +536,9 @@ paths:
       security:
         - bearerAuth: []
       tags:
-        - Events
+        - API - Events
       summary: Delete an event by ID
-      description: This operation deletes an event from the system based on its ID.
+      description: This operation deletes an event from the standard based on its ID.
       parameters:
         - name: id
           in: path
@@ -482,9 +557,9 @@ paths:
       security:
         - bearerAuth: []
       tags:
-        - Events
+        - API - Events
       summary: Replace an event by ID
-      description: This operation replaces an event in the system based on its ID.
+      description: This operation replaces an event in the standard based on its ID.
       parameters:
         - name: id
           in: path
@@ -511,9 +586,9 @@ paths:
   /projects:
     post:
       tags:
-        - Projects
+        - API - Projects
       summary: Create a new project
-      description: This operation creates a new project in the system.
+      description: This operation creates a new project in the standard.
       operationId: createProject
       security:
         - bearerAuth: []
@@ -534,9 +609,9 @@ paths:
           description: Unauthorized
     get:
       tags:
-        - Projects
+        - API - Projects
       summary: Get all projects
-      description: This operation retrieves all projects from the system.
+      description: This operation retrieves all projects from the standard.
       operationId: getProjects
       security:
         - bearerAuth: []
@@ -554,9 +629,9 @@ paths:
   /projects/{id}:
     get:
       tags:
-        - Projects
+        - API - Projects
       summary: Get a project by ID
-      description: This operation retrieves a project from the system based on its ID.
+      description: This operation retrieves a project from the standard based on its ID.
       operationId: getProjectById
       security:
         - bearerAuth: []
@@ -579,9 +654,9 @@ paths:
           description: Project not found
     patch:
       tags:
-        - Projects
+        - API - Projects
       summary: Update a project by ID
-      description: This operation updates a project in the system based on its ID.
+      description: This operation updates a project in the standard based on its ID.
       operationId: updateProject
       security:
         - bearerAuth: []
@@ -610,9 +685,9 @@ paths:
           description: Project not found
     delete:
       tags:
-        - Projects
+        - API - Projects
       summary: Delete a project by ID
-      description: This operation deletes a project from the system based on its ID.
+      description: This operation deletes a project from the standard based on its ID.
       operationId: deleteProject
       security:
         - bearerAuth: []
@@ -631,9 +706,9 @@ paths:
           description: Project not found
     put:
       tags:
-        - Projects
+        - API - Projects
       summary: Replace a project by ID
-      description: This operation replaces a project in the system based on its ID.
+      description: This operation replaces a project in the standard based on its ID.
       operationId: replaceProject
       security:
         - bearerAuth: []
@@ -663,9 +738,9 @@ paths:
   /manuscripts:
     post:
       tags:
-        - Manuscripts
+        - API - Manuscripts
       summary: Create a new manuscript
-      description: This operation creates a new manuscript in the system.
+      description: This operation creates a new manuscript in the standard.
       operationId: createManuscript
       security:
         - bearerAuth: []
@@ -686,9 +761,9 @@ paths:
           description: Unauthorized
     get:
       tags:
-        - Manuscripts
+        - API - Manuscripts
       summary: Get all manuscripts
-      description: This operation retrieves all manuscripts from the system.
+      description: This operation retrieves all manuscripts from the standard.
       operationId: getManuscripts
       security:
         - bearerAuth: []
@@ -706,9 +781,9 @@ paths:
   /manuscripts/{id}:
     get:
       tags:
-        - Manuscripts
+        - API - Manuscripts
       summary: Get a manuscript by ID
-      description: This operation retrieves a manuscript from the system based on its ID.
+      description: This operation retrieves a manuscript from the standard based on its ID.
       operationId: getManuscriptById
       security:
         - bearerAuth: []
@@ -731,9 +806,9 @@ paths:
           description: Manuscript not found
     patch:
       tags:
-        - Manuscripts
+        - API - Manuscripts
       summary: Update a manuscript by ID
-      description: This operation updates a manuscript in the system based on its ID.
+      description: This operation updates a manuscript in the standard based on its ID.
       operationId: updateManuscript
       security:
         - bearerAuth: []
@@ -762,9 +837,9 @@ paths:
           description: Manuscript not found
     delete:
       tags:
-        - Manuscripts
+        - API - Manuscripts
       summary: Delete a manuscript by ID
-      description: This operation deletes a manuscript from the system based on its ID.
+      description: This operation deletes a manuscript from the standard based on its ID.
       operationId: deleteManuscript
       security:
         - bearerAuth: []
@@ -783,9 +858,9 @@ paths:
           description: Manuscript not found
     put:
       tags:
-        - Manuscripts
+        - API - Manuscripts
       summary: Replace a manuscript by ID
-      description: This operation replaces a manuscript in the system based on its ID.
+      description: This operation replaces a manuscript in the standard based on its ID.
       operationId: replaceManuscript
       security:
         - bearerAuth: []
@@ -814,37 +889,74 @@ paths:
           description: Manuscript not found
 
 components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
   schemas:
-    Person:
+    Resource:
       type: object
       properties:
         id:
           type: string
-        extensions:
+        name:
+          type: string
+        uri:
+          type: string
+    Identifier:
+      type: object
+      properties:
+        type:
+          type: string
+        standard:
+          type: string
+        value:
+          type: string
+    Extension:
+      type: object
+      properties:
+        uri:
+          type: string
+        value:
+          type: string
+    Base:
+      type: object
+      properties:
+        id:
+          type: string
+        related_resources:
           type: array
           items:
-            $ref: "#/components/schemas/Extension"
+            $ref: "#/components/schemas/Resource"
         identifiers:
           type: array
           items:
             $ref: "#/components/schemas/Identifier"
+        extensions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Extension"
+    Person:
+      x-tags:
+        - Model
+      description: A person object
+      allOf:
+        - $ref: "#/components/schemas/Base"
+      type: object
+      properties:
         firstName:
           type: string
+          description: The person's first name
         lastName:
           type: string
+          description: The person's last name
         department:
           type: string
+          description: The person's department
         birthDate:
           type: string
           format: date
+          description: The person's birthDate
         deathDate:
           type: string
           format: date
+          description: The person's deathDate
       required:
         - firstName
         - lastName
@@ -861,40 +973,20 @@ components:
       required:
         - start
     Project:
+      allOf:
+        - $ref: "#/components/schemas/Base"
       type: object
       properties:
-        id:
-          type: string
-        identifiers:
-          type: array
-          items:
-            $ref: "#/components/schemas/Identifier"
-        name:
-          type: string
-        description:
-          type: string
-        team:
-          type: array
-          items:
-            $ref: "#/components/schemas/Person"
         periods:
           type: object
           $ref: "#/components/schemas/Period"
     Location:
+      allOf:
+        - $ref: "#/components/schemas/Base"
       type: object
       properties:
-        id:
-          type: string
         name:
           type: string
-        extensions:
-          type: array
-          items:
-            $ref: "#/components/schemas/Extension"
-        identifiers:
-          type: array
-          items:
-            $ref: "#/components/schemas/Identifier"
         description:
           type: string
         address:
@@ -906,18 +998,10 @@ components:
           minItems: 2
           maxItems: 2
     Event:
+      allOf:
+        - $ref: "#/components/schemas/Base"
       type: object
       properties:
-        id:
-          type: string
-        extensions:
-          type: array
-          items:
-            $ref: "#/components/schemas/Extension"
-        identifiers:
-          type: array
-          items:
-            $ref: "#/components/schemas/Identifier"
         type:
           type: string
         Period:
@@ -927,38 +1011,21 @@ components:
           type: object
           $ref: "#/components/schemas/Location"
     Manuscript:
+      allOf:
+        - $ref: "#/components/schemas/Base"
       type: object
       properties:
-        id:
-          type: string
-        extensions:
-          type: array
-          items:
-            $ref: "#/components/schemas/Extension"
-        identifiers:
-          type: array
-          items:
-            $ref: "#/components/schemas/Identifier"
         events:
           type: array
           items:
             $ref: "#/components/schemas/Event"
         projects:
           type: array
-          $ref: "#/components/schemas/Project"
-    Identifier:
-      type: object
-      properties:
-        type:
-          type: string
-        system:
-          type: string
-        value:
-          type: string
-    Extension:
-      type: object
-      properties:
-        uri:
-          type: string
-        value:
-          type: string
+          items:
+            $ref: "#/components/schemas/Project"
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
