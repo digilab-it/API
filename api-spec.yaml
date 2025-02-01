@@ -42,7 +42,7 @@ tags:
       - Utilizzare sempre HTTPS per tutte le richieste OAuth2
       - Conservare i token di accesso in modo sicuro (ad esempio, nell’header di autenticazione con Bearer Token)
   - name: tagLocations
-    x-displayName: Locations
+    x-displayName: draft Locations
     description: |
       ## Locations
       The locations API provides endpoints for managing locations in the Common Semantics Framework standard. Locations represent physical places where events, projects, and other resources are located.
@@ -63,19 +63,19 @@ tags:
         ```
 
   - name: tagPersons
-    x-displayName: Persons
+    x-displayName: draft Persons
     description: All Persons related operations
   - name: tagProjects
     description: All Projects related operations
-    x-displayName: Projects
+    x-displayName: draft Projects
   - name: tagEvents
     description: All Events related operations
-    x-displayName: Events
+    x-displayName: draft Events
   - name: tagManuscripts
     description: All Manuscripts related operations
-    x-displayName: Manuscripts
+    x-displayName: draft Manuscripts
   - name: Models
-    x-displayName: Resource types
+    x-displayName: draft Resource types
     description: |
       ## Base Entity
       <SchemaDefinition schemaRef="#/components/schemas/Base" />
