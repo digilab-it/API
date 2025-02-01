@@ -63,13 +63,17 @@ tags:
         ```
 
   - name: tagPersons
+    x-displayName: Persons
     description: All Persons related operations
   - name: tagProjects
     description: All Projects related operations
+    x-displayName: Projects
   - name: tagEvents
     description: All Events related operations
+    x-displayName: Events
   - name: tagManuscripts
     description: All Manuscripts related operations
+    x-displayName: Manuscripts
   - name: Models
     x-displayName: Resource types
     description: |
