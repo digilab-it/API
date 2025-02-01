@@ -41,6 +41,9 @@ tags:
 
       - Utilizzare sempre HTTPS per tutte le richieste OAuth2
       - Conservare i token di accesso in modo sicuro (ad esempio, nell’header di autenticazione con Bearer Token)
+  - name: tagManuscripts
+    description: All Manuscripts related operations
+    x-displayName: (draft) Manuscripts
   - name: tagLocations
     x-displayName: (draft) Locations
     description: |
@@ -71,9 +74,6 @@ tags:
   - name: tagEvents
     description: All Events related operations
     x-displayName: (draft) Events
-  - name: tagManuscripts
-    description: All Manuscripts related operations
-    x-displayName: (draft) Manuscripts
   - name: Models
     x-displayName: (draft) Resource types
     description: |
@@ -903,7 +903,7 @@ paths:
     get:
       tags:
         - tagManuscripts
-      summary: Get a manuscript by ID
+      summary: Turtle Get a manuscript by ID
       description: This operation retrieves a manuscript from the standard based on its ID.
       operationId: getManuscriptById
       security:
@@ -1008,6 +1008,27 @@ paths:
           description: Unauthorized
         "404":
           description: Manuscript not found
+  /turtle/manuscripts/{id}:
+    get:
+      tags:
+        - tagManuscripts
+      summary: Get a manuscript by ID
+      description: Restituisce una risorsa Manuscript nel formato Turtle.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Dati del manoscritto in Turtle
+          content:
+            text/turtle:
+              schema:
+                $ref: "#/components/schemas/TurtleManuscript"
+        "404":
+          description: Manuscript non trovato
 
 components:
   schemas:
@@ -1144,7 +1165,36 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Project"
-
+    TurtleManuscript:
+      type: object
+      properties:
+        "@context":
+          type: string
+          example: "http://example.org/context"
+        "@id":
+          type: string
+          example: "http://example.org/manuscripts/123"
+        "@type":
+          type: string
+          example: "http://example.org/schema/Manuscript"
+        title:
+          type: string
+          example: "Codex Vaticanus"
+        description:
+          type: string
+          example: "Uno dei più antichi manoscritti della Bibbia"
+        binding:
+          type: string
+          example: "Pergamena con copertina in cuoio"
+        extend:
+          type: string
+          example: "25 x 30 cm, 800 pagine"
+        history:
+          type: string
+          example: "Scoperto in Vaticano nel XV secolo"
+        bibliography:
+          type: string
+          example: "Smith, J. The History of the Codex, 1990"
   securitySchemes:
     bearerAuth:
       type: http

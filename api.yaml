@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  title: Manuscript API
+  description: API per la gestione di manoscritti con RDF Turtle
+  version: 1.0.0
+
+servers:
+  - url: https://api.example.org
+
+paths:
+  /manuscripts/{id}:
+    get:
+      summary: Ottieni un manoscritto
+      description: Restituisce una risorsa Manuscript nel formato Turtle.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Dati del manoscritto in Turtle
+          content:
+            text/turtle:
+              schema:
+                $ref: "#/components/schemas/Manuscript"
+        "404":
+          description: Manuscript non trovato
+
+components:
+  schemas:
+    Manuscript:
+      type: object
+      properties:
+        "@context":
+          type: string
+          example: "http://example.org/context"
+        "@id":
+          type: string
+          example: "http://example.org/manuscripts/123"
+        "@type":
+          type: string
+          example: "http://example.org/schema/Manuscript"
+        title:
+          type: string
+          example: "Codex Vaticanus"
+        description:
+          type: string
+          example: "Uno dei più antichi manoscritti della Bibbia"
+        binding:
+          type: string
+          example: "Pergamena con copertina in cuoio"
+        extend:
+          type: string
+          example: "25 x 30 cm, 800 pagine"
+        history:
+          type: string
+          example: "Scoperto in Vaticano nel XV secolo"
+        bibliography:
+          type: string
+          example: "Smith, J. The History of the Codex, 1990"
