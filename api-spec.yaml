@@ -41,7 +41,8 @@ tags:
 
       - Utilizzare sempre HTTPS per tutte le richieste OAuth2
       - Conservare i token di accesso in modo sicuro (ad esempio, nell’header di autenticazione con Bearer Token)
-  - name: API - Locations
+  - name: tagLocations
+    x-displayName: Locations
     description: |
       ## Locations
       The locations API provides endpoints for managing locations in the Common Semantics Framework standard. Locations represent physical places where events, projects, and other resources are located.
@@ -61,13 +62,13 @@ tags:
         GET /locations/?related_resource=events,projects
         ```
 
-  - name: API - Persons
+  - name: tagPersons
     description: All Persons related operations
-  - name: API - Projects
+  - name: tagProjects
     description: All Projects related operations
-  - name: API - Events
+  - name: tagEvents
     description: All Events related operations
-  - name: API - Manuscripts
+  - name: tagManuscripts
     description: All Manuscripts related operations
   - name: Models
     x-displayName: Resource types
@@ -237,7 +238,7 @@ paths:
   /locations:
     get:
       tags:
-        - API - Locations
+        - tagLocations
       operationId: getLocation
       summary: Get Locations
       description: Get all locations. This operation retrieves all the available locations in the standard.
@@ -269,7 +270,7 @@ paths:
           description: Unauthorized
     post:
       tags:
-        - API - Locations
+        - tagLocations
       operationId: createLocation
       summary: Create Location
       description: Create a new location with the specified details
@@ -289,7 +290,7 @@ paths:
   /locations/{id}:
     get:
       tags:
-        - API - Locations
+        - tagLocations
       operationId: getLocationById
       summary: Get Location by ID
       description: Get a specific location by its ID
@@ -314,7 +315,7 @@ paths:
           description: Unauthorized
     put:
       tags:
-        - API - Locations
+        - tagLocations
       operationId: updateLocation
       summary: Update Location
       description: Update a location with new information
@@ -345,7 +346,7 @@ paths:
           description: Unauthorized
     patch:
       tags:
-        - API - Locations
+        - tagLocations
       operationId: patchLocation
       security:
         - bearerAuth: []
@@ -376,7 +377,7 @@ paths:
           description: Unauthorized
     delete:
       tags:
-        - API - Locations
+        - tagLocations
       operationId: deleteLocation
       summary: Delete Location
       description: Delete a location. This operation deletes a specific location by its ID.
@@ -398,7 +399,7 @@ paths:
   /persons:
     post:
       tags:
-        - API - Persons
+        - tagPersons
       operationId: createPerson
       summary: Create Person
       description: Create a new person with the given information
@@ -422,7 +423,7 @@ paths:
     get:
       summary: Get persons
       tags:
-        - API - Persons
+        - tagPersons
       operationId: getPersons
       description: Get all persons from the standard
       security:
@@ -442,7 +443,7 @@ paths:
     get:
       summary: Get a specific person
       tags:
-        - API - Persons
+        - tagPersons
       operationId: getPersonById
       description: Get a person by ID. This operation retrieves a specific person by their ID.
       security:
@@ -467,7 +468,7 @@ paths:
     put:
       summary: Replace a person by ID
       tags:
-        - API - Persons
+        - tagPersons
       operationId: replacePerson
       description: Replace a person by ID with new information
       security:
@@ -498,7 +499,7 @@ paths:
     patch:
       summary: Patch a person by ID
       tags:
-        - API - Persons
+        - tagPersons
       operationId: patchPerson
       description: Update a person by ID. This operation updates a person's information based on their ID.
       security:
@@ -529,7 +530,7 @@ paths:
     delete:
       summary: Delete a person by ID
       tags:
-        - API - Persons
+        - tagPersons
       operationId: deletePerson
       description: Delete a person by ID. This operation deletes a person from the standard based on their ID.
       security:
@@ -553,7 +554,7 @@ paths:
       security:
         - bearerAuth: []
       tags:
-        - API - Events
+        - tagEvents
       summary: Get all events
       description: This operation retrieves all events from the standard.
       responses:
@@ -572,7 +573,7 @@ paths:
       security:
         - bearerAuth: []
       tags:
-        - API - Events
+        - tagEvents
       summary: Create a new event
       description: This operation creates a new event in the standard.
       requestBody:
@@ -596,7 +597,7 @@ paths:
       security:
         - bearerAuth: []
       tags:
-        - API - Events
+        - tagEvents
       summary: Get an event by ID
       description: This operation retrieves an event from the standard based on its ID.
       parameters:
@@ -621,7 +622,7 @@ paths:
       security:
         - bearerAuth: []
       tags:
-        - API - Events
+        - tagEvents
       summary: Update an event by ID
       description: This operation updates an event in the standard based on its ID.
       parameters:
@@ -652,7 +653,7 @@ paths:
       security:
         - bearerAuth: []
       tags:
-        - API - Events
+        - tagEvents
       summary: Delete an event by ID
       description: This operation deletes an event from the standard based on its ID.
       parameters:
@@ -673,7 +674,7 @@ paths:
       security:
         - bearerAuth: []
       tags:
-        - API - Events
+        - tagEvents
       summary: Replace an event by ID
       description: This operation replaces an event in the standard based on its ID.
       parameters:
@@ -702,7 +703,7 @@ paths:
   /projects:
     post:
       tags:
-        - API - Projects
+        - tagProjects
       summary: Create a new project
       description: This operation creates a new project in the standard.
       operationId: createProject
@@ -725,7 +726,7 @@ paths:
           description: Unauthorized
     get:
       tags:
-        - API - Projects
+        - tagProjects
       summary: Get all projects
       description: This operation retrieves all projects from the standard.
       operationId: getProjects
@@ -745,7 +746,7 @@ paths:
   /projects/{id}:
     get:
       tags:
-        - API - Projects
+        - tagProjects
       summary: Get a project by ID
       description: This operation retrieves a project from the standard based on its ID.
       operationId: getProjectById
@@ -770,7 +771,7 @@ paths:
           description: Project not found
     patch:
       tags:
-        - API - Projects
+        - tagProjects
       summary: Update a project by ID
       description: This operation updates a project in the standard based on its ID.
       operationId: updateProject
@@ -801,7 +802,7 @@ paths:
           description: Project not found
     delete:
       tags:
-        - API - Projects
+        - tagProjects
       summary: Delete a project by ID
       description: This operation deletes a project from the standard based on its ID.
       operationId: deleteProject
@@ -822,7 +823,7 @@ paths:
           description: Project not found
     put:
       tags:
-        - API - Projects
+        - tagProjects
       summary: Replace a project by ID
       description: This operation replaces a project in the standard based on its ID.
       operationId: replaceProject
@@ -854,7 +855,7 @@ paths:
   /manuscripts:
     post:
       tags:
-        - API - Manuscripts
+        - tagManuscripts
       summary: Create a new manuscript
       description: This operation creates a new manuscript in the standard.
       operationId: createManuscript
@@ -877,7 +878,7 @@ paths:
           description: Unauthorized
     get:
       tags:
-        - API - Manuscripts
+        - tagManuscripts
       summary: Get all manuscripts
       description: This operation retrieves all manuscripts from the standard.
       operationId: getManuscripts
@@ -897,7 +898,7 @@ paths:
   /manuscripts/{id}:
     get:
       tags:
-        - API - Manuscripts
+        - tagManuscripts
       summary: Get a manuscript by ID
       description: This operation retrieves a manuscript from the standard based on its ID.
       operationId: getManuscriptById
@@ -922,7 +923,7 @@ paths:
           description: Manuscript not found
     patch:
       tags:
-        - API - Manuscripts
+        - tagManuscripts
       summary: Update a manuscript by ID
       description: This operation updates a manuscript in the standard based on its ID.
       operationId: updateManuscript
@@ -953,7 +954,7 @@ paths:
           description: Manuscript not found
     delete:
       tags:
-        - API - Manuscripts
+        - tagManuscripts
       summary: Delete a manuscript by ID
       description: This operation deletes a manuscript from the standard based on its ID.
       operationId: deleteManuscript
@@ -974,7 +975,7 @@ paths:
           description: Manuscript not found
     put:
       tags:
-        - API - Manuscripts
+        - tagManuscripts
       summary: Replace a manuscript by ID
       description: This operation replaces a manuscript in the standard based on its ID.
       operationId: replaceManuscript
