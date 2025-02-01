@@ -1015,10 +1015,10 @@ paths:
     get:
       tags:
         - tagManuscriptsTurtle
-      summary: Get a manuscript by ID
+      summary: Ottieni un manoscritto
+      operationId: getManuscriptTurtle
       security:
         - bearerAuth: []
-      operationId: getManuscriptByIdTurtle
       description: Restituisce una risorsa Manuscript nel formato Turtle.
       parameters:
         - name: id
@@ -1032,7 +1032,7 @@ paths:
           content:
             text/turtle:
               schema:
-                $ref: "#/components/schemas/TurtleManuscript"
+                $ref: "#/components/schemas/Manuscript"
               example: |
                 @prefix ex: <http://example.org/schema/> .
                 @prefix dcterms: <http://purl.org/dc/terms/> .
@@ -1049,9 +1049,233 @@ paths:
                     dcterms:bibliography <http://example.org/bibliographies/smith1990>,
                                         <http://example.org/bibliographies/jones2005> .
         "401":
-          description: Unauthorized
+          description: Non autorizzato - Autenticazione richiesta
+          content:
+            application/json:
+              example:
+                error: "Unauthorized"
+                message: "Token non valido o mancante."
+        "403":
+          description: Accesso negato - Permessi insufficienti
+          content:
+            application/json:
+              example:
+                error: "Forbidden"
+                message: "Non hai i permessi per accedere a questa risorsa."
         "404":
           description: Manuscript non trovato
+          content:
+            application/json:
+              example:
+                error: "Not Found"
+                message: "Il manoscritto richiesto non esiste."
+
+    post:
+      tags:
+        - tagManuscriptsTurtle
+      summary: Crea un nuovo manoscritto
+      operationId: createManuscriptTurtle
+      security:
+        - bearerAuth: []
+      description: Aggiunge un nuovo manoscritto alla collezione.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          text/turtle:
+            schema:
+              $ref: "#/components/schemas/TurtleManuscript"
+            example: |
+              @prefix ex: <http://example.org/schema/> .
+
+              <http://example.org/manuscripts/123> 
+                  ex:title "Codex Vaticanus Updated" ;
+                  ex:description "Una versione aggiornata del manoscritto" ;
+                  ex:history <http://example.org/histories/updated-history>,
+                            <http://example.org/histories/another-update> .
+
+      responses:
+        "201":
+          description: Manuscript creato con successo
+          content:
+            application/json:
+              example:
+                message: "Manuscript creato con successo."
+                id: "123"
+        "401":
+          description: Non autorizzato - Autenticazione richiesta
+          content:
+            application/json:
+              example:
+                error: "Unauthorized"
+                message: "Token non valido o mancante."
+        "403":
+          description: Accesso negato - Permessi insufficienti
+          content:
+            application/json:
+              example:
+                error: "Forbidden"
+                message: "Non hai i permessi per creare un manoscritto."
+
+    put:
+      tags:
+        - tagManuscriptsTurtle
+      summary: Aggiorna un manoscritto
+      description: Sostituisce completamente un manoscritto esistente con una nuova versione.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      operationId: updateManuscriptTurtle
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          text/turtle:
+            schema:
+              $ref: "#/components/schemas/TurtleManuscript"
+            example: |
+              @prefix ex: <http://example.org/schema/> .
+
+              <http://example.org/manuscripts/123> 
+                  ex:title "Codex Vaticanus Updated" ;
+                  ex:description "Una versione aggiornata del manoscritto" ;
+                  ex:history <http://example.org/histories/updated-history>,
+                            <http://example.org/histories/another-update> .
+
+      responses:
+        "200":
+          description: Manuscript modificato con successo
+          content:
+            application/json:
+              example:
+                message: "Manuscript aggiornato con successo."
+        "401":
+          description: Non autorizzato - Autenticazione richiesta
+          content:
+            application/json:
+              example:
+                error: "Unauthorized"
+                message: "Token non valido o mancante."
+        "403":
+          description: Accesso negato - Permessi insufficienti
+          content:
+            application/json:
+              example:
+                error: "Forbidden"
+                message: "Non hai i permessi per modificare questo manoscritto."
+        "404":
+          description: Manuscript non trovato
+          content:
+            application/json:
+              example:
+                error: "Not Found"
+                message: "Il manoscritto richiesto non esiste."
+
+    patch:
+      tags:
+        - tagManuscriptsTurtle
+      summary: Modifica parzialmente un manoscritto
+      description: Aggiorna alcuni campi di un manoscritto esistente.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      operationId: patchManuscriptTurtle
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          text/turtle:
+            schema:
+              $ref: "#/components/schemas/TurtleManuscript"
+            example: |
+              @prefix ex: <http://example.org/schema/> .
+
+              <http://example.org/manuscripts/123> 
+                  ex:title "Codex Vaticanus Updated" ;
+                  ex:description "Una versione aggiornata del manoscritto" ;
+                  ex:history <http://example.org/histories/updated-history>,
+                            <http://example.org/histories/another-update> .
+
+      responses:
+        "200":
+          description: Manuscript modificato con successo
+          content:
+            application/json:
+              example:
+                message: "Manuscript aggiornato parzialmente con successo."
+        "401":
+          description: Non autorizzato - Autenticazione richiesta
+          content:
+            application/json:
+              example:
+                error: "Unauthorized"
+                message: "Token non valido o mancante."
+        "403":
+          description: Accesso negato - Permessi insufficienti
+          content:
+            application/json:
+              example:
+                error: "Forbidden"
+                message: "Non hai i permessi per modificare questo manoscritto."
+        "404":
+          description: Manuscript non trovato
+          content:
+            application/json:
+              example:
+                error: "Not Found"
+                message: "Il manoscritto richiesto non esiste."
+
+    delete:
+      tags:
+        - tagManuscriptsTurtle
+      summary: Elimina un manoscritto
+      description: Rimuove un manoscritto dalla collezione.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      operationId: deleteManuscriptTurtle
+      security:
+        - bearerAuth: []
+      responses:
+        "204":
+          description: Manuscript eliminato con successo
+        "401":
+          description: Non autorizzato - Autenticazione richiesta
+          content:
+            application/json:
+              example:
+                error: "Unauthorized"
+                message: "Token non valido o mancante."
+        "403":
+          description: Accesso negato - Permessi insufficienti
+          content:
+            application/json:
+              example:
+                error: "Forbidden"
+                message: "Non hai i permessi per eliminare questo manoscritto."
+        "404":
+          description: Manuscript non trovato
+          content:
+            application/json:
+              example:
+                error: "Not Found"
+                message: "Il manoscritto richiesto non esiste."
 
 components:
   schemas:
