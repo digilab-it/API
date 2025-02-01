@@ -44,6 +44,9 @@ tags:
   - name: tagManuscripts
     description: All Manuscripts related operations
     x-displayName: (draft) Manuscripts
+  - name: tagManuscriptsTurtle
+    description: Turtle Manuscripts
+    x-displayName: (draft) Turtle Manuscripts
   - name: tagLocations
     x-displayName: (draft) Locations
     description: |
@@ -903,7 +906,7 @@ paths:
     get:
       tags:
         - tagManuscripts
-      summary: Turtle Get a manuscript by ID
+      summary: Get a manuscript by ID
       description: This operation retrieves a manuscript from the standard based on its ID.
       operationId: getManuscriptById
       security:
@@ -1011,8 +1014,11 @@ paths:
   /turtle/manuscripts/{id}:
     get:
       tags:
-        - tagManuscripts
+        - tagManuscriptsTurtle
       summary: Get a manuscript by ID
+      security:
+        - bearerAuth: []
+      operationId: getManuscriptByIdTurtle
       description: Restituisce una risorsa Manuscript nel formato Turtle.
       parameters:
         - name: id
@@ -1027,6 +1033,23 @@ paths:
             text/turtle:
               schema:
                 $ref: "#/components/schemas/TurtleManuscript"
+              example: |
+                @prefix ex: <http://example.org/schema/> .
+                @prefix dcterms: <http://purl.org/dc/terms/> .
+
+                <http://example.org/manuscripts/123> a ex:Manuscript ;
+                    ex:title "Codex Vaticanus" ;
+                    ex:description "Uno dei più antichi manoscritti della Bibbia" ;
+                    ex:binding <http://example.org/bindings/leather-binding>,
+                               <http://example.org/bindings/gold-embossed> ;
+                    ex:extend <http://example.org/dimensions/25x30cm-800pages>,
+                              <http://example.org/dimensions/folio-large> ;
+                    ex:history <http://example.org/histories/vatican-discovery>,
+                               <http://example.org/histories/medieval-restoration> ;
+                    dcterms:bibliography <http://example.org/bibliographies/smith1990>,
+                                        <http://example.org/bibliographies/jones2005> .
+        "401":
+          description: Unauthorized
         "404":
           description: Manuscript non trovato
 
@@ -1173,6 +1196,7 @@ components:
           example: "http://example.org/context"
         "@id":
           type: string
+          format: uri
           example: "http://example.org/manuscripts/123"
         "@type":
           type: string
@@ -1184,17 +1208,38 @@ components:
           type: string
           example: "Uno dei più antichi manoscritti della Bibbia"
         binding:
-          type: string
-          example: "Pergamena con copertina in cuoio"
+          type: array
+          items:
+            type: string
+            format: uri
+          example:
+            - "http://example.org/bindings/leather-binding"
+            - "http://example.org/bindings/gold-embossed"
         extend:
-          type: string
-          example: "25 x 30 cm, 800 pagine"
+          type: array
+          items:
+            type: string
+            format: uri
+          example:
+            - "http://example.org/dimensions/25x30cm-800pages"
+            - "http://example.org/dimensions/folio-large"
         history:
-          type: string
-          example: "Scoperto in Vaticano nel XV secolo"
+          type: array
+          items:
+            type: string
+            format: uri
+          example:
+            - "http://example.org/histories/vatican-discovery"
+            - "http://example.org/histories/medieval-restoration"
         bibliography:
-          type: string
-          example: "Smith, J. The History of the Codex, 1990"
+          type: array
+          items:
+            type: string
+            format: uri
+          example:
+            - "http://example.org/bibliographies/smith1990"
+            - "http://example.org/bibliographies/jones2005"
+
   securitySchemes:
     bearerAuth:
       type: http
