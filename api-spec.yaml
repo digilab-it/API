@@ -9,25 +9,43 @@ info:
 servers:
   - url: https://api.mydomain.com/v1
 tags:
-  - name: Getting Started
-    x-displayName: Getting Started
+  - name: authentication
+    x-displayName: Autenticazione OAuth
     description: |
-      ## Getting Started
-      Welcome to the Common Semantics Framework (**CSF**) API. This API provides access to the CSF standard, which is a digital library standard that allows users to manage and access digital resources such as manuscripts, events, projects, and locations. The API provides endpoints for creating, updating, and deleting resources, as well as for retrieving information about resources. To get started, you will need to obtain an authentication token by calling the `/token` endpoint with your email and password. Once you have obtained a token, you can use it to authenticate your requests to other endpoints in the API.
+      L’API supporta il protocollo OAuth 2.0 per l’autenticazione e l’autorizzazione degli utenti, garantendo un accesso sicuro alle risorse protette. OAuth2 è un framework standard che consente alle applicazioni client di ottenere token di accesso senza esporre le credenziali degli utenti.
 
-      ## Graph Querying
-      CSF resources can have relationships with other resources through graph relationships as showen in the follow image. 
-      ![graph](./images/getting_started/graph.png)
+      **Flussi di Autenticazione Supportati**
 
-      The list of linked resources is available in the related_resource property. To retrieve information about the linked resources, you need to specify the related_resource parameter in your search query. For example, if you want to retrieve information about resource1 and resource2, your search query should include related_resource=resource1,resource2.
+      L’API implementa diversi flussi di autenticazione OAuth2 per adattarsi a diverse esigenze applicative:
+        - Authorization Code Flow (raccomandato per applicazioni server-side)
+        - Implicit Flow (per applicazioni client-side, sconsigliato per nuovi sviluppi)
+        - Client Credentials Flow (per autenticazione tra servizi senza interazione utente)
+        - Password Grant Flow (per applicazioni di prima parte che gestiscono direttamente le credenziali utente)
+        - Device Authorization Flow (per dispositivi senza input diretto, come smart TV e IoT)
 
-      The following api will return the data related with person 1 in the nodes locations and projects.
-      ```bash
-      GET /persons/1?related_resource=locations,projects
-      ```
+      **Endpoint di Autenticazione**
+
+      L’API fornisce i seguenti endpoint per gestire il processo di autenticazione e autorizzazione:
+        
+        - **/token**: Ottieni un token di accesso ed un refresh token
+        - **/authorize**: Ottieni un codice di autorizzazione per l’accesso a risorse protette
+        - **/revoke**: Revoca un token di accesso o di aggiornamento
+        - **/refresh**: Aggiorna un token di accesso
+        - **/userinfo**: Ottieni informazioni sull’utente autenticato
+
+      **Gestione dei Token**
+
+      I token OAuth2 sono emessi come JWT (JSON Web Token) e hanno una durata configurabile. Per mantenere una sessione attiva, il client può utilizzare il refresh token per ottenere nuovi token di accesso senza richiedere nuovamente l’autenticazione dell’utente.
+
+      **Sicurezza e Best Practices**
+
+      - Utilizzare sempre HTTPS per tutte le richieste OAuth2
+      - Conservare i token di accesso in modo sicuro (ad esempio, nell’header di autenticazione con Bearer Token)
+
+      ## Authentication
   - name: API - Authentication
     description: ## Authentication
-      The authentication API provides endpoints for obtaining an authentication token that can be used to authenticate requests to other endpoints in the API.
+      The authentication API provides endpoints for obtaining an authentication token that can be used to authenticate requests to other endpoints in the API2.
   - name: API - Locations
     description: |
       ## Locations
@@ -85,10 +103,10 @@ paths:
   /token:
     post:
       tags:
-        - API - Authentication
+        - authentication
       operationId: createToken
-      summary: Token
-      description: Obtain the authentication token to use in subsequent APIs.
+      summary: token
+      description: Ottieni un token di accesso ed un refresh token.
       requestBody:
         required: true
         content:
