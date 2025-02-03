@@ -35,7 +35,7 @@ tags:
 
       **Gestione dei Token**
 
-      I token OAuth2 sono emessi come JWT (JSON Web Token) e hanno una durata configurabile. Per mantenere una sessione attiva, il client può utilizzare il refresh token per ottenere nuovi token di accesso senza richiedere nuovamente l’autenticazione dell’utente.
+      I token OAuth ([OAuth vs OpenID](https://donateoa.github.io/docs/oauth-vs-open-id.html)) sono emessi come JWT (JSON Web Token) e hanno una durata configurabile. Per mantenere una sessione attiva, il client può utilizzare il refresh token per ottenere nuovi token di accesso senza richiedere nuovamente l’autenticazione dell’utente. 
 
       **Sicurezza e Best Practices**
 
