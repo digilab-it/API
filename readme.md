@@ -15,3 +15,7 @@ Questo genererà un file index.html che contiene la documentazione della tua API
 (Opzionale) Se vuoi personalizzare il nome del file HTML generato, puoi farlo utilizzando l'opzione -o o --output.
 
     redoc-cli bundle api-spec.yaml -o index.html
+
+Per publicare le modifiche sul sito pubblico è sufficente una semplice git push
+
+    git push
