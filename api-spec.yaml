@@ -1,13 +1,17 @@
 openapi: 3.0.0
 info:
-  title: Digilab API
+  title: DIGILAB API
   version: 1.0.0
+  description: >-
+    API for managing manuscript, 3D models, textures, annotations, and poses in DIGILAB.
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
 
 servers:
-  - url: https://api.mydomain.com/v1
+  - url: https://api.digilab.com/v1
+    description: Production Server
+
 tags:
   - name: authentication
     x-displayName: Autenticazione OAuth
@@ -105,6 +109,9 @@ tags:
 paths:
   /authorize:
     post:
+      operationId: authorize
+      security:
+        - bearerAuth: []
       tags:
         - authentication
       summary: /authorize
@@ -276,9 +283,9 @@ paths:
         "401":
           description: Unauthorized
     post:
+      operationId: createLocation
       tags:
         - tagLocations
-      operationId: createLocation
       summary: Create Location
       description: Create a new location with the specified details
       security:
