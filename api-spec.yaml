@@ -47,12 +47,12 @@ tags:
       - Conservare i token di accesso in modo sicuro (ad esempio, nell’header di autenticazione con Bearer Token)
   - name: tagManuscripts
     description: All Manuscripts related operations
-    x-displayName: (draft) Manuscripts
+    x-displayName: Manuscripts
   - name: tagManuscriptsTurtle
     description: Turtle Manuscripts
-    x-displayName: (draft) Turtle Manuscripts
+    x-displayName: Turtle Manuscripts
   - name: tagLocations
-    x-displayName: (draft) Locations
+    x-displayName: Locations
     description: |
       ## Locations
       The locations API provides endpoints for managing locations in the Common Semantics Framework standard. Locations represent physical places where events, projects, and other resources are located.
@@ -73,16 +73,31 @@ tags:
         ```
 
   - name: tagPersons
-    x-displayName: (draft) Persons
+    x-displayName: Persons
     description: All Persons related operations
   - name: tagProjects
     description: All Projects related operations
-    x-displayName: (draft) Projects
+    x-displayName: Projects
   - name: tagEvents
     description: All Events related operations
-    x-displayName: (draft) Events
+    x-displayName: Events
+  - name: tagPose
+    description: All Pose related operations
+    x-displayName: Pose
+  - name: tagTexture
+    description: All Texture related operations
+    x-displayName: Texture
+  - name: tag3DModel
+    description: All 3D Model related operations
+    x-displayName: 3D Models
+  - name: tagAnnotation
+    description: All Annotation related operations
+    x-displayName: Annotations
+  - name: tag3DAnnotation
+    description: All 3D Annotation related operations
+    x-displayName: 3D Annotations
   - name: Models
-    x-displayName: (draft) Resource types
+    x-displayName: Resource types
     description: |
       ## Base Entity
       <SchemaDefinition schemaRef="#/components/schemas/Base" />
@@ -106,12 +121,30 @@ tags:
       ## Manuscript
       A manuscript object extending the `Base Entity`
       <SchemaDefinition schemaRef="#/components/schemas/Manuscript" />
+
+      ## Pose
+      A pose object extending the `Base Entity`
+      <SchemaDefinition schemaRef="#/components/schemas/Pose" />
+
+      ## Texture
+      A texture object extending the `Base Entity`
+      <SchemaDefinition schemaRef="#/components/schemas/Texture" />
+
+      ## 3D Model
+      A 3D model object extending the `Base Entity`
+      <SchemaDefinition schemaRef="#/components/schemas/3DModel" />
+
+      ## Annotation
+      An annotation object extending the `Base Entity`
+      <SchemaDefinition schemaRef="#/components/schemas/Annotation" />
+
+      ## 3d Annotation
+      A 3D annotation object extending the `Base Entity`
+      <SchemaDefinition schemaRef="#/components/schemas/3DAnnotation" />
+
 paths:
   /authorize:
     post:
-      operationId: authorize
-      security:
-        - bearerAuth: []
       tags:
         - authentication
       summary: /authorize
@@ -283,9 +316,9 @@ paths:
         "401":
           description: Unauthorized
     post:
-      operationId: createLocation
       tags:
         - tagLocations
+      operationId: createLocation
       summary: Create Location
       description: Create a new location with the specified details
       security:
@@ -412,13 +445,13 @@ paths:
           description: Unauthorized
   /persons:
     post:
-      operationId: createPerson
-      security:
-        - bearerAuth: []
       tags:
         - tagPersons
+      operationId: createPerson
       summary: Create Person
       description: Create a new person with the given information
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -1280,6 +1313,168 @@ paths:
                 error: "Not Found"
                 message: "Il manoscritto richiesto non esiste."
 
+  /pose:
+    get:
+      summary: Retrieve all poses
+      operationId: getPoses
+      security:
+        - bearerAuth: []
+      tags:
+        - tagPose
+      responses:
+        "200":
+          description: List of all available poses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pose"
+        "401":
+          description: Unauthorized
+
+    post:
+      summary: Create a new pose
+      operationId: createPose
+      security:
+        - bearerAuth: []
+
+      tags:
+        - tagPose
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pose"
+      responses:
+        "201":
+          description: Pose successfully created
+        "401":
+          description: Unauthorized
+
+  /3dmodel:
+    get:
+      summary: Retrieve all 3D models
+      operationId: get3DModels
+      security:
+        - bearerAuth: []
+
+      tags:
+        - tag3DModel
+      responses:
+        "200":
+          description: List of all 3D models
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/3DModel"
+        "401":
+          description: Unauthorized
+    post:
+      summary: Create a new 3D model
+      operationId: create3DModel
+      security:
+        - bearerAuth: []
+
+      tags:
+        - tag3DModel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/3DModel"
+      responses:
+        "201":
+          description: 3D model successfully created
+        "401":
+          description: Unauthorized
+
+  /texture:
+    get:
+      summary: Retrieve all textures
+      operationId: getTextures
+      tags:
+        - tagTexture
+      security:
+        - bearerAuth: []
+
+      responses:
+        "200":
+          description: List of all available textures
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Texture"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+    post:
+      summary: Add a texture to a 3D model
+      operationId: createTexture
+      security:
+        - bearerAuth: []
+
+      tags:
+        - tagTexture
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Texture"
+      responses:
+        "201":
+          description: Texture successfully added
+        "401":
+          description: Unauthorized
+
+  /3dannotation:
+    get:
+      summary: Retrieve all 3D annotations
+      operationId: get3DAnnotations
+      tags:
+        - tag3DAnnotation
+      security:
+        - bearerAuth: []
+
+      responses:
+        "200":
+          description: List of all 3D annotations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/3DAnnotation"
+        "401":
+          description: Unauthorized
+    post:
+      summary: Create a new 3D annotation
+      operationId: create3DAnnotation
+      security:
+        - bearerAuth: []
+
+      tags:
+        - tag3DAnnotation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/3DAnnotation"
+      responses:
+        "201":
+          description: 3D annotation successfully created
+        "401":
+          description: Unauthorized
+
 components:
   schemas:
     Resource:
@@ -1466,6 +1661,107 @@ components:
           example:
             - "http://example.org/bibliographies/smith1990"
             - "http://example.org/bibliographies/jones2005"
+
+    Pose:
+      allOf:
+        - $ref: "#/components/schemas/Base"
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the pose
+        name:
+          type: string
+          description: Name of the pose
+        models:
+          type: array
+          items:
+            $ref: "#/components/schemas/3DModel"
+          description: List of 3D models associated with the pose
+
+    3DModel:
+      allOf:
+        - $ref: "#/components/schemas/Base"
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the 3D model
+        name:
+          type: string
+          description: Name of the 3D model
+        textures:
+          type: array
+          items:
+            $ref: "#/components/schemas/Texture"
+          description: List of textures associated with the 3D model
+        annotations:
+          type: array
+          items:
+            $ref: "#/components/schemas/3DAnnotation"
+          description: List of 3D annotations linked to the model
+
+    Texture:
+      allOf:
+        - $ref: "#/components/schemas/Base"
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the texture
+        type:
+          type: string
+          enum:
+            - RGB
+            - IR1
+            - IR2
+            - UV
+          description: Texture type (RGB, IR1, IR2, UV)
+        fileUrl:
+          type: string
+          format: uri
+          description: URL of the texture image
+
+    3DAnnotation:
+      allOf:
+        - $ref: "#/components/schemas/Base"
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the 3D annotation
+        region:
+          type: string
+          description: 3D region where the annotation applies
+        annotation:
+          $ref: "#/components/schemas/Annotation"
+        model:
+          $ref: "#/components/schemas/3DModel"
+
+    Annotation:
+      allOf:
+        - $ref: "#/components/schemas/Base"
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the annotation
+        type:
+          type: string
+          enum:
+            - text
+            - image
+            - video
+            - audio
+          description: Annotation type (text, image, video, audio)
+        content:
+          type: string
+          description: Content of the annotation (text, image URL, video URL, audio URL)
 
   securitySchemes:
     bearerAuth:
