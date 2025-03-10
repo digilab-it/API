@@ -19,3 +19,15 @@ Questo genererà un file index.html che contiene la documentazione della tua API
 Per publicare le modifiche sul sito pubblico è sufficente una semplice git push
 
     git push
+
+# DevTools
+
+Eseguire hot deploy
+
+Installare le dipendenze npm
+
+    npm install
+
+Run
+
+    npm run dev
