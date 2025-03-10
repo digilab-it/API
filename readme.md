@@ -28,6 +28,6 @@ Installare le dipendenze npm
 
     npm install
 
-Run
+Lanciando `npm start` si aprirà una finestra del browser dove poter visualizzare il lavoro. La build e l'aggiornamento della pagina avviene automaticamente al salvataggio delle modifiche
 
-    npm run dev
+    npm start

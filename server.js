@@ -3,12 +3,12 @@ const path = require("path");
 const app = express();
 const port = 3000;
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "")));
 
 app.post("/reload", (req, res) => {
   // Logica per ricaricare il contenuto della pagina
   console.log("Reload request received");
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.listen(port, () => {
