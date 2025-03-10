@@ -412,13 +412,13 @@ paths:
           description: Unauthorized
   /persons:
     post:
-      tags:
-        - tagPersons
       operationId: createPerson
-      summary: Create Person
-      description: Create a new person with the given information
       security:
         - bearerAuth: []
+      tags:
+        - tagPersons
+      summary: Create Person
+      description: Create a new person with the given information
       requestBody:
         required: true
         content:
