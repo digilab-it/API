@@ -143,7 +143,7 @@ paths:
   /auth/login:
     post:
       summary: Simulazione login
-      description: Utilizzare questo endpoint per simulare il processo di login e ottenere un token di accesso.
+      description: Utilizzare questo endpoint per simulare il processo di login e ottenere un token di accesso. Utilizzare il pulsante `Authorize`di swagger per autorizzare le richieste successive.
       operationId: login
       tags:
         - authentication
