@@ -94,7 +94,7 @@ tags:
     description: All 3D Annotation related operations
     x-displayName: 3D Annotations
   - name: Models
-    x-displayName: Resource types
+    x-displayName: API Reference
     description: |
       ## Base Entity
       <SchemaDefinition schemaRef="#/components/schemas/Base" />
@@ -318,7 +318,7 @@ paths:
         - tagLocations
       operationId: getLocation
       summary: Get Locations
-      description: Get all locations. This operation retrieves all the available locations in the standard.
+      description: Get all locations. This operation retrieves all the available locations.
       security:
         - bearerAuth: []
       parameters:
@@ -561,7 +561,7 @@ paths:
       tags:
         - tagPersons
       operationId: getPersons
-      description: Get all persons from the standard
+      description: Get all persons
       security:
         - bearerAuth: []
       responses:
@@ -668,7 +668,7 @@ paths:
       tags:
         - tagPersons
       operationId: deletePerson
-      description: Delete a person by ID. This operation deletes a person from the standard based on their ID.
+      description: Delete a person by ID. This operation deletes a person based on their ID.
       security:
         - bearerAuth: []
       parameters:
@@ -692,7 +692,7 @@ paths:
       tags:
         - tagEvents
       summary: Get all events
-      description: This operation retrieves all events from the standard.
+      description: This operation retrieves all events.
       responses:
         "200":
           description: A list of events
@@ -711,7 +711,7 @@ paths:
       tags:
         - tagEvents
       summary: Create a new event
-      description: This operation creates a new event in the standard.
+      description: This operation creates a new event.
       requestBody:
         required: true
         content:
@@ -735,7 +735,7 @@ paths:
       tags:
         - tagEvents
       summary: Get an event by ID
-      description: This operation retrieves an event from the standard based on its ID.
+      description: This operation retrieves an event based on its ID.
       parameters:
         - name: id
           in: path
@@ -760,7 +760,7 @@ paths:
       tags:
         - tagEvents
       summary: Update an event by ID
-      description: This operation updates an event in the standard based on its ID.
+      description: This operation updates an event based on its ID.
       parameters:
         - name: id
           in: path
@@ -791,7 +791,7 @@ paths:
       tags:
         - tagEvents
       summary: Delete an event by ID
-      description: This operation deletes an event from the standard based on its ID.
+      description: This operation deletes an event based on its ID.
       parameters:
         - name: id
           in: path
@@ -812,7 +812,7 @@ paths:
       tags:
         - tagEvents
       summary: Replace an event by ID
-      description: This operation replaces an event in the standard based on its ID.
+      description: This operation replaces an event based on its ID.
       parameters:
         - name: id
           in: path
@@ -841,7 +841,7 @@ paths:
       tags:
         - tagProjects
       summary: Create a new project
-      description: This operation creates a new project in the standard.
+      description: This operation creates a new project.
       operationId: createProject
       security:
         - bearerAuth: []
@@ -864,7 +864,7 @@ paths:
       tags:
         - tagProjects
       summary: Get all projects
-      description: This operation retrieves all projects from the standard.
+      description: This operation retrieves all projects.
       operationId: getProjects
       security:
         - bearerAuth: []
@@ -884,7 +884,7 @@ paths:
       tags:
         - tagProjects
       summary: Get a project by ID
-      description: This operation retrieves a project from the standard based on its ID.
+      description: This operation retrieves a project based on its ID.
       operationId: getProjectById
       security:
         - bearerAuth: []
@@ -909,7 +909,7 @@ paths:
       tags:
         - tagProjects
       summary: Update a project by ID
-      description: This operation updates a project in the standard based on its ID.
+      description: This operation updates a project based on its ID.
       operationId: updateProject
       security:
         - bearerAuth: []
@@ -940,7 +940,7 @@ paths:
       tags:
         - tagProjects
       summary: Delete a project by ID
-      description: This operation deletes a project from the standard based on its ID.
+      description: This operation deletes a project based on its ID.
       operationId: deleteProject
       security:
         - bearerAuth: []
@@ -961,7 +961,7 @@ paths:
       tags:
         - tagProjects
       summary: Replace a project by ID
-      description: This operation replaces a project in the standard based on its ID.
+      description: This operation replaces a project based on its ID.
       operationId: replaceProject
       security:
         - bearerAuth: []
@@ -990,62 +990,94 @@ paths:
           description: Project not found
   /manuscripts:
     get:
+      operationId: getManuscripts
       tags:
         - tagManuscripts
       summary: Get all manuscripts
-      description: This operation retrieves all manuscripts from the standard.
-      operationId: getManuscripts
+      description: This operation retrieves all manuscripts.
       security:
         - bearerAuth: []
       parameters:
         - in: query
           name: "id"
+          required: false
           schema:
             type: string
           description: "Filtra i manoscritti per ID, valori multipli separati da virgola ad es. `1,2,3`"
         - in: query
           name: "title"
+          required: false
           schema:
             type: string
           description: "Filtra i manoscritti per titolo"
         - in: query
           name: "description"
+          required: false
           schema:
             type: string
           description: "Filtra i manoscritti per descrizione"
         - in: query
+          name: status
+          required: false
+          schema:
+            type: string
+            enum:
+              - draft
+              - in_review
+              - revisions_required
+              - accepted
+              - in_editing
+              - published
+              - rejected
+              - withdrawn
+          description: |
+            Filtra i manoscritti in base al loro stato:
+              - `draft`: Bozza
+              - `in_review`: In revisione
+              - `revisions_required`: Revisione necessaria
+              - `accepted`: Accettato
+              - `in_editing`: In fase di editing
+              - `published`: Pubblicato
+              - `rejected`: Rifiutato
+              - `withdrawn`: Ritirato
+        - in: query
           name: "locations"
+          required: false
           schema:
             type: string
           description: "Filtra i manoscritti per nome location"
         - in: query
           name: "locationId"
+          required: false
           schema:
             type: string
           description: "Filtra i manoscritti per location ID, valori multipli separati da virgola ad es. `1,2,3`"
         - in: query
           name: "authors"
+          required: false
           schema:
             type: string
           description: "Filtra i manoscritti per nome autore"
         - in: query
           name: "authorId"
+          required: false
           schema:
             type: string
           description: "filtra i manoscritti per autore ID, valori multipli separati da virgola ad es. `1,2,3`"
         - in: query
           name: "identifiers"
+          required: false
           schema:
             type: string
           description: "Filtra i manoscritti per identificatore, valori multipli separati da virgola ad es. `1,2,3`"
         - in: header
           name: Accept
+          required: true
           schema:
             type: string
             enum:
               - application/json
               - text/turtle
-          required: false
           description: "Formato di risposta desiderato. Valori supportati: `application/json`,  `text/turtle`"
         - in: query
           name: "page"
@@ -1085,7 +1117,7 @@ paths:
       tags:
         - tagManuscripts
       summary: Create a new manuscript
-      description: This operation creates a new manuscript in the standard.
+      description: This operation creates a new manuscript.
       operationId: createManuscript
       security:
         - bearerAuth: []
@@ -1109,7 +1141,7 @@ paths:
       tags:
         - tagManuscripts
       summary: Get a manuscript by ID
-      description: This operation retrieves a manuscript from the standard based on its ID.
+      description: This operation retrieves a manuscript based on its ID.
       operationId: getManuscriptById
       security:
         - bearerAuth: []
@@ -1154,7 +1186,7 @@ paths:
       tags:
         - tagManuscripts
       summary: Update a manuscript by ID
-      description: This operation updates a manuscript in the standard based on its ID.
+      description: This operation updates a manuscript based on its ID.
       operationId: updateManuscript
       security:
         - bearerAuth: []
@@ -1185,7 +1217,7 @@ paths:
       tags:
         - tagManuscripts
       summary: Delete a manuscript by ID
-      description: This operation deletes a manuscript from the standard based on its ID.
+      description: This operation deletes a manuscript based on its ID.
       operationId: deleteManuscript
       security:
         - bearerAuth: []
@@ -1206,7 +1238,7 @@ paths:
       tags:
         - tagManuscripts
       summary: Replace a manuscript by ID
-      description: This operation replaces a manuscript in the standard based on its ID.
+      description: This operation replaces a manuscript based on its ID.
       operationId: replaceManuscript
       security:
         - bearerAuth: []
@@ -2327,7 +2359,27 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Person"
-
+        status:
+          type: string
+          enum:
+            - draft
+            - in_review
+            - revisions_required
+            - accepted
+            - in_editing
+            - published
+            - rejected
+            - withdrawn
+          description: |
+            Stato attuale del manoscritto:
+              - `draft`: Bozza
+              - `in_review`: In revisione
+              - `revisions_required`: Revisione necessaria
+              - `accepted`: Accettato
+              - `in_editing`: In fase di editing
+              - `published`: Pubblicato
+              - `rejected`: Rifiutato
+              - `withdrawn`: Ritirato
     Pose:
       allOf:
         - $ref: "#/components/schemas/Base"
