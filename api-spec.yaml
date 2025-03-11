@@ -9,7 +9,7 @@ info:
     url: https://opensource.org/licenses/MIT
 
 servers:
-  - url: https://api.digilab.com/v1
+  - url: http://127.0.0.1:4010
     description: Production Server
 
 tags:
@@ -140,6 +140,39 @@ tags:
       <SchemaDefinition schemaRef="#/components/schemas/3DAnnotation" />
 
 paths:
+  /auth/login:
+    post:
+      summary: Simulazione login
+      description: Utilizzare questo endpoint per simulare il processo di login e ottenere un token di accesso.
+      operationId: login
+      tags:
+        - authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "admin"
+                password:
+                  type: string
+                  example: "password123"
+      responses:
+        "200":
+          description: Access token generato
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE2ODAwMDAwMDB9.4f8GHyZp6vQqCdT5PqWlhhXq5ExGz5FjXX8peKax2Ug"
+        "401":
+          description: Credenziali non valide
   /authorize:
     post:
       tags:
