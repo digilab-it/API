@@ -10,7 +10,7 @@ info:
 
 servers:
   - url: http://127.0.0.1:4010
-    description: Production Server
+    description: Dummy Server
 
 tags:
   - name: authentication

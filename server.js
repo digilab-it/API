@@ -1,16 +1,61 @@
 const express = require("express");
+const swaggerUi = require("swagger-ui-express");
+const redoc = require("redoc-express");
+const YAML = require("yamljs");
+const { exec } = require("child_process");
 const path = require("path");
+
 const app = express();
-const port = 3000;
+const PORT = 3000;
 
-app.use(express.static(path.join(__dirname, "")));
+// Convertire il file OpenAPI YAML in JSON
+const swaggerDocument = YAML.load("./api-spec.yaml");
 
-app.post("/reload", (req, res) => {
-  // Logica per ricaricare il contenuto della pagina
-  console.log("Reload request received");
-  res.sendFile(path.join(__dirname, "index.html"));
+// Servire Swagger UI su /api-docs
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// Servire Redoc su /redoc
+app.get(
+  "/redoc",
+  redoc({
+    title: "API Docs",
+    specUrl: "/openapi.json",
+    nonce: "",
+    template: `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>API Documentation</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/redoc/bundles/redoc.standalone.css">
+      </head>
+      <body>
+        <redoc spec-url='/openapi.json'></redoc>
+        <script src="https://cdn.jsdelivr.net/npm/redoc/bundles/redoc.standalone.js"></script>
+      </body>
+      </html>
+    `,
+  })
+);
+
+// Servire il file OpenAPI come JSON
+app.get("/openapi.json", (req, res) => {
+  res.json(swaggerDocument);
 });
 
-app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
+// Avviare il server Mock con Prism CLI
+exec("prism mock api-spec.yaml --port 4010", (err, stdout, stderr) => {
+  if (err) {
+    console.error(`Errore nell'avviare Prism: ${err.message}`);
+    return;
+  }
+  console.log(`Prism in esecuzione su http://127.0.0.1:4010`);
+});
+
+// Avviare il server Express
+app.listen(PORT, () => {
+  console.log(`Server in esecuzione su http://127.0.0.1:${PORT}`);
+  console.log(`Swagger UI disponibile su http://127.0.0.1:${PORT}/api-docs`);
+  console.log(`Redoc disponibile su http://127.0.0.1:${PORT}/redoc`);
 });

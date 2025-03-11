@@ -2,19 +2,23 @@
     "name": "digilab-docs",
     "version": "1.0.0",
     "description": "Progetto per generare documentazione API con ReDoc e hot deploy con nodemon",
-    "main": "index.js",
+    "main": "server.js",
     "scripts": {
         "build": "redoc-cli bundle api-spec.yaml -o index.html",
         "serve": "browser-sync start --server --files index.html",
         "watch": "nodemon --watch api-spec.yaml --exec \"npm run build\"",
-        "start": "concurrently \"npm run watch\" \"npm run serve\""
+        "dev": "concurrently \"npm run watch\" \"npm run serve\"",
+        "start": "concurrently \"npm run watch\" \"node server.js\""
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
         "@stoplight/prism-cli": "^5.12.0",
         "express": "^4.21.2",
-        "redoc-cli": "^0.13.0"
+        "redoc-cli": "^0.13.0",
+        "redoc-express": "^2.1.0",
+        "swagger-ui-express": "^5.0.1",
+        "yamljs": "^0.3.0"
     },
     "devDependencies": {
         "browser-sync": "^3.0.3",

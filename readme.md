@@ -1,12 +1,37 @@
 # Digilab docs
 
-Installa ReDoc CLI globalmente sul tuo sistema. Questo ti permetterà di utilizzare ReDoc da qualsiasi directory sul tuo sistema.
+Questa app fornisce:
 
-    npm install -g redoc-cli
+1. index.html: pagina statica html generata tramite redoc.
+2. Server Dummy (Prism) in esecuzione su http://127.0.0.1:4010
+3. Swagger UI disponibile su http://127.0.0.1:3000/api-docs
+4. Redoc disponibile su http://127.0.0.1:3000/redoc
+5. Openapi JSON file su http://127.0.0.1:3000/openapi.json
 
-Modifica il file api-spec.yaml utilizzando le specifiche openAPI.
+## Operazioni preliminari
 
-Genera la documentazione HTML con ReDoc.
+1. l'app è stata testata con nodejs versione 20x. In caso di malfunzionamenti assicurarsi di avere questa versione node installata ed in uso.
+2. scaricare il progetto
+
+   git clone nome-del-repository
+
+3. cambiare directory e installare le dipendenze con
+
+   cd nome-del-repository && npm install
+
+## Develeopment
+
+    npm start
+
+Lanciando `npm start` si aprirà una finestra del browser dove poter visualizzare la documentazione redoc (pagina statica index.html). La build e l'aggiornamento della pagina avviene automaticamente al salvataggio delle modifiche
+
+    npm start
+
+## Redoc
+
+npm start assicura già questo step, ma se si vuole compilarlo manualmente
+
+Modifica il file api-spec.yaml e genera la documentazione HTML con ReDoc.
 
     redoc-cli bundle api-spec.yaml
 
@@ -16,18 +41,12 @@ Questo genererà un file index.html che contiene la documentazione della tua API
 
     redoc-cli bundle api-spec.yaml -o index.html
 
-Per publicare le modifiche sul sito pubblico è sufficente una semplice git push
+## Dummy server
 
-    git push
+npm start assicura già questo step, ma se si vuole eseguirlo manualmente
 
-# DevTools
+    npx prism mock api-spec.yaml
 
-Eseguire hot deploy
+## Swagger server
 
-Installare le dipendenze npm
-
-    npm install
-
-Lanciando `npm start` si aprirà una finestra del browser dove poter visualizzare il lavoro. La build e l'aggiornamento della pagina avviene automaticamente al salvataggio delle modifiche
-
-    npm start
+npm start assicura già questo step, non è possibile lanciarlo manualmente
