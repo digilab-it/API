@@ -45,9 +45,21 @@ tags:
 
       - Utilizzare sempre HTTPS per tutte le richieste OAuth2
       - Conservare i token di accesso in modo sicuro (ad esempio, nell’header di autenticazione con Bearer Token)
-  - name: tagManuscripts
-    description: All Manuscripts related operations
-    x-displayName: Manuscripts
+  - name: tag3DAnnotation
+    description: All 3D Annotation related operations
+    x-displayName: 3D Annotations
+  - name: tag3DModel
+    description: All 3D Model related operations
+    x-displayName: 3D Models
+  - name: tagAnnotation
+    description: All Annotation related operations
+    x-displayName: Annotations
+  - name: tagEvents
+    description: All Events related operations
+    x-displayName: Events
+  - name: tagIlluminatedManuscriptScene
+    x-displayName: Illuminated Manuscript Scene
+    description: All Illuminated Manuscript Scene related operations
   - name: tagLocations
     x-displayName: Locations
     description: |
@@ -68,34 +80,22 @@ tags:
         GET /locations/?id=4fdaf83a-0953-4f8e-b5d1-dd50bdec6830,67daf83a-0953-4f8e-b5d1-dd50bdec6832,11daf811-0953-4f8e-b5d1-dd50bdec6811
         GET /locations/?related_resource=events,projects
         ```
-
+  - name: tagManuscripts
+    description: All Manuscripts related operations
+    x-displayName: Manuscripts
   - name: tagPersons
     x-displayName: Persons
     description: All Persons related operations
-  - name: tagProjects
-    description: All Projects related operations
-    x-displayName: Projects
-  - name: tagEvents
-    description: All Events related operations
-    x-displayName: Events
   - name: tagPose
     description: All Pose related operations
     x-displayName: Pose
+  - name: tagProjects
+    description: All Projects related operations
+    x-displayName: Projects
   - name: tagTexture
     description: All Texture related operations
     x-displayName: Texture
-  - name: tag3DModel
-    description: All 3D Model related operations
-    x-displayName: 3D Models
-  - name: tagAnnotation
-    description: All Annotation related operations
-    x-displayName: Annotations
-  - name: tag3DAnnotation
-    description: All 3D Annotation related operations
-    x-displayName: 3D Annotations
-  - name: tagIlluminatedManuscriptScene
-    x-displayName: Illuminated Manuscript Scene
-    description: All Illuminated Manuscript Scene related operations
+
   - name: Models
     x-displayName: API Reference
     description: |
