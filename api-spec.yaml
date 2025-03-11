@@ -2203,6 +2203,16 @@ components:
         - $ref: "#/components/schemas/Base"
       type: object
       properties:
+        title:
+          type: string
+        description:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        publicationDate:
+          type: string
+          format: date-time
         events:
           type: array
           items:
@@ -2211,57 +2221,14 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Project"
-    TurtleManuscript:
-      type: object
-      properties:
-        "@context":
-          type: string
-          example: "http://example.org/context"
-        "@id":
-          type: string
-          format: uri
-          example: "http://example.org/manuscripts/123"
-        "@type":
-          type: string
-          example: "http://example.org/schema/Manuscript"
-        title:
-          type: string
-          example: "Codex Vaticanus"
-        description:
-          type: string
-          example: "Uno dei più antichi manoscritti della Bibbia"
-        binding:
+        locations:
           type: array
           items:
-            type: string
-            format: uri
-          example:
-            - "http://example.org/bindings/leather-binding"
-            - "http://example.org/bindings/gold-embossed"
-        extend:
+            $ref: "#/components/schemas/Location"
+        authors:
           type: array
           items:
-            type: string
-            format: uri
-          example:
-            - "http://example.org/dimensions/25x30cm-800pages"
-            - "http://example.org/dimensions/folio-large"
-        history:
-          type: array
-          items:
-            type: string
-            format: uri
-          example:
-            - "http://example.org/histories/vatican-discovery"
-            - "http://example.org/histories/medieval-restoration"
-        bibliography:
-          type: array
-          items:
-            type: string
-            format: uri
-          example:
-            - "http://example.org/bibliographies/smith1990"
-            - "http://example.org/bibliographies/jones2005"
+            $ref: "#/components/schemas/Person"
 
     Pose:
       allOf:
