@@ -1209,7 +1209,114 @@ paths:
           description: Pose successfully created
         "401":
           description: Unauthorized
+  /pose/{id}:
+    get:
+      summary: Get a pose by ID
+      operationId: getPoseById
+      tags:
+        - tagPose
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Pose retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pose"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Pose not found
 
+    put:
+      summary: Replace a pose by ID
+      operationId: replacePose
+      tags:
+        - tagPose
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pose"
+      responses:
+        "200":
+          description: Pose replaced successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pose"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Pose not found
+
+    patch:
+      summary: Update a pose by ID
+      operationId: updatePose
+      tags:
+        - tagPose
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pose"
+      responses:
+        "200":
+          description: Pose updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pose"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Pose not found
+
+    delete:
+      summary: Delete a pose by ID
+      operationId: deletePose
+      tags:
+        - tagPose
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Pose deleted successfully
+        "401":
+          description: Unauthorized
+        "404":
+          description: Pose not found
   /3dmodel:
     get:
       summary: Retrieve all 3D models
@@ -1288,6 +1395,114 @@ paths:
           description: 3D model successfully created
         "401":
           description: Unauthorized
+  /3dmodel/{id}:
+    get:
+      summary: Get a 3D model by ID
+      operationId: get3DModelById
+      tags:
+        - tag3DModel
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 3D model retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/3DModel"
+        "401":
+          description: Unauthorized
+        "404":
+          description: 3D model not found
+
+    put:
+      summary: Replace a 3D model by ID
+      operationId: replace3DModel
+      tags:
+        - tag3DModel
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/3DModel"
+      responses:
+        "200":
+          description: 3D model replaced successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/3DModel"
+        "401":
+          description: Unauthorized
+        "404":
+          description: 3D model not found
+
+    patch:
+      summary: Update a 3D model by ID
+      operationId: update3DModel
+      tags:
+        - tag3DModel
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/3DModel"
+      responses:
+        "200":
+          description: 3D model updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/3DModel"
+        "401":
+          description: Unauthorized
+        "404":
+          description: 3D model not found
+
+    delete:
+      summary: Delete a 3D model by ID
+      operationId: delete3DModel
+      tags:
+        - tag3DModel
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: 3D model deleted successfully
+        "401":
+          description: Unauthorized
+        "404":
+          description: 3D model not found
 
   /texture:
     get:
@@ -1362,7 +1577,114 @@ paths:
           description: Texture successfully added
         "401":
           description: Unauthorized
+  /texture/{id}:
+    get:
+      summary: Get a texture by ID
+      operationId: getTextureById
+      tags:
+        - tagTexture
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Texture retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Texture"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Texture not found
 
+    put:
+      summary: Replace a texture by ID
+      operationId: replaceTexture
+      tags:
+        - tagTexture
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Texture"
+      responses:
+        "200":
+          description: Texture replaced successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Texture"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Texture not found
+
+    patch:
+      summary: Update a texture by ID
+      operationId: updateTexture
+      tags:
+        - tagTexture
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Texture"
+      responses:
+        "200":
+          description: Texture updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Texture"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Texture not found
+
+    delete:
+      summary: Delete a texture by ID
+      operationId: deleteTexture
+      tags:
+        - tagTexture
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Texture deleted successfully
+        "401":
+          description: Unauthorized
+        "404":
+          description: Texture not found
   /3dannotation:
     get:
       summary: Retrieve all 3D annotations
@@ -1439,6 +1761,115 @@ paths:
           description: 3D annotation successfully created
         "401":
           description: Unauthorized
+  /3dannotation/{id}:
+    get:
+      summary: Get a 3D annotation by ID
+      operationId: get3DAnnotationById
+      tags:
+        - tag3DAnnotation
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 3D annotation retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/3DAnnotation"
+        "401":
+          description: Unauthorized
+        "404":
+          description: 3D annotation not found
+
+    put:
+      summary: Replace a 3D annotation by ID
+      operationId: replace3DAnnotation
+      tags:
+        - tag3DAnnotation
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/3DAnnotation"
+      responses:
+        "200":
+          description: 3D annotation replaced successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/3DAnnotation"
+        "401":
+          description: Unauthorized
+        "404":
+          description: 3D annotation not found
+
+    patch:
+      summary: Update a 3D annotation by ID
+      operationId: update3DAnnotation
+      tags:
+        - tag3DAnnotation
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/3DAnnotation"
+      responses:
+        "200":
+          description: 3D annotation updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/3DAnnotation"
+        "401":
+          description: Unauthorized
+        "404":
+          description: 3D annotation not found
+
+    delete:
+      summary: Delete a 3D annotation by ID
+      operationId: delete3DAnnotation
+      tags:
+        - tag3DAnnotation
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: 3D annotation deleted successfully
+        "401":
+          description: Unauthorized
+        "404":
+          description: 3D annotation not found
+
   /annotations:
     get:
       tags:
@@ -1513,8 +1944,138 @@ paths:
                     type: array
                     items:
                       type: string
-                    example:
-                      ["application/json", "application/xml", "text/turtle"]
+                    example: ["application/json", "text/turtle"]
+    post:
+      summary: Create a new annotation
+      operationId: createAnnotation
+      tags:
+        - tagAnnotation
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Annotation"
+      responses:
+        "201":
+          description: Annotation created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Annotation"
+        "401":
+          description: Unauthorized
+  /annotations/{id}:
+    get:
+      summary: Get an annotation by ID
+      operationId: getAnnotationById
+      tags:
+        - tagAnnotation
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Annotation retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Annotation"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Annotation not found
+
+    put:
+      summary: Replace an annotation by ID
+      operationId: replaceAnnotation
+      tags:
+        - tagAnnotation
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Annotation"
+      responses:
+        "200":
+          description: Annotation replaced successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Annotation"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Annotation not found
+
+    patch:
+      summary: Update an annotation by ID
+      operationId: updateAnnotation
+      tags:
+        - tagAnnotation
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Annotation"
+      responses:
+        "200":
+          description: Annotation updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Annotation"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Annotation not found
+
+    delete:
+      summary: Delete an annotation by ID
+      operationId: deleteAnnotation
+      tags:
+        - tagAnnotation
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Annotation deleted successfully
+        "401":
+          description: Unauthorized
+        "404":
+          description: Annotation not found
+
 components:
   schemas:
     Resource:
@@ -1707,10 +2268,6 @@ components:
         - $ref: "#/components/schemas/Base"
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          description: Unique identifier of the pose
         name:
           type: string
           description: Name of the pose
@@ -1725,10 +2282,6 @@ components:
         - $ref: "#/components/schemas/Base"
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          description: Unique identifier of the 3D model
         name:
           type: string
           description: Name of the 3D model
@@ -1748,10 +2301,6 @@ components:
         - $ref: "#/components/schemas/Base"
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          description: Unique identifier of the texture
         type:
           type: string
           enum:
@@ -1770,10 +2319,6 @@ components:
         - $ref: "#/components/schemas/Base"
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          description: Unique identifier of the 3D annotation
         region:
           type: string
           description: 3D region where the annotation applies
@@ -1787,10 +2332,6 @@ components:
         - $ref: "#/components/schemas/Base"
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          description: Unique identifier of the annotation
         type:
           type: string
           enum:

@@ -7,8 +7,7 @@
         "build": "redoc-cli bundle api-spec.yaml -o index.html",
         "serve": "browser-sync start --server --files index.html",
         "watch": "nodemon --watch api-spec.yaml --exec \"npm run build\"",
-        "dev": "concurrently \"npm run watch\" \"npm run serve\"",
-        "start": "concurrently \"npm run watch\" \"node server.js\""
+        "start": "concurrently \"npm run watch\" \"npm run serve\""
     },
     "author": "",
     "license": "ISC",

@@ -13,7 +13,11 @@ const swaggerDocument = YAML.load("./api-spec.yaml");
 
 // Servire Swagger UI su /api-docs
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
+// Server index
+app.get("/index", (req, res) => {
+  console.log("Server index");
+  res.sendFile(path.join(__dirname, "server-index.html"));
+});
 // Servire Redoc su /redoc
 app.get(
   "/redoc",
