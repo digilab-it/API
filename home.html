@@ -1,18 +1,48 @@
-<html>
+<!DOCTYPE html>
+<html lang="it">
 
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Aggiungi il link al CSS di Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Server Index</title>
 </head>
 
 <body>
-    <h1>Servizi disponibili</h1>
-    <ul>
-        <li><a href="index.html">Redoc Static page</a></li>
-        <li><a href="/redoc">Redoc dinamic page</a></li>
-        <li><a href="/api-docs">Swagger UI</a></li>
-        <li><a href="/openapi.json">OpenAPI JSON</a></li>
-        <li>Dummy server at port 4010</li>
-    </ul>
+    <div class="container py-5">
+        <h1 class="mb-4">Servizi disponibili</h1>
+        <ul class="list-group ">
+            <a class="list-group-item border-0" href="index.html">
+                <h4 class="list-group-item-heading">1. Redoc Static Page</h4>
+                <p class="list-group-item-text btn-link">Documentazione API. Pagina statica ottenuta dopo la build</p>
+            </a>
+            <a class="list-group-item border-0" href="/redoc">
+                <h4 class="list-group-item-heading">2. Redoc Dinamic Page</h4>
+                <p class="list-group-item-text btn-link">Documentazione API. Pagina dinamica ottenuta a runtime senza
+                    necessità
+                    di build</p>
+            </a>
+            <a class="list-group-item border-0" href="/api-docs">
+                <h4 class="list-group-item-heading">3. Swagger UI</h4>
+                <p class="list-group-item-text btn-link">Tramite Swagger è possibile provare le api tramite la funzione
+                    "try it
+                    out"</p>
+            </a>
+            <a class="list-group-item border-0" href="/openapi.json">
+                <h4 class="list-group-item-heading">4. OpenAPI JSON</h4>
+                <p class="list-group-item-text btn-link">Scarica il file openapi.json</p>
+
+            </a>
+            <a class="list-group-item border-0" href="/openapi.json">
+                <h4 class="list-group-item-heading">5. Dummy Server</h4>
+                <p class="list-group-item-text">In esecuzione sulla porta 4010. </p>
+
+            </a>
+        </ul>
+    </div>
 </body>
 
 </html>
