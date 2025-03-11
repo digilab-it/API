@@ -14,7 +14,7 @@ const swaggerDocument = YAML.load("./api-spec.yaml");
 // Servire Swagger UI su /api-docs
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // Server index
-app.get("/home", (req, res) => {
+app.get("/", (req, res) => {
   console.log("Server index");
   res.sendFile(path.join(__dirname, "home.html"));
 });
@@ -42,14 +42,16 @@ app.get(
     `,
   })
 );
-
+app.get("/index.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
 // Servire il file OpenAPI come JSON
 app.get("/openapi.json", (req, res) => {
   res.json(swaggerDocument);
 });
 
 // Avviare il server Mock con Prism CLI
-exec("prism mock api-spec.yaml --port 4010", (err, stdout, stderr) => {
+exec("npx prism mock api-spec.yaml --port 4010", (err, stdout, stderr) => {
   if (err) {
     console.error(`Errore nell'avviare Prism: ${err.message}`);
     return;
@@ -59,7 +61,8 @@ exec("prism mock api-spec.yaml --port 4010", (err, stdout, stderr) => {
 
 // Avviare il server Express
 app.listen(PORT, () => {
-  console.log(`Server in esecuzione su http://127.0.0.1:${PORT}`);
+  console.log(`Server in esecuzione su http://127.0.0.1:${PORT}/home`);
   console.log(`Swagger UI disponibile su http://127.0.0.1:${PORT}/api-docs`);
   console.log(`Redoc disponibile su http://127.0.0.1:${PORT}/redoc`);
+  console.log("a Premi CTRL+C per uscire");
 });

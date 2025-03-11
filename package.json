@@ -5,9 +5,10 @@
     "main": "server.js",
     "scripts": {
         "build": "redoc-cli bundle api-spec.yaml -o index.html",
-        "serve": "browser-sync start --server --files index.html",
-        "watch": "nodemon --watch api-spec.yaml --exec \"npm run build\"",
-        "start": "concurrently \"npm run watch\" \"npm run serve\""
+        "build:watch": "nodemon --watch api-spec.yaml --exec \"npm run build\"",
+        "server": "nodemon server.js",
+        "serve": "browser-sync start --proxy \"http://127.0.0.1:3000\" --files \"**/*\"",
+        "start": "concurrently \"npm run build:watch\" \"npm run server\" \"npm run serve\""
     },
     "author": "",
     "license": "ISC",
