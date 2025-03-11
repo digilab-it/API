@@ -6,7 +6,7 @@ const { exec } = require("child_process");
 const path = require("path");
 
 const app = express();
-const PORT = 3000;
+const PORT = 3100;
 
 // Convertire il file OpenAPI YAML in JSON
 const swaggerDocument = YAML.load("./api-spec.yaml");
@@ -61,7 +61,7 @@ exec("npx prism mock api-spec.yaml --port 4010", (err, stdout, stderr) => {
 
 // Avviare il server Express
 app.listen(PORT, () => {
-  console.log(`Server in esecuzione su http://127.0.0.1:${PORT}/home`);
+  console.log(`Server in esecuzione su http://127.0.0.1:${PORT}`);
   console.log(`Swagger UI disponibile su http://127.0.0.1:${PORT}/api-docs`);
   console.log(`Redoc disponibile su http://127.0.0.1:${PORT}/redoc`);
   console.log("a Premi CTRL+C per uscire");
