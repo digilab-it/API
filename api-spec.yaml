@@ -2343,6 +2343,9 @@ components:
         publicationDate:
           type: string
           format: date-time
+        previewImage:
+          type: string
+          format: uri
         events:
           type: array
           items:
