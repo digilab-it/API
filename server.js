@@ -14,9 +14,9 @@ const swaggerDocument = YAML.load("./api-spec.yaml");
 // Servire Swagger UI su /api-docs
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // Server index
-app.get("/index", (req, res) => {
+app.get("/home", (req, res) => {
   console.log("Server index");
-  res.sendFile(path.join(__dirname, "server-index.html"));
+  res.sendFile(path.join(__dirname, "home.html"));
 });
 // Servire Redoc su /redoc
 app.get(
