@@ -99,6 +99,11 @@ tags:
   - name: Models
     x-displayName: API Reference
     description: |
+      ## Reference
+      Una reference da una risorsa a un'altra
+      <SchemaDefinition schemaRef="#/components/schemas/Reference" />
+
+
       ## Base Entity
       <SchemaDefinition schemaRef="#/components/schemas/Base" />
 
@@ -121,6 +126,14 @@ tags:
       ## Manuscript
       A manuscript object extending the `Base Entity`
       <SchemaDefinition schemaRef="#/components/schemas/Manuscript" />
+
+      ## Light Manuscript 
+      A Light manuscript object
+      <SchemaDefinition schemaRef="#/components/schemas/LightManuscript" />
+
+      ## Illuminated Manuscript Scene
+      An illuminated manuscript scene object extending the `Base Entity`
+      <SchemaDefinition schemaRef="#/components/schemas/IlluminatedManuscriptScene" />
 
       ## Pose
       A pose object extending the `Base Entity`
@@ -1149,14 +1162,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Manuscript"
+              $ref: "#/components/schemas/LightManuscript"
       responses:
         "201":
           description: Manuscript created
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Manuscript"
+                $ref: "#/components/schemas/LightManuscript"
         "401":
           description: Unauthorized
   /manuscripts/{id}:
@@ -1184,21 +1197,7 @@ paths:
             text/turtle:
               schema:
                 $ref: "#/components/schemas/Manuscript"
-              example: |
-                @prefix ex: <http://example.org/schema/> .
-                @prefix dcterms: <http://purl.org/dc/terms/> .
 
-                <http://example.org/manuscripts/123> a ex:Manuscript ;
-                    ex:title "Codex Vaticanus" ;
-                    ex:description "Uno dei più antichi manoscritti della Bibbia" ;
-                    ex:binding <http://example.org/bindings/leather-binding>,
-                                <http://example.org/bindings/gold-embossed> ;
-                    ex:extend <http://example.org/dimensions/25x30cm-800pages>,
-                              <http://example.org/dimensions/folio-large> ;
-                    ex:history <http://example.org/histories/vatican-discovery>,
-                                <http://example.org/histories/medieval-restoration> ;
-                    dcterms:bibliography <http://example.org/bibliographies/smith1990>,
-                                        <http://example.org/bibliographies/jones2005> .
         "401":
           description: Unauthorized
         "404":
@@ -1224,14 +1223,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Manuscript"
+              $ref: "#/components/schemas/LightManuscript"
       responses:
         "200":
           description: Manuscript updated
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Manuscript"
+                $ref: "#/components/schemas/LightManuscript"
         "401":
           description: Unauthorized
         "404":
@@ -1276,14 +1275,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Manuscript"
+              $ref: "#/components/schemas/LightManuscript"
       responses:
         "200":
           description: Manuscript replaced
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Manuscript"
+                $ref: "#/components/schemas/LightManuscript"
         "401":
           description: Unauthorized
         "404":
@@ -2371,30 +2370,6 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/IlluminatedManuscriptScene"
-                example:
-                  - title: "Medieval Battle Scene"
-                    description: "A detailed illuminated manuscript depicting a medieval battle."
-                    panorama: "https://example.com/panorama.jpg"
-                    previewImage: "https://example.com/preview.jpg"
-                    sceneAuthor:
-                      - name: "John Doe"
-                        id: "123"
-                    sceneCollaborators:
-                      - name: "Jane Smith"
-                        id: "456"
-                    visibility: "public"
-                    referenceProject:
-                      id: "123"
-                      name: "Medieval Chronicles"
-                    manuscript:
-                      id: "456"
-                      title: "Ancient Codex"
-                    poses:
-                      - poseID: "pose1"
-                        model3DID: "model123"
-                    annotations3D:
-                      - id: "annotation1"
-                        text: "This is an annotation."
             text/turtle:
               schema:
                 type: string
@@ -2785,23 +2760,23 @@ components:
         sceneAuthor:
           type: array
           items:
-            $ref: "#/components/schemas/Person"
+            $ref: "#/components/schemas/Reference"
           description: "List of authors of the scene"
         sceneCollaborators:
           type: array
           items:
-            $ref: "#/components/schemas/Person"
+            $ref: "#/components/schemas/Reference"
           description: "List of scene collaborators"
         visibility:
           type: string
           enum: [public, private, restricted]
           description: "Visibility status of the scene"
         referenceProject:
-          $ref: "#/components/schemas/Project"
+          $ref: "#/components/schemas/Reference"
           description: "Reference project for the scene"
         manuscript:
-          $ref: "#/components/schemas/LightManuscript"
-          description: "A light version of the manuscript without all relations"
+          $ref: "#/components/schemas/Reference"
+          description: "Reference manuscript for the scene"
         poses:
           type: array
           items:
@@ -2812,6 +2787,7 @@ components:
           items:
             $ref: "#/components/schemas/3DAnnotation"
           description: "List of 3D annotations"
+
     LightManuscript:
       type: object
       properties:
@@ -2821,7 +2797,83 @@ components:
           type: string
         description:
           type: string
-
+        previewImage:
+          type: string
+          format: uri
+        events:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reference"
+        projects:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reference"
+        locations:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reference"
+        authors:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reference"
+        editors:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reference"
+        status:
+          type: string
+          enum:
+            - draft
+            - in_review
+            - revisions_required
+            - accepted
+            - in_editing
+            - published
+            - rejected
+            - withdrawn
+          description: |
+            Stato attuale del manoscritto:
+              - `draft`: Bozza
+              - `in_review`: In revisione
+              - `revisions_required`: Revisione necessaria
+              - `accepted`: Accettato
+              - `in_editing`: In fase di editing
+              - `published`: Pubblicato
+              - `rejected`: Rifiutato
+              - `withdrawn`: Ritirato
+    Reference:
+      type: object
+      description: Una reference da una risorsa a un'altra
+      properties:
+        reference:
+          type: string
+          description: Literal reference, URL relativa, interna o assoluta
+        type:
+          type: string
+          format: uri
+          description: Tipo della risorsa a cui fa riferimento (es. "Patient")
+        identifier:
+          type: object
+          description: Riferimento logico quando non si conosce il riferimento letterale
+          properties:
+            system:
+              type: string
+              description: Sistema identificativo
+            value:
+              type: string
+              description: Valore dell'identificatore
+        display:
+          type: string
+          description: Testo alternativo per la risorsa
+      required:
+        - reference
+      example:
+        reference: "Risorsa/1234"
+        type: "Risorsa"
+        identifier:
+          system: "http://digilab.com/risorsa-ids"
+          value: "1234"
+        display: "descrizione della risorsa"
   securitySchemes:
     bearerAuth:
       type: http
