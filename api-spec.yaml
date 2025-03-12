@@ -2793,9 +2793,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Reference"
-        scene:
-          type: object
-          $ref: "#/components/schemas/LightIlluminatedManuscriptScene"
+        scenes:
+          type: array
+          items:
+            $ref: "#/components/schemas/LightIlluminatedManuscriptScene"
         status:
           type: string
           enum:
@@ -3017,9 +3018,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Reference"
-        scene:
-          type: object
-          $ref: "#/components/schemas/Reference"
+        scenes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reference"
         authors:
           type: array
           items:
