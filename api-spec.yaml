@@ -2426,6 +2426,15 @@ paths:
       responses:
         "200":
           description: "Successful response"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/IlluminatedManuscriptScene"
+            text/turtle:
+              schema:
+                type: string
         "401":
           description: "Unauthorized"
         "404":
@@ -2506,15 +2515,15 @@ paths:
           description: "Scene not found"
 components:
   schemas:
-    Resource:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        uri:
-          type: string
+    # Resource:
+    #   type: object
+    #   properties:
+    #     id:
+    #       type: string
+    #     name:
+    #       type: string
+    #     uri:
+    #       type: string
     Identifier:
       type: object
       properties:
@@ -2536,10 +2545,10 @@ components:
       properties:
         id:
           type: string
-        related_resources:
-          type: array
-          items:
-            $ref: "#/components/schemas/Resource"
+        # related_resources:
+        #   type: array
+        #   items:
+        #     $ref: "#/components/schemas/Resource"
         identifiers:
           type: array
           items:
@@ -2647,11 +2656,11 @@ components:
         events:
           type: array
           items:
-            $ref: "#/components/schemas/Event"
+            $ref: "#/components/schemas/Reference"
         projects:
           type: array
           items:
-            $ref: "#/components/schemas/Project"
+            $ref: "#/components/schemas/Reference"
         locations:
           type: array
           items:
@@ -2659,11 +2668,14 @@ components:
         authors:
           type: array
           items:
-            $ref: "#/components/schemas/Person"
+            $ref: "#/components/schemas/Reference"
         editors:
           type: array
           items:
-            $ref: "#/components/schemas/Person"
+            $ref: "#/components/schemas/Reference"
+        scene:
+          type: object
+          $ref: "#/components/schemas/LightIlluminatedManuscriptScene"
         status:
           type: string
           enum:
@@ -2805,12 +2817,12 @@ components:
         poses:
           type: array
           items:
-            $ref: "#/components/schemas/Pose"
+            $ref: "#/components/schemas/Reference"
           description: "List of poses"
         annotations3D:
           type: array
           items:
-            $ref: "#/components/schemas/3DAnnotation"
+            $ref: "#/components/schemas/Reference"
           description: "List of 3D annotations"
 
     IlluminatedManuscriptScene:
@@ -2885,6 +2897,9 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Reference"
+        scene:
+          type: object
+          $ref: "#/components/schemas/Reference"
         authors:
           type: array
           items:
