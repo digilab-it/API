@@ -328,7 +328,9 @@ paths:
         - in: query
           name: "id"
           schema:
-            type: string
+            type: array
+            items:
+              type: string
           description: "Filtra le location per ID, valori multipli separati da virgola ad es. `1,2,3`"
         - in: query
           name: "name"
@@ -351,7 +353,9 @@ paths:
         - in: query
           name: "identifiers"
           schema:
-            type: string
+            type: array
+            items:
+              type: string
           description: "Filtra i manoscritti per identificatore, valori multipli separati da virgola ad es. `1,2,3`"
         - in: header
           name: Accept
@@ -1005,7 +1009,9 @@ paths:
           name: "id"
           required: false
           schema:
-            type: string
+            type: array
+            items:
+              type: string
           description: "Filtra i manoscritti per ID, valori multipli separati da virgola ad es. `1,2,3`"
         - in: query
           name: "title"
@@ -1053,25 +1059,45 @@ paths:
           name: "locationId"
           required: false
           schema:
-            type: string
+            type: array
+            items:
+              type: string
           description: "Filtra i manoscritti per location ID, valori multipli separati da virgola ad es. `1,2,3`"
         - in: query
           name: "authors"
           required: false
           schema:
-            type: string
+            type: array
+            items:
+              type: string
           description: "Filtra i manoscritti per nome autore"
         - in: query
           name: "authorId"
           required: false
           schema:
-            type: string
-          description: "filtra i manoscritti per autore ID, valori multipli separati da virgola ad es. `1,2,3`"
+            type: array
+            items:
+              type: string
+        - in: query
+          name: "editorId"
+          schema:
+            type: array
+            items:
+              type: array
+              items:
+                type: array
+                items:
+                  type: string
+            description: "Filtra i manoscritti per ID dell'editore, valori multipli separati da virgola ad es. `1,2,3`"
         - in: query
           name: "identifiers"
           required: false
           schema:
-            type: string
+            type: array
+            items:
+              type: array
+              items:
+                type: string
           description: "Filtra i manoscritti per identificatore, valori multipli separati da virgola ad es. `1,2,3`"
         - in: header
           name: Accept
@@ -2218,7 +2244,9 @@ paths:
           name: "id"
           required: false
           schema:
-            type: string
+            type: array
+            items:
+              type: string
           description: "Filtra illuminated manuscript scenes per ID, valori multipli separati da virgola ad es. `1,2,3`"
         - in: query
           name: "title"
@@ -2266,7 +2294,11 @@ paths:
           name: "locationId"
           required: false
           schema:
-            type: string
+            type: array
+            items:
+              type: array
+              items:
+                type: string
           description: "Filtra illuminated manuscript scenes per location ID, valori multipli separati da virgola ad es. `1,2,3`"
         - in: query
           name: "authors"
@@ -2278,7 +2310,9 @@ paths:
           name: "authorId"
           required: false
           schema:
-            type: string
+            type: array
+            items:
+              type: string
           description: "filtra illuminated manuscript scenes per autore ID, valori multipli separati da virgola ad es. `1,2,3`"
         - in: query
           name: "collaborators"
@@ -2290,14 +2324,22 @@ paths:
           name: "collaboratorsId"
           required: false
           schema:
-            type: string
+            type: array
+            items:
+              type: array
+              items:
+                type: string
           description: "filtra illuminated manuscript scenes per collaborators ID, valori multipli separati da virgola ad es. `1,2,3`"
 
         - in: query
           name: "identifiers"
           required: false
           schema:
-            type: string
+            type: array
+            items:
+              type: array
+              items:
+                type: string
           description: "Filtra illuminated manuscript scenes per identificatore, valori multipli separati da virgola ad es. `1,2,3`"
         - in: query
           name: "page"
@@ -2626,6 +2668,10 @@ components:
           items:
             $ref: "#/components/schemas/Location"
         authors:
+          type: array
+          items:
+            $ref: "#/components/schemas/Person"
+        editors:
           type: array
           items:
             $ref: "#/components/schemas/Person"
