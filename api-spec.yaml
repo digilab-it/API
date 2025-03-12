@@ -83,6 +83,9 @@ tags:
   - name: tagManuscripts
     description: All Manuscripts related operations
     x-displayName: Manuscripts
+  - name: tagManuscriptContents
+    description: All Manuscript Contents related operations
+    x-displayName: Manuscript Contents
   - name: tagPersons
     x-displayName: Persons
     description: All Persons related operations
@@ -164,6 +167,14 @@ tags:
       ## 3d Annotation
       A 3D annotation object extending the `Base Entity`
       <SchemaDefinition schemaRef="#/components/schemas/3DAnnotation" />
+
+      ## Content
+      A content object extending the `Base Entity`
+      <SchemaDefinition schemaRef="#/components/schemas/Content" />
+
+      ## LighContent
+      A content input object
+      <SchemaDefinition schemaRef="#/components/schemas/LighContent" />
 
 paths:
   /auth/login:
@@ -2893,7 +2904,143 @@ paths:
       summary: "Get all scenes of an editor"
       description: "This operation retrieves all scenes for an editor."
       operationId: "getScenesOfEditor"
-
+  /manuscripts/{manuscript_id}/contents:
+    get:
+      summary: Ottiene tutti i contenuti di un manoscritto
+      operationId: getManuscriptContents
+      tags:
+        - tagManuscriptContents
+      parameters:
+        - name: manuscript_id
+          in: path
+          required: true
+          description: ID del manoscritto
+          schema:
+            type: integer
+        - in: header
+          name: Accept
+          schema:
+            type: string
+            enum:
+              - application/json
+              - text/turtle
+          required: false
+          description: "Formato di risposta desiderato. Valori supportati: `application/json`,  `text/turtle`"
+      responses:
+        "200":
+          description: Elenco dei contenuti del manoscritto
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Content"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Manoscritto non trovato
+        "406":
+          description: Formato non supportato
+    post:
+      operationId: createManuscriptContent
+      summary: Aggiunge un nuovo contenuto a un manoscritto
+      tags:
+        - tagManuscriptContents
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: manuscript_id
+          in: path
+          required: true
+          description: ID del manoscritto
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LighContent"
+      responses:
+        "201":
+          description: Contenuto creato con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Content"
+        "401":
+          description: Unauthorized
+  /manuscripts/{manuscript_id}/contents/{content_id}:
+    put:
+      operationId: updateManuscriptContent
+      summary: Aggiorna un contenuto specifico di un manoscritto
+      tags:
+        - tagManuscriptContents
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: manuscript_id
+          in: path
+          required: true
+          description: ID del manoscritto
+          schema:
+            type: integer
+        - name: content_id
+          in: path
+          required: true
+          description: ID del contenuto
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LighContent"
+      responses:
+        "200":
+          description: Contenuto aggiornato con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Content"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Contenuto non trovato
+    delete:
+      operationId: deleteManuscriptContent
+      summary: Elimina un contenuto di un manoscritto
+      tags:
+        - tagManuscriptContents
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: manuscript_id
+          in: path
+          required: true
+          description: ID del manoscritto
+          schema:
+            type: integer
+        - name: content_id
+          in: path
+          required: true
+          description: ID del contenuto
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Contenuto eliminato con successo
+        "401":
+          description: Unauthorized
+        "404":
+          description: Contenuto non trovato
 components:
   schemas:
     # Resource:
@@ -3046,6 +3193,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Location"
+        contents:
+          type: array
+          items:
+            $ref: "#/components/schemas/LighContent"
         authors:
           type: array
           items:
@@ -3345,6 +3496,59 @@ components:
           system: "http://digilab.com/risorsa-ids"
           value: "1234"
         display: "descrizione della risorsa"
+    Content:
+      type: object
+      properties:
+        id:
+          type: integer
+        manuscript_id:
+          type: integer
+        intro:
+          type: string
+        category:
+          type: string
+          enum:
+            - Storia e contesto
+            - Struttura e scrittura
+            - Materiali e tecniche esecutive
+            - Iconografia e iconologia
+            - Censure e modifiche
+            - Conservazione e restauro
+            - Bibliografia
+        content:
+          type: string
+        last_updated:
+          type: string
+          format: date-time
+      example:
+        id: 1
+        manuscript_id: 1
+        category: "Storia e contesto"
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+        last_updated: "2021-09-01T12:00:00Z"
+    LighContent:
+      type: object
+      required:
+        - category
+        - content
+      properties:
+        intro:
+          type: string
+        category:
+          type: string
+          enum:
+            - Storia e contesto
+            - Struttura e scrittura
+            - Materiali e tecniche esecutive
+            - Iconografia e iconologia
+            - Censure e modifiche
+            - Conservazione e restauro
+            - Bibliografia
+        content:
+          type: string
+      example:
+        category: "Storia e contesto"
+        content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
   securitySchemes:
     bearerAuth:
       type: http
