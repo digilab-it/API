@@ -441,7 +441,9 @@ paths:
       summary: Create Location
       description: Create a new location with the specified details
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       requestBody:
         required: true
         content:
@@ -492,7 +494,9 @@ paths:
           schema:
             type: string
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       requestBody:
         required: true
         content:
@@ -515,7 +519,9 @@ paths:
         - tagLocations
       operationId: patchLocation
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       summary: Patch Location
       description: partial update a location with new information
       parameters:
@@ -554,7 +560,9 @@ paths:
           schema:
             type: string
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       responses:
         "204":
           description: Location deleted successfully
@@ -570,7 +578,9 @@ paths:
       summary: Create Person
       description: Create a new person with the given information
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       requestBody:
         required: true
         content:
@@ -593,7 +603,9 @@ paths:
       operationId: getPersons
       description: Get all persons
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       responses:
         "200":
           description: A list of persons
@@ -638,7 +650,9 @@ paths:
       operationId: replacePerson
       description: Replace a person by ID with new information
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -669,7 +683,9 @@ paths:
       operationId: patchPerson
       description: Update a person by ID. This operation updates a person's information based on their ID.
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -700,7 +716,9 @@ paths:
       operationId: deletePerson
       description: Delete a person by ID. This operation deletes a person based on their ID.
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -737,7 +755,9 @@ paths:
     post:
       operationId: createEvent
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       tags:
         - tagEvents
       summary: Create a new event
@@ -786,7 +806,9 @@ paths:
     patch:
       operationId: patchEventById
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       tags:
         - tagEvents
       summary: Update an event by ID
@@ -817,7 +839,9 @@ paths:
     delete:
       operationId: deleteEventById
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       tags:
         - tagEvents
       summary: Delete an event by ID
@@ -838,7 +862,9 @@ paths:
     put:
       operationId: replaceEventById
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       tags:
         - tagEvents
       summary: Replace an event by ID
@@ -874,7 +900,9 @@ paths:
       description: This operation creates a new project.
       operationId: createProject
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       requestBody:
         required: true
         content:
@@ -942,7 +970,9 @@ paths:
       description: This operation updates a project based on its ID.
       operationId: updateProject
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -973,7 +1003,9 @@ paths:
       description: This operation deletes a project based on its ID.
       operationId: deleteProject
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -994,7 +1026,9 @@ paths:
       description: This operation replaces a project based on its ID.
       operationId: replaceProject
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -1166,7 +1200,9 @@ paths:
       description: This operation creates a new manuscript.
       operationId: createManuscript
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       requestBody:
         required: true
         content:
@@ -1221,7 +1257,9 @@ paths:
       description: This operation updates a manuscript based on its ID.
       operationId: updateManuscript
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -1252,7 +1290,9 @@ paths:
       description: This operation deletes a manuscript based on its ID.
       operationId: deleteManuscript
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -1273,7 +1313,9 @@ paths:
       description: This operation replaces a manuscript based on its ID.
       operationId: replaceManuscript
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -1517,7 +1559,9 @@ paths:
       summary: Create a new pose
       operationId: createPose
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
 
       tags:
         - tagPose
@@ -1564,7 +1608,9 @@ paths:
       tags:
         - tagPose
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -1595,7 +1641,9 @@ paths:
       tags:
         - tagPose
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -1626,7 +1674,9 @@ paths:
       tags:
         - tagPose
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -1703,7 +1753,9 @@ paths:
       summary: Create a new 3D model
       operationId: create3DModel
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
 
       tags:
         - tag3DModel
@@ -1750,7 +1802,9 @@ paths:
       tags:
         - tag3DModel
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -1781,7 +1835,9 @@ paths:
       tags:
         - tag3DModel
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -1812,7 +1868,9 @@ paths:
       tags:
         - tag3DModel
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -1885,8 +1943,9 @@ paths:
       summary: Add a texture to a 3D model
       operationId: createTexture
       security:
-        - bearerAuth: []
-
+        - bearerAuth:
+            - admin
+            - editor
       tags:
         - tagTexture
       requestBody:
@@ -1932,7 +1991,9 @@ paths:
       tags:
         - tagTexture
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -1963,7 +2024,9 @@ paths:
       tags:
         - tagTexture
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -1994,7 +2057,9 @@ paths:
       tags:
         - tagTexture
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -2069,7 +2134,9 @@ paths:
       summary: Create a new 3D annotation
       operationId: create3DAnnotation
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
 
       tags:
         - tag3DAnnotation
@@ -2116,7 +2183,9 @@ paths:
       tags:
         - tag3DAnnotation
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -2147,7 +2216,9 @@ paths:
       tags:
         - tag3DAnnotation
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -2178,7 +2249,9 @@ paths:
       tags:
         - tag3DAnnotation
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -2271,7 +2344,9 @@ paths:
       tags:
         - tagAnnotation
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       requestBody:
         required: true
         content:
@@ -2319,7 +2394,9 @@ paths:
       tags:
         - tagAnnotation
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -2350,7 +2427,9 @@ paths:
       tags:
         - tagAnnotation
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -2381,7 +2460,9 @@ paths:
       tags:
         - tagAnnotation
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - name: id
           in: path
@@ -2560,7 +2641,9 @@ paths:
             schema:
               $ref: "#/components/schemas/LightIlluminatedManuscriptScene"
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       responses:
         "201":
           description: "Scene created successfully"
@@ -2614,7 +2697,9 @@ paths:
       summary: "Update an entire illuminated manuscript scene by ID"
       operationId: putIlluminatedManuscriptScene
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       requestBody:
         required: true
         content:
@@ -2640,7 +2725,9 @@ paths:
       summary: "Partially update an illuminated manuscript scene by ID"
       operationId: patchIlluminatedManuscriptScene
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       requestBody:
         required: true
         content:
@@ -2663,7 +2750,9 @@ paths:
     delete:
       operationId: deleteIlluminatedManuscriptScene
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       tags:
         - tagIlluminatedManuscriptScene
       summary: "Delete an illuminated manuscript scene by ID"
@@ -2723,7 +2812,9 @@ paths:
   /editors/{id}/manuscripts:
     get:
       security:
-        - bearerAuth: []
+        - bearerAuth:
+            - admin
+            - editor
       parameters:
         - in: path
           name: id
@@ -3217,3 +3308,6 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+      description: "JWT token for authentication"
+security:
+  - bearerAuth: []
