@@ -95,6 +95,12 @@ tags:
   - name: tagTexture
     description: All Texture related operations
     x-displayName: Texture
+  - name: tagAuthor
+    description: All Author related operations
+    x-displayName: Authors
+  - name: tagEditors
+    description: All editors related operations
+    x-displayName: Editors
 
   - name: Models
     x-displayName: API Reference
@@ -1411,6 +1417,47 @@ paths:
       description: "This operation retrieves all projects for a manuscript."
       operationId: "getProjectsOfManuscript"
 
+  /manuscripts/{id}/scenes:
+    get:
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: Accept
+          schema:
+            type: string
+            enum:
+              - application/json
+              - text/turtle
+          required: false
+          description: "Formato di risposta desiderato. Valori supportati: `application/json`,  `text/turtle`"
+
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/IlluminatedManuscriptScene"
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "Manuscript not found"
+        "406":
+          description: "Formato non supportato"
+      tags:
+        - tagManuscripts
+      summary: "Get all scenes relating to a manuscript"
+      description: "This operation retrieves all scenes for a manuscript."
+      operationId: "getScenesOfManuscript"
+
   /pose:
     get:
       summary: Retrieve all poses
@@ -2430,19 +2477,19 @@ paths:
               type: string
           description: "filtra illuminated manuscript scenes per autore ID, valori multipli separati da virgola ad es. `1,2,3`"
         - in: query
-          name: "collaborators"
+          name: "editors"
           required: false
           schema:
             type: string
-          description: "Filtra illuminated manuscript scenes per nome collaborators"
+          description: "Filtra illuminated manuscript scenes per nome editor"
         - in: query
-          name: "collaboratorsId"
+          name: "editorId"
           required: false
           schema:
             type: array
             items:
               type: string
-          description: "filtra illuminated manuscript scenes per collaborators ID, valori multipli separati da virgola ad es. `1,2,3`"
+          description: "filtra illuminated manuscript scenes per editor ID, valori multipli separati da virgola ad es. `1,2,3`"
 
         - in: query
           name: "identifiers"
@@ -2633,6 +2680,87 @@ paths:
           description: "Unauthorized"
         "404":
           description: "Scene not found"
+  /authors/{id}/manuscripts:
+    get:
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: Accept
+          schema:
+            type: string
+            enum:
+              - application/json
+              - text/turtle
+          required: false
+          description: "Formato di risposta desiderato. Valori supportati: `application/json`,  `text/turtle`"
+
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LightManuscript"
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "Author not found"
+        "406":
+          description: "Formato non supportato"
+      tags:
+        - tagAuthor
+      summary: "Get all manuscripts of an author"
+      description: "This operation retrieves all manuscripts for an author."
+      operationId: "getManuscriptsOfAuthor"
+  /editors/{id}/manuscripts:
+    get:
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: Accept
+          schema:
+            type: string
+            enum:
+              - application/json
+              - text/turtle
+          required: false
+          description: "Formato di risposta desiderato. Valori supportati: `application/json`,  `text/turtle`"
+
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LightManuscript"
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "Editor not found"
+        "406":
+          description: "Formato non supportato"
+      tags:
+        - tagEditors
+      summary: "Get all manuscripts of a editor"
+      description: "This operation retrieves all manuscripts for a editor."
+      operationId: "getManuscriptsOfEditor"
+
 components:
   schemas:
     # Resource:
@@ -2915,16 +3043,16 @@ components:
           type: string
           format: uri
           description: "Preview image of the scene"
-        sceneAuthor:
+        authors:
           type: array
           items:
             $ref: "#/components/schemas/Reference"
           description: "List of authors of the scene"
-        sceneCollaborators:
+        editors:
           type: array
           items:
             $ref: "#/components/schemas/Reference"
-          description: "List of scene collaborators"
+          description: "List of editors"
         visibility:
           type: string
           enum: [public, private, restricted]
@@ -2963,16 +3091,16 @@ components:
           type: string
           format: uri
           description: "Preview image of the scene"
-        sceneAuthor:
+        authors:
           type: array
           items:
             $ref: "#/components/schemas/Reference"
           description: "List of authors of the scene"
-        sceneCollaborators:
+        editors:
           type: array
           items:
             $ref: "#/components/schemas/Reference"
-          description: "List of scene collaborators"
+          description: "List of editors"
         visibility:
           type: string
           enum: [public, private, restricted]
