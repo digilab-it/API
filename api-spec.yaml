@@ -1144,7 +1144,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Manuscript"
+                  $ref: "#/components/schemas/LightManuscript"
         "401":
           description: Unauthorized
         "406":
