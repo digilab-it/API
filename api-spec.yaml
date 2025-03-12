@@ -2848,9 +2848,51 @@ paths:
           description: "Formato non supportato"
       tags:
         - tagEditors
-      summary: "Get all manuscripts of a editor"
-      description: "This operation retrieves all manuscripts for a editor."
+      summary: "Get all manuscripts of an editor"
+      description: "This operation retrieves all manuscripts of am editor."
       operationId: "getManuscriptsOfEditor"
+  /editors/{id}/scenes:
+    get:
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: Accept
+          schema:
+            type: string
+            enum:
+              - application/json
+              - text/turtle
+          required: false
+          description: "Formato di risposta desiderato. Valori supportati: `application/json`,  `text/turtle`"
+
+      responses:
+        "200":
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LightIlluminatedManuscriptScene"
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "Editor not found"
+        "406":
+          description: "Formato non supportato"
+      tags:
+        - tagEditors
+      summary: "Get all scenes of an editor"
+      description: "This operation retrieves all scenes for an editor."
+      operationId: "getScenesOfEditor"
 
 components:
   schemas:
