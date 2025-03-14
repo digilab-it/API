@@ -2069,7 +2069,7 @@ paths:
           description: Unauthorized
         "404":
           description: Texture not found
-  /3dannotation:
+  /3d-annotation:
     get:
       summary: Retrieve all 3D annotations
       operationId: get3DAnnotations
@@ -2147,7 +2147,7 @@ paths:
           description: 3D annotation successfully created
         "401":
           description: Unauthorized
-  /3dannotation/{id}:
+  /3d-annotation/{id}:
     get:
       summary: Get a 3D annotation by ID
       operationId: get3DAnnotationById
