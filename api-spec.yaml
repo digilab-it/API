@@ -3053,10 +3053,8 @@ components:
       properties:
         id:
           type: string
-        # related_resources:
-        #   type: array
-        #   items:
-        #     $ref: "#/components/schemas/Resource"
+          description: |
+            Unique identifier for the object. It could not be send in POST
         identifiers:
           type: array
           items:
