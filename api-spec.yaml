@@ -251,7 +251,6 @@ paths:
       responses:
         "302":
           description: Redirect all'URI di callback con il codice di autorizzazione
-
   /token:
     post:
       tags:
@@ -302,7 +301,6 @@ paths:
                     type: integer
                   refresh_token:
                     type: string
-
   /revoke:
     post:
       tags:
@@ -323,7 +321,6 @@ paths:
       responses:
         "200":
           description: Token revocato con successo
-
   /userinfo:
     get:
       tags:
@@ -1466,7 +1463,6 @@ paths:
       summary: "Get all projects relating to a manuscript"
       description: "This operation retrieves all projects for a manuscript."
       operationId: "getProjectsOfManuscript"
-
   /manuscripts/{id}/scenes:
     get:
       security:
@@ -2122,7 +2118,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/3DAnnotation"
+                  $ref: "#/components/schemas/Light3DAnnotation"
             text/turtle:
               schema:
                 type: string
@@ -2145,7 +2141,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/3DAnnotation"
+              $ref: "#/components/schemas/Input3DAnnotation"
       responses:
         "201":
           description: 3D annotation successfully created
@@ -2176,7 +2172,6 @@ paths:
           description: Unauthorized
         "404":
           description: 3D annotation not found
-
     put:
       summary: Replace a 3D annotation by ID
       operationId: replace3DAnnotation
@@ -2197,7 +2192,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/3DAnnotation"
+              $ref: "#/components/schemas/Input3DAnnotation"
       responses:
         "200":
           description: 3D annotation replaced successfully
@@ -2230,7 +2225,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/3DAnnotation"
+              $ref: "#/components/schemas/Input3DAnnotation"
       responses:
         "200":
           description: 3D annotation updated successfully
@@ -3053,6 +3048,7 @@ components:
       properties:
         id:
           type: string
+          example: "#id could not be send in POST"
           description: |
             Unique identifier for the object. It could not be send in POST
         identifiers:
@@ -3297,6 +3293,26 @@ components:
           $ref: "#/components/schemas/Annotation"
         model:
           $ref: "#/components/schemas/3DModel"
+    Input3DAnnotation:
+      allOf:
+        - $ref: "#/components/schemas/Base"
+      type: object
+      properties:
+        region:
+          type: string
+          description: 3D region where the annotation applies
+    Light3DAnnotation:
+      allOf:
+        - $ref: "#/components/schemas/Base"
+      type: object
+      properties:
+        region:
+          type: string
+          description: 3D region where the annotation applies
+        annotation:
+          $ref: "#/components/schemas/Reference"
+        model:
+          $ref: "#/components/schemas/Reference"
     Annotation:
       allOf:
         - $ref: "#/components/schemas/Base"
