@@ -57,7 +57,7 @@ tags:
   - name: tagEvents
     description: All Events related operations
     x-displayName: Events
-  - name: tagIlluminatedManuscriptScene
+  - name: tagIlluminatedScene
     x-displayName: Illuminated Manuscript Scene
     description: All Illuminated Manuscript Scene related operations
   - name: tagLocations
@@ -1559,7 +1559,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Pose"
+                  $ref: "#/components/schemas/LightPose"
             text/turtle:
               schema:
                 type: string
@@ -1573,7 +1573,6 @@ paths:
         - bearerAuth:
             - admin
             - editor
-
       tags:
         - tagPose
       requestBody:
@@ -1581,7 +1580,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Pose"
+              $ref: "#/components/schemas/InputPose"
       responses:
         "201":
           description: Pose successfully created
@@ -1612,7 +1611,6 @@ paths:
           description: Unauthorized
         "404":
           description: Pose not found
-
     put:
       summary: Replace a pose by ID
       operationId: replacePose
@@ -1633,7 +1631,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Pose"
+              $ref: "#/components/schemas/InputPose"
       responses:
         "200":
           description: Pose replaced successfully
@@ -1645,7 +1643,6 @@ paths:
           description: Unauthorized
         "404":
           description: Pose not found
-
     patch:
       summary: Update a pose by ID
       operationId: updatePose
@@ -1666,7 +1663,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Pose"
+              $ref: "#/components/schemas/InputPose"
       responses:
         "200":
           description: Pose updated successfully
@@ -1678,7 +1675,6 @@ paths:
           description: Unauthorized
         "404":
           description: Pose not found
-
     delete:
       summary: Delete a pose by ID
       operationId: deletePose
@@ -1806,7 +1802,6 @@ paths:
           description: Unauthorized
         "404":
           description: 3D model not found
-
     put:
       summary: Replace a 3D model by ID
       operationId: replace3DModel
@@ -1839,7 +1834,6 @@ paths:
           description: Unauthorized
         "404":
           description: 3D model not found
-
     patch:
       summary: Update a 3D model by ID
       operationId: update3DModel
@@ -1872,7 +1866,6 @@ paths:
           description: Unauthorized
         "404":
           description: 3D model not found
-
     delete:
       summary: Delete a 3D model by ID
       operationId: delete3DModel
@@ -1895,7 +1888,6 @@ paths:
           description: Unauthorized
         "404":
           description: 3D model not found
-
   /texture:
     get:
       summary: Retrieve all textures
@@ -2491,7 +2483,7 @@ paths:
     get:
       operationId: getIlluminatedManuscriptScenes
       tags:
-        - tagIlluminatedManuscriptScene
+        - tagIlluminatedScene
       summary: "Retrieve all illuminated manuscript scenes"
       security:
         - bearerAuth: []
@@ -2642,7 +2634,7 @@ paths:
           description: "Formato non supportato"
     post:
       tags:
-        - tagIlluminatedManuscriptScene
+        - tagIlluminatedScene
       summary: "Create a new illuminated manuscript scene"
       operationId: createIlluminatedManuscriptScene
       requestBody:
@@ -2663,7 +2655,7 @@ paths:
   /illuminated-manuscript-scenes/{id}:
     get:
       tags:
-        - tagIlluminatedManuscriptScene
+        - tagIlluminatedScene
       summary: "Retrieve a specific illuminated manuscript scene by ID"
       security:
         - bearerAuth: []
@@ -2704,7 +2696,7 @@ paths:
           description: "Formato non supportato"
     put:
       tags:
-        - tagIlluminatedManuscriptScene
+        - tagIlluminatedScene
       summary: "Update an entire illuminated manuscript scene by ID"
       operationId: putIlluminatedManuscriptScene
       security:
@@ -2732,7 +2724,7 @@ paths:
           description: "Scene not found"
     patch:
       tags:
-        - tagIlluminatedManuscriptScene
+        - tagIlluminatedScene
       summary: "Partially update an illuminated manuscript scene by ID"
       operationId: patchIlluminatedManuscriptScene
       security:
@@ -2765,7 +2757,7 @@ paths:
             - admin
             - editor
       tags:
-        - tagIlluminatedManuscriptScene
+        - tagIlluminatedScene
       summary: "Delete an illuminated manuscript scene by ID"
       parameters:
         - name: id
@@ -3243,7 +3235,33 @@ components:
           items:
             $ref: "#/components/schemas/3DModel"
           description: List of 3D models associated with the pose
-
+        contents:
+          type: array
+          items:
+            $ref: "#/components/schemas/LighContent"
+    InputPose:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the pose
+    LightPose:
+      allOf:
+        - $ref: "#/components/schemas/Base"
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the pose
+        models:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reference"
+          description: List of 3D models associated with the pose
+        contents:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reference"
     3DModel:
       allOf:
         - $ref: "#/components/schemas/Base"
