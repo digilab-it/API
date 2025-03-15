@@ -1887,7 +1887,7 @@ paths:
                 $ref: "#/components/schemas/Content"
         "401":
           description: Unauthorized
-  /manuscripts/{id}/contents/{content_id}:
+  /manuscripts/{manuscriptId}/contents/{contentId}:
     put:
       operationId: updateManuscriptContent
       summary: Aggiorna un contenuto specifico di un manoscritto
@@ -1898,13 +1898,13 @@ paths:
             - admin
             - editor
       parameters:
-        - name: id
+        - name: manuscriptId
           in: path
           required: true
           description: ID del manoscritto
           schema:
             type: integer
-        - name: content_id
+        - name: contentId
           in: path
           required: true
           description: ID del contenuto
@@ -1937,13 +1937,13 @@ paths:
             - admin
             - editor
       parameters:
-        - name: id
+        - name: manuscriptId
           in: path
           required: true
           description: ID del manoscritto
           schema:
             type: integer
-        - name: content_id
+        - name: contentId
           in: path
           required: true
           description: ID del contenuto
