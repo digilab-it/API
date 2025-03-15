@@ -31,9 +31,9 @@ x-tagGroups:
     tags:
       - "tagIlluminatedScene"
       - "tagIlluminatedScene/{Id}/3d-annotations"
-      - "tagIlluminatedScene/{id}/poses"
-      - "tagIlluminatedScene/{id}/authors"
-      - "tagIlluminatedScene/{id}/editors"
+      # - "tagIlluminatedScene/{id}/poses"
+      # - "tagIlluminatedScene/{id}/authors"
+      # - "tagIlluminatedScene/{id}/editors"
   - name: "xtagLocations"
     x-displayName: Locations
     tags:
@@ -3680,19 +3680,16 @@ paths:
           description: "Unauthorized"
         "404":
           description: "Scene not found"
- 
-  /illuminated-scenes/{id}/annotations:
+  /illuminated-scenes/{illuminatedSceneId}/3d-annotations:
     get:
-      operationId: getAnnotationsOfIlluminatedScene
-      security:
-        - bearerAuth: []
+      operationId: get3DAnnotationsOfIlluminatedScene
       tags:
         - tagIlluminatedScene/{Id}/3d-annotations
-      summary: Get annotations of an illuminated scene
-      description: returns a list of annotations with support for pagination, sorting and multiple formats.
+      summary: Get 3D annotations of an illuminated scene
+      description: returns a list of 3D annotations with support for pagination, sorting and multiple formats.
       parameters:
         - in: path
-          name: id
+          name: illuminatedSceneId
           required: true
           schema:
             type: string
@@ -3730,17 +3727,16 @@ paths:
           description: "Formato di risposta desiderato. Valori supportati: `application/json`, `text/turtle`."
       responses:
         "200":
-          description: Lista di annotazioni restituita con successo.
+          description: Lista di annotazioni 3D restituita con successo.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Annotation"
+                  $ref: "#/components/schemas/3DAnnotation"
             text/turtle:
               schema:
                 type: string
-                example: "@prefix ex: <http://example.org/> . ex:annotation ex:prop 'valore' ."
         "406":
           description: Formato non supportato
           content:
@@ -3750,15 +3746,19 @@ paths:
                 properties:
                   error:
                     type: string
-                    example: "Formato richiesto non supportato
-    post: 
-      summary: Add a new annotation to an illuminated scene
-      operationId: createAnnotationOfIlluminatedScene
+                    example: "Formato richiesto non supportato"
+                  supported_formats:
+                    type: array
+                    items:
+                      type: string
+    post:
+      summary: Add a new 3D annotation to an illuminated scene
+      operationId: create3DAnnotationOfIlluminatedScene
       tags:
         - tagIlluminatedScene/{Id}/3d-annotations
       parameters:
         - in: path
-          name: id
+          name: illuminatedSceneId
           required: true
           schema:
             type: string
@@ -3771,17 +3771,149 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Annotation"
-      # responses:
-      #   "201":
-      #     description: Annotation created successfully
-      #     content:
-      #       application/json:
-      #         schema:
-      #           $ref: "#/components/schemas/Annotation"
-      #   "401":
-      #     description: Unauthorized     
-          
+              $ref: "#/components/schemas/Input3DAnnotation"
+      responses:
+        "201":
+          description: 3D annotation created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/3DAnnotation"
+        "401":
+          description: Unauthorized
+  /illuminated-scenes/{illuminatedSceneId}/3d-annotations/{3dAnnotationId}:
+    get:
+      summary: Get a 3D annotation of an illuminated scene
+      operationId: get3DAnnotationByIdOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{Id}/3d-annotations
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: illuminatedSceneId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: 3dAnnotationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 3D annotation retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/3DAnnotation"
+        "401":
+          description: Unauthorized
+        "404":
+          description: 3D annotation not found
+
+    put:
+      summary: Replace a 3D annotation of an illuminated scene
+      operationId: replace3DAnnotationOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{Id}/3d-annotations
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: illuminatedSceneId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: 3dAnnotationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Input3DAnnotation"
+      responses:
+        "200":
+          description: 3D annotation replaced successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/3DAnnotation"
+        "401":
+          description: Unauthorized
+        "404":
+          description: 3D annotation not found
+    patch:
+      summary: Update a 3D annotation of an illuminated scene
+      operationId: update3DAnnotationOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{Id}/3d-annotations
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: illuminatedSceneId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: 3dAnnotationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Input3DAnnotation"
+      responses:
+        "200":
+          description: 3D annotation updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/3DAnnotation"
+        "401":
+          description: Unauthorized
+        "404":
+          description: 3D annotation not found
+    delete:
+      summary: Delete a 3D annotation of an illuminated scene
+      operationId: delete3DAnnotationOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{Id}/3d-annotations
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: illuminatedSceneId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: 3dAnnotationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: 3D annotation deleted successfully
+        "401":
+          description: Unauthorized
+        "404":
+          description: 3D annotation not found
+
   /authors/{id}/manuscripts:
     get:
       security:
