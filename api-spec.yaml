@@ -1819,6 +1819,143 @@ paths:
       summary: "Get all scenes relating to a manuscript"
       description: "This operation retrieves all scenes for a manuscript."
       operationId: "getScenesOfManuscript"
+  /manuscripts/{id}/contents:
+    get:
+      summary: Ottiene tutti i contenuti di un manoscritto
+      operationId: getManuscriptContents
+      tags:
+        - tagManuscriptContents
+      parameters:
+        - name: manuscript_id
+          in: path
+          required: true
+          description: ID del manoscritto
+          schema:
+            type: integer
+        - in: header
+          name: Accept
+          schema:
+            type: string
+            enum:
+              - application/json
+              - text/turtle
+          required: false
+          description: "Formato di risposta desiderato. Valori supportati: `application/json`,  `text/turtle`"
+      responses:
+        "200":
+          description: Elenco dei contenuti del manoscritto
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Content"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Manoscritto non trovato
+        "406":
+          description: Formato non supportato
+    post:
+      operationId: createManuscriptContent
+      summary: Aggiunge un nuovo contenuto a un manoscritto
+      tags:
+        - tagManuscriptContents
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: manuscript_id
+          in: path
+          required: true
+          description: ID del manoscritto
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LighContent"
+      responses:
+        "201":
+          description: Contenuto creato con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Content"
+        "401":
+          description: Unauthorized
+  /manuscripts/{id}/contents/{content_id}:
+    put:
+      operationId: updateManuscriptContent
+      summary: Aggiorna un contenuto specifico di un manoscritto
+      tags:
+        - tagManuscriptContents
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del manoscritto
+          schema:
+            type: integer
+        - name: content_id
+          in: path
+          required: true
+          description: ID del contenuto
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LighContent"
+      responses:
+        "200":
+          description: Contenuto aggiornato con successo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Content"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Contenuto non trovato
+    delete:
+      operationId: deleteManuscriptContent
+      summary: Elimina un contenuto di un manoscritto
+      tags:
+        - tagManuscriptContents
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: manuscript_id
+          in: path
+          required: true
+          description: ID del manoscritto
+          schema:
+            type: integer
+        - name: content_id
+          in: path
+          required: true
+          description: ID del contenuto
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Contenuto eliminato con successo
+        "401":
+          description: Unauthorized
+        "404":
+          description: Contenuto non trovato
 
   /pose:
     get:
@@ -3651,143 +3788,6 @@ paths:
       summary: "Get all scenes of an editor"
       description: "This operation retrieves all scenes for an editor."
       operationId: "getScenesOfEditor"
-  /manuscripts/{id}/contents:
-    get:
-      summary: Ottiene tutti i contenuti di un manoscritto
-      operationId: getManuscriptContents
-      tags:
-        - tagManuscriptContents
-      parameters:
-        - name: manuscript_id
-          in: path
-          required: true
-          description: ID del manoscritto
-          schema:
-            type: integer
-        - in: header
-          name: Accept
-          schema:
-            type: string
-            enum:
-              - application/json
-              - text/turtle
-          required: false
-          description: "Formato di risposta desiderato. Valori supportati: `application/json`,  `text/turtle`"
-      responses:
-        "200":
-          description: Elenco dei contenuti del manoscritto
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Content"
-        "401":
-          description: Unauthorized
-        "404":
-          description: Manoscritto non trovato
-        "406":
-          description: Formato non supportato
-    post:
-      operationId: createManuscriptContent
-      summary: Aggiunge un nuovo contenuto a un manoscritto
-      tags:
-        - tagManuscriptContents
-      security:
-        - bearerAuth:
-            - admin
-            - editor
-      parameters:
-        - name: manuscript_id
-          in: path
-          required: true
-          description: ID del manoscritto
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/LighContent"
-      responses:
-        "201":
-          description: Contenuto creato con successo
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Content"
-        "401":
-          description: Unauthorized
-  /manuscripts/{id}/contents/{content_id}:
-    put:
-      operationId: updateManuscriptContent
-      summary: Aggiorna un contenuto specifico di un manoscritto
-      tags:
-        - tagManuscriptContents
-      security:
-        - bearerAuth:
-            - admin
-            - editor
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: ID del manoscritto
-          schema:
-            type: integer
-        - name: content_id
-          in: path
-          required: true
-          description: ID del contenuto
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/LighContent"
-      responses:
-        "200":
-          description: Contenuto aggiornato con successo
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Content"
-        "401":
-          description: Unauthorized
-        "404":
-          description: Contenuto non trovato
-    delete:
-      operationId: deleteManuscriptContent
-      summary: Elimina un contenuto di un manoscritto
-      tags:
-        - tagManuscriptContents
-      security:
-        - bearerAuth:
-            - admin
-            - editor
-      parameters:
-        - name: manuscript_id
-          in: path
-          required: true
-          description: ID del manoscritto
-          schema:
-            type: integer
-        - name: content_id
-          in: path
-          required: true
-          description: ID del contenuto
-          schema:
-            type: integer
-      responses:
-        "204":
-          description: Contenuto eliminato con successo
-        "401":
-          description: Unauthorized
-        "404":
-          description: Contenuto non trovato
 components:
   schemas:
     Identifier:
