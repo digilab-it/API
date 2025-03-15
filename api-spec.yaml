@@ -25,6 +25,7 @@ x-tagGroups:
     x-displayName: Events
     tags:
       - "tagEvents"
+      - "tagEvents/{id}/locations"
   - name: "xtagIlluminatedScene"
     x-displayName: Illuminated Scene
     tags:
@@ -125,24 +126,7 @@ tags:
     description: All Illuminated Scene related operations
   - name: tagLocations
     x-displayName: Locations
-    description: |
-      ## Locations
-      The locations API provides endpoints for managing locations in the Common Semantics Framework standard. Locations represent physical places where events, projects, and other resources are located.
-
-      ### Search Parameters
-      The locations API supports the following search parameters:
-        - **id**: The ID of the location
-        - **name**: The name of the location
-        - **address**: The address of the location
-        - **coordinates**: The coordinates of the location
-        - **related_resource**: The related resources to include in the response
-
-        **Examples**
-        ```bash
-        GET /locations/?coordinates=1.0,2.0
-        GET /locations/?id=4fdaf83a-0953-4f8e-b5d1-dd50bdec6830,67daf83a-0953-4f8e-b5d1-dd50bdec6832,11daf811-0953-4f8e-b5d1-dd50bdec6811
-        GET /locations/?related_resource=events,projects
-        ```
+    description: All Locations related operations
   - name: tagManuscripts
     description: All Manuscripts related operations
     x-displayName: Manuscripts
