@@ -1826,7 +1826,7 @@ paths:
       tags:
         - tagManuscriptContents
       parameters:
-        - name: manuscript_id
+        - name: id
           in: path
           required: true
           description: ID del manoscritto
@@ -1866,7 +1866,7 @@ paths:
             - admin
             - editor
       parameters:
-        - name: manuscript_id
+        - name: id
           in: path
           required: true
           description: ID del manoscritto
@@ -1937,7 +1937,7 @@ paths:
             - admin
             - editor
       parameters:
-        - name: manuscript_id
+        - name: id
           in: path
           required: true
           description: ID del manoscritto
