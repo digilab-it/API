@@ -3681,7 +3681,7 @@ paths:
         "404":
           description: "Scene not found"
  
-  /illuminated-scenes/{illuminatedSceneId}/annotations:
+  /illuminated-scenes/{illuminatedSceneId}/3d-annotations:
     get:
       operationId: getAnnotationsOfIlluminatedScene
       security:
@@ -3752,37 +3752,6 @@ paths:
                     type: string
                     example: "Formato richiesto non supportato
     
-    post: 
-      summary: Add a new annotation to an illuminated scene
-      operationId: createAnnotationOfIlluminatedScene
-      tags:
-        - tagIlluminatedScene/{Id}/3d-annotations
-      parameters:
-        - in: path
-          name: idfd
-          required: true
-          schema:
-            type: string
-      security:
-        - bearerAuth:
-            - admin
-            - editor
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Annotation"
-      # responses:
-      #   "201":
-      #     description: Annotation created successfully
-      #     content:
-      #       application/json:
-      #         schema:
-      #           $ref: "#/components/schemas/Annotation"
-      #   "401":
-      #     description: Unauthorized     
-          
   /authors/{id}/manuscripts:
     get:
       security:
