@@ -21,7 +21,6 @@ x-tagGroups:
     x-displayName: Annotations
     tags:
       - "tagAnnotation"
-      - "tagAnnotation/{id}"
   - name: "xtagEvents"
     x-displayName: Events
     tags:
@@ -117,12 +116,6 @@ tags:
     x-displayName: 3D Models
   - name: tagAnnotation
     description: All Annotation related operations
-    x-displayName: Annotations
-  - name: tagAnnotation/{id}
-    description: All Annotation  related operations
-    x-displayName: Annotation
-  - name: tagAnnotation/{id}/annotations
-    description: All Annotations  related operations
     x-displayName: Annotations
   - name: tagEvents
     description: All Events related operations
