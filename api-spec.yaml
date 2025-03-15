@@ -25,7 +25,7 @@ x-tagGroups:
     x-displayName: Events
     tags:
       - "tagEvents"
-      - "tagEvents/{id}/locations"
+      - "tagLocationsOfEvents"
   - name: "xtagIlluminatedScene"
     x-displayName: Illuminated Scene
     tags:
@@ -120,7 +120,10 @@ tags:
     x-displayName: Annotations
   - name: tagEvents
     description: All Events related operations
-    x-displayName: Events
+    x-displayName: events
+  - name: tagLocationsOfEvents
+    description: All location related to event
+    x-displayName: events/{id}/locations
   - name: tagIlluminatedScene
     x-displayName: Illuminated Scene
     description: All Illuminated Scene related operations
@@ -946,6 +949,270 @@ paths:
           description: Unauthorized
         "404":
           description: Event not found
+  /events/{eventId}/locations:
+    get:
+      tags:
+        - tagLocationsOfEvents
+      operationId: getLocationOfEvents
+      summary: Get Locations of an Event
+      description: Get locations of an Event.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: "id"
+          schema:
+            type: array
+            items:
+              type: string
+          description: "Filtra le location per ID, valori multipli separati da virgola ad es. `1,2,3`"
+        - in: query
+          name: "name"
+          schema:
+            type: string
+          description: "Filtra le location per nome"
+        - in: query
+          name: "address"
+          schema:
+            type: string
+          description: "Filtra le location per indirizzo"
+
+        - in: query
+          name: "coordinates"
+          schema:
+            type: array
+            items:
+              type: number
+          description: "Filtra le location per coordinate, valori separati da virgola ad es. `1.0,2.0`"
+        - in: query
+          name: "identifiers"
+          schema:
+            type: array
+            items:
+              type: string
+          description: "Filtra i manoscritti per identificatore, valori multipli separati da virgola ad es. `1,2,3`"
+        - in: header
+          name: Accept
+          schema:
+            type: string
+            enum:
+              - application/json
+              - text/turtle
+          required: false
+          description: "Formato di risposta desiderato. Valori supportati: `application/json`,  `text/turtle`"
+        - in: query
+          name: "page"
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+          description: "Numero della pagina (facoltativo, predefinito: 0). L'indice parte da 0."
+        - in: query
+          name: "size"
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+          description: "Numero di elementi per pagina (facoltativo, predefinito: 20). Deve essere maggiore di 0."
+        - in: query
+          name: "sort"
+          schema:
+            type: string
+            example: "name,asc"
+          description: "Campo per l'ordinamento (facoltativo). Formato: `campo,direzione` (es. `name,asc`). Direzioni supportate: `asc`, `desc`."
+
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Location"
+              examples:
+                example1:
+                  value:
+                    - id: "1"
+                      name: "Location 1"
+                      description: "Description 1"
+                      address: "Address 1"
+                      coordinates: [1.0, 2.0]
+                    - id: "2"
+                      name: "Location 2"
+                      description: "Description 2"
+                      address: "Address 2"
+                      coordinates: [3.0, 4.0]
+        "401":
+          description: Unauthorized
+    post:
+      tags:
+        - tagLocationsOfEvents
+      operationId: createLocationOfEvent
+      summary: Add Location to Event
+      description: Add a location to an event
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - in: path
+          name: eventId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Location"
+      responses:
+        "201":
+          description: Location created successfully
+        "401":
+          description: Unauthorized
+  /events/{eventId}/locations/{locationId}:
+    get:
+      tags:
+        - tagLocationsOfEvents
+      operationId: getLocationByIdOfEvent
+      summary: Get Location of an Event
+      description: Get a specific location by its ID
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: locationId
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Location"
+        "404":
+          description: Location not found
+        "401":
+          description: Unauthorized
+    put:
+      tags:
+        - tagLocationsOfEvents
+      operationId: updateLocationOfEvent
+      summary: Update Location of an Event
+      description: Update a location of an event with new information
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: locationId
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Location"
+      responses:
+        "200":
+          description: Location updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Location"
+        "404":
+          description: Location not found
+        "401":
+          description: Unauthorized
+    patch:
+      tags:
+        - tagLocationsOfEvents
+      operationId: patchLocationOfEvent
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      summary: Patch Location of an Event
+      description: partial update a location with new information
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: locationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Location"
+      responses:
+        "200":
+          description: Location patched successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Location"
+        "404":
+          description: Location not found
+        "401":
+          description: Unauthorized
+    delete:
+      tags:
+        - tagLocationsOfEvents
+      operationId: deleteLocationOfEvent
+      summary: Delete Location of an Event
+      description: Delete a location of an event. This operation deletes a specific location by its ID.
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: locationId
+          in: path
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      responses:
+        "204":
+          description: Location deleted successfully
+        "404":
+          description: Location not found
+        "401":
+          description: Unauthorized
+
   /projects:
     post:
       tags:
