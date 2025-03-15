@@ -17,7 +17,7 @@ servers:
 #       - "tag3DAnnotation"
 #       - "tag3DAnnotation/{id}"
 #       - "tag3DAnnotation/{id}/annotations"
-#       - "tag3DAnnotation/{id}/models"
+#       - "tag3DAnnotation/{id}/3d-models"
 tags:
   - name: authentication
     x-displayName: Autenticazione OAuth
@@ -53,16 +53,16 @@ tags:
       - Conservare i token di accesso in modo sicuro (ad esempio, nell’header di autenticazione con Bearer Token)
   - name: tag3DAnnotation
     description: All 3D Annotation related operations
-    x-displayName: 3D Annotations
+    x-displayName: 3d-annotations
   - name: tag3DAnnotation/{id}
     description: All 3D Annotation by ID related operations
     x-displayName: 3d-annotations/{id}
   - name: tag3DAnnotation/{id}/annotations
     description: All Annotations related to a 3D Annotations
     x-displayName: 3d-annotations/{id}/annotations
-  - name: tag3DAnnotation/{id}/models
+  - name: tag3DAnnotation/{id}/3d-models
     description: All 3D Models by ID related operations
-    x-displayName: 3d-annotations/{id}/models
+    x-displayName: 3d-annotations/{id}/3d-models
   - name: tag3DModel
     description: All 3D Model related operations
     x-displayName: 3D Models
