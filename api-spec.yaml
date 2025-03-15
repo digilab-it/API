@@ -4146,7 +4146,7 @@ components:
           type: string
           enum: [public, private, restricted]
           description: "Visibility status of the scene"
-        referenceProject:
+        project:
           $ref: "#/components/schemas/Reference"
           description: "Reference project for the scene"
         manuscript:
@@ -4193,7 +4193,7 @@ components:
           type: string
           enum: [public, private, restricted]
           description: "Visibility status of the scene"
-        referenceProject:
+        project:
           $ref: "#/components/schemas/Reference"
           description: "Reference project for the scene"
         manuscript:
