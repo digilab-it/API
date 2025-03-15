@@ -30,6 +30,10 @@ x-tagGroups:
     x-displayName: Illuminated Scene
     tags:
       - "tagIlluminatedScene"
+      - "tagIlluminatedScene/{Id}/3d-annotations"
+      - "tagIlluminatedScene/{id}/poses"
+      - "tagIlluminatedScene/{id}/authors"
+      - "tagIlluminatedScene/{id}/editors"
   - name: "xtagLocations"
     x-displayName: Locations
     tags:
@@ -127,6 +131,18 @@ tags:
   - name: tagIlluminatedScene
     x-displayName: Illuminated Scene
     description: All Illuminated Scene related operations
+  - name: tagIlluminatedScene/{Id}/3d-annotations
+    x-displayName: 3d annotations of an Illuminated Scene
+    description: 3D Annotations related to Illuminated Scene
+  - name: tagIlluminatedScene{Id}/poses
+    x-displayName: Poses of an Illuminated Scene
+    description: Poses related to Illuminated Scene
+  - name: tagIlluminatedScene{Id}/authors
+    x-displayName: Authors of an Illuminated Scene
+    description: Authors related to Illuminated Scene
+  - name: tagIlluminatedScene{Id}/editors
+    x-displayName: Editors of an Illuminated Scene
+    description: Editors related to Illuminated Scene
   - name: tagLocations
     x-displayName: Locations
     description: All Locations related operations
@@ -3664,6 +3680,108 @@ paths:
           description: "Unauthorized"
         "404":
           description: "Scene not found"
+ 
+  /illuminated-scenes/{id}/annotations:
+    get:
+      operationId: getAnnotationsOfIlluminatedScene
+      security:
+        - bearerAuth: []
+      tags:
+        - tagIlluminatedScene/{Id}/3d-annotations
+      summary: Get annotations of an illuminated scene
+      description: returns a list of annotations with support for pagination, sorting and multiple formats.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: "page"
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+          description: "Numero della pagina (facoltativo, predefinito: 0). L'indice parte da 0."
+
+        - in: query
+          name: "size"
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+          description: "Numero di elementi per pagina (facoltativo, predefinito: 20). Deve essere maggiore di 0."
+
+        - in: query
+          name: "sort"
+          schema:
+            type: string
+            example: "createdDate,desc"
+          description: "Campo per l'ordinamento (facoltativo). Formato: `campo,direzione` (es. `createdDate,desc`). Direzioni supportate: `asc`, `desc`."
+
+        - in: header
+          name: Accept
+          schema:
+            type: string
+            enum:
+              - application/json
+              - text/turtle
+          required: false
+          description: "Formato di risposta desiderato. Valori supportati: `application/json`, `text/turtle`."
+      responses:
+        "200":
+          description: Lista di annotazioni restituita con successo.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Annotation"
+            text/turtle:
+              schema:
+                type: string
+                example: "@prefix ex: <http://example.org/> . ex:annotation ex:prop 'valore' ."
+        "406":
+          description: Formato non supportato
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Formato richiesto non supportato
+    post: 
+      summary: Add a new annotation to an illuminated scene
+      operationId: createAnnotationOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{Id}/3d-annotations
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Annotation"
+      # responses:
+      #   "201":
+      #     description: Annotation created successfully
+      #     content:
+      #       application/json:
+      #         schema:
+      #           $ref: "#/components/schemas/Annotation"
+      #   "401":
+      #     description: Unauthorized     
+          
   /authors/{id}/manuscripts:
     get:
       security:
