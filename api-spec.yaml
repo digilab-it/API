@@ -3234,7 +3234,7 @@ paths:
           description: Unauthorized
         "404":
           description: Annotation not found
-  /illuminated-manuscript-scenes:
+  /illuminated-scenes:
     get:
       operationId: getIlluminatedManuscriptScenes
       tags:
@@ -3407,7 +3407,7 @@ paths:
           description: "Scene created successfully"
         "401":
           description: "Unauthorized"
-  /illuminated-manuscript-scenes/{id}:
+  /illuminated-scenes/{id}:
     get:
       tags:
         - tagIlluminatedScene
