@@ -10,14 +10,66 @@ info:
 servers:
   - url: http://127.0.0.1:4010
     description: Dummy Server
-# x-tagGroups:
-#   - name: "xtag3DAnnotation"
-#     x-displayName: 3D Annotations
-#     tags:
-#       - "tag3DAnnotation"
-#       - "tag3DAnnotation/{id}"
-#       - "tag3DAnnotation/{id}/annotations"
-#       - "tag3DAnnotation/{id}/3d-models"
+x-tagGroups:
+  - name: "xtag3DAnnotation"
+    x-displayName: 3D Annotations
+    tags:
+      - "tag3DAnnotation"
+      - "tag3DAnnotation/{id}/annotations"
+      - "tag3DAnnotation/{id}/3d-models"
+  - name: "xtagAnnotation"
+    x-displayName: Annotations
+    tags:
+      - "tagAnnotation"
+      - "tagAnnotation/{id}"
+  - name: "xtagEvents"
+    x-displayName: Events
+    tags:
+      - "tagEvents"
+  - name: "xtagIlluminatedScene"
+    x-displayName: Illuminated Scene
+    tags:
+      - "tagIlluminatedScene"
+  - name: "xtagLocations"
+    x-displayName: Locations
+    tags:
+      - "tagLocations"
+  - name: "xtagManuscripts"
+    x-displayName: Manuscripts
+    tags:
+      - "tagManuscripts"
+  - name: "xtagManuscriptContents"
+    x-displayName: Manuscript Contents
+    tags:
+      - "tagManuscriptContents"
+  - name: "xtagPersons"
+    x-displayName: Persons
+    tags:
+      - "tagPersons"
+  - name: "xtagPose"
+    x-displayName: Pose
+    tags:
+      - "tagPose"
+  - name: "xtagProjects"
+    x-displayName: Projects
+    tags:
+      - "tagProjects"
+  - name: "xtagTexture"
+    x-displayName: Texture
+    tags:
+      - "tagTexture"
+  - name: "xtagAuthor"
+    x-displayName: Authors
+    tags:
+      - "tagAuthor"
+  - name: "xtagEditors"
+    x-displayName: Editors
+    tags:
+      - "tagEditors"
+  - name: "xtagModels"
+    x-displayName: Models
+    tags:
+      - "Models"
 tags:
   - name: authentication
     x-displayName: Autenticazione OAuth
@@ -54,9 +106,6 @@ tags:
   - name: tag3DAnnotation
     description: All 3D Annotation related operations
     x-displayName: 3d-annotations
-  - name: tag3DAnnotation/{id}
-    description: All 3D Annotation  related operations
-    x-displayName: 3d-annotations/{id}
   - name: tag3DAnnotation/{id}/annotations
     description: All Annotations related to a 3D Annotations
     x-displayName: 3d-annotations/{id}/annotations
@@ -2171,11 +2220,11 @@ paths:
       summary: Get a 3D annotation
       operationId: get3DAnnotationById
       tags:
-        - tag3DAnnotation/{id}
+        - tag3DAnnotation
       security:
         - bearerAuth: []
       parameters:
-        - name: id
+        - name: annotationId
           in: path
           required: true
           schema:
@@ -2195,13 +2244,13 @@ paths:
       summary: Replace a 3D annotation
       operationId: replace3DAnnotation
       tags:
-        - tag3DAnnotation/{id}
+        - tag3DAnnotation
       security:
         - bearerAuth:
             - admin
             - editor
       parameters:
-        - name: id
+        - name: annotationId
           in: path
           required: true
           schema:
@@ -2228,13 +2277,13 @@ paths:
       summary: Update a 3D annotation
       operationId: update3DAnnotation
       tags:
-        - tag3DAnnotation/{id}
+        - tag3DAnnotation
       security:
         - bearerAuth:
             - admin
             - editor
       parameters:
-        - name: id
+        - name: annotationId
           in: path
           required: true
           schema:
@@ -2261,13 +2310,13 @@ paths:
       summary: Delete a 3D annotation
       operationId: delete3DAnnotation
       tags:
-        - tag3DAnnotation/{id}
+        - tag3DAnnotation
       security:
         - bearerAuth:
             - admin
             - editor
       parameters:
-        - name: id
+        - name: annotationId
           in: path
           required: true
           schema:
