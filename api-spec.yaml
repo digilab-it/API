@@ -10,6 +10,14 @@ info:
 servers:
   - url: http://127.0.0.1:4010
     description: Dummy Server
+# x-tagGroups:
+#   - name: "xtag3DAnnotation"
+#     x-displayName: 3D Annotations
+#     tags:
+#       - "tag3DAnnotation"
+#       - "tag3DAnnotation/{id}"
+#       - "tag3DAnnotation/{id}/annotations"
+#       - "tag3DAnnotation/{id}/models"
 tags:
   - name: authentication
     x-displayName: Autenticazione OAuth
@@ -46,12 +54,27 @@ tags:
   - name: tag3DAnnotation
     description: All 3D Annotation related operations
     x-displayName: 3D Annotations
+  - name: tag3DAnnotation/{id}
+    description: All 3D Annotation by ID related operations
+    x-displayName: 3d-annotations/{id}
+  - name: tag3DAnnotation/{id}/annotations
+    description: All Annotations related to a 3D Annotations
+    x-displayName: 3d-annotations/{id}/annotations
+  - name: tag3DAnnotation/{id}/models
+    description: All 3D Models by ID related operations
+    x-displayName: 3d-annotations/{id}/models
   - name: tag3DModel
     description: All 3D Model related operations
     x-displayName: 3D Models
   - name: tagAnnotation
     description: All Annotation related operations
     x-displayName: Annotations
+  - name: tagAnnotation/{id}
+    description: All Annotation by ID related operations
+    x-displayName: Annotation by ID
+  - name: tagAnnotation/{id}/annotations
+    description: All Annotations by ID related operations
+    x-displayName: Annotations by ID
   - name: tagEvents
     description: All Events related operations
     x-displayName: Events
@@ -1690,7 +1713,7 @@ paths:
           description: Unauthorized
         "404":
           description: Pose not found
-  /3dmodel:
+  /3d-model:
     get:
       summary: Retrieve all 3D models
       operationId: get3DModels
@@ -1740,7 +1763,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/3DModel"
+                  $ref: "#/components/schemas/Light3DModel"
             text/turtle:
               schema:
                 type: string
@@ -1764,13 +1787,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/3DModel"
+              $ref: "#/components/schemas/Input3DModel"
       responses:
         "201":
           description: 3D model successfully created
         "401":
           description: Unauthorized
-  /3dmodel/{id}:
+  /3d-model/{id}:
     get:
       summary: Get a 3D model by ID
       operationId: get3DModelById
@@ -1815,7 +1838,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/3DModel"
+              $ref: "#/components/schemas/Input3DModel"
       responses:
         "200":
           description: 3D model replaced successfully
@@ -1847,7 +1870,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/3DModel"
+              $ref: "#/components/schemas/Input3DModel"
       responses:
         "200":
           description: 3D model updated successfully
@@ -1980,7 +2003,6 @@ paths:
           description: Unauthorized
         "404":
           description: Texture not found
-
     put:
       summary: Replace a texture by ID
       operationId: replaceTexture
@@ -2013,7 +2035,6 @@ paths:
           description: Unauthorized
         "404":
           description: Texture not found
-
     patch:
       summary: Update a texture by ID
       operationId: updateTexture
@@ -2046,7 +2067,6 @@ paths:
           description: Unauthorized
         "404":
           description: Texture not found
-
     delete:
       summary: Delete a texture by ID
       operationId: deleteTexture
@@ -2109,7 +2129,6 @@ paths:
             type: string
             example: "name,asc"
           description: "Campo per l'ordinamento (facoltativo). Formato: `campo,direzione` (es. `name,asc`). Direzioni supportate: `asc`, `desc`."
-
       responses:
         "200":
           description: List of all 3D annotations
@@ -2152,7 +2171,7 @@ paths:
       summary: Get a 3D annotation by ID
       operationId: get3DAnnotationById
       tags:
-        - tag3DAnnotation
+        - tag3DAnnotation/{id}
       security:
         - bearerAuth: []
       parameters:
@@ -2176,7 +2195,7 @@ paths:
       summary: Replace a 3D annotation by ID
       operationId: replace3DAnnotation
       tags:
-        - tag3DAnnotation
+        - tag3DAnnotation/{id}
       security:
         - bearerAuth:
             - admin
@@ -2209,7 +2228,7 @@ paths:
       summary: Update a 3D annotation by ID
       operationId: update3DAnnotation
       tags:
-        - tag3DAnnotation
+        - tag3DAnnotation/{id}
       security:
         - bearerAuth:
             - admin
@@ -2242,7 +2261,7 @@ paths:
       summary: Delete a 3D annotation by ID
       operationId: delete3DAnnotation
       tags:
-        - tag3DAnnotation
+        - tag3DAnnotation/{id}
       security:
         - bearerAuth:
             - admin
@@ -2260,6 +2279,13 @@ paths:
           description: Unauthorized
         "404":
           description: 3D annotation not found
+  /3d-annotation/{id}/annotations:
+    get:
+      description: Annotation list for a 3D annotation
+      summary: Get all annotations for a 3D annotation
+      operationId: get3DAnnotationAnnotations
+      tags:
+        - tag3DAnnotation/{id}/annotations
 
   /annotations:
     get:
@@ -2268,6 +2294,7 @@ paths:
         - bearerAuth: []
       tags:
         - tagAnnotation
+        - tag3DAnnotation/{id}
       summary: Recupera le annotazioni
       description: Restituisce un elenco di annotazioni con supporto per paginazione, ordinamento e formati multipli.
       parameters:
@@ -2303,7 +2330,6 @@ paths:
               - text/turtle
           required: false
           description: "Formato di risposta desiderato. Valori supportati: `application/json`, `text/turtle`."
-
       responses:
         "200":
           description: Lista di annotazioni restituita con successo.
@@ -2888,7 +2914,7 @@ paths:
       summary: "Get all scenes of an editor"
       description: "This operation retrieves all scenes for an editor."
       operationId: "getScenesOfEditor"
-  /manuscripts/{manuscript_id}/contents:
+  /manuscripts/{id}/contents:
     get:
       summary: Ottiene tutti i contenuti di un manoscritto
       operationId: getManuscriptContents
@@ -2956,7 +2982,7 @@ paths:
                 $ref: "#/components/schemas/Content"
         "401":
           description: Unauthorized
-  /manuscripts/{manuscript_id}/contents/{content_id}:
+  /manuscripts/{id}/contents/{content_id}:
     put:
       operationId: updateManuscriptContent
       summary: Aggiorna un contenuto specifico di un manoscritto
@@ -3262,6 +3288,30 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/3DAnnotation"
+          description: List of 3D annotations linked to the model
+    Input3DModel:
+      allOf:
+        - $ref: "#/components/schemas/Base"
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the 3D model
+    Light3DModel:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the 3D model
+        textures:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reference"
+          description: List of textures associated with the 3D model
+        annotations:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reference"
           description: List of 3D annotations linked to the model
     Texture:
       allOf:
