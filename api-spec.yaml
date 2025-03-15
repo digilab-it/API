@@ -30,10 +30,10 @@ x-tagGroups:
     x-displayName: Illuminated Scene
     tags:
       - "tagIlluminatedScene"
-      - "tagIlluminatedScene/{Id}/3d-annotations"
-      # - "tagIlluminatedScene/{id}/poses"
-      # - "tagIlluminatedScene/{id}/authors"
-      # - "tagIlluminatedScene/{id}/editors"
+      - "tagIlluminatedScene/{id}/3d-annotations"
+      - "tagIlluminatedScene/{id}/poses"
+      - "tagIlluminatedScene/{id}/authors"
+      - "tagIlluminatedScene/{id}/editors"
   - name: "xtagLocations"
     x-displayName: Locations
     tags:
@@ -131,16 +131,16 @@ tags:
   - name: tagIlluminatedScene
     x-displayName: Illuminated Scene
     description: All Illuminated Scene related operations
-  - name: tagIlluminatedScene/{Id}/3d-annotations
+  - name: tagIlluminatedScene/{id}/3d-annotations
     x-displayName: 3d annotations of an Illuminated Scene
     description: 3D Annotations related to Illuminated Scene
-  - name: tagIlluminatedScene{Id}/poses
+  - name: tagIlluminatedScene/{id}/poses
     x-displayName: Poses of an Illuminated Scene
     description: Poses related to Illuminated Scene
-  - name: tagIlluminatedScene{Id}/authors
+  - name: tagIlluminatedScene/{id}/authors
     x-displayName: Authors of an Illuminated Scene
     description: Authors related to Illuminated Scene
-  - name: tagIlluminatedScene{Id}/editors
+  - name: tagIlluminatedScene/{id}/editors
     x-displayName: Editors of an Illuminated Scene
     description: Editors related to Illuminated Scene
   - name: tagLocations
@@ -3684,7 +3684,7 @@ paths:
     get:
       operationId: get3DAnnotationsOfIlluminatedScene
       tags:
-        - tagIlluminatedScene/{Id}/3d-annotations
+        - tagIlluminatedScene/{id}/3d-annotations
       summary: Get 3D annotations of an illuminated scene
       description: returns a list of 3D annotations with support for pagination, sorting and multiple formats.
       parameters:
@@ -3755,7 +3755,7 @@ paths:
       summary: Add a new 3D annotation to an illuminated scene
       operationId: create3DAnnotationOfIlluminatedScene
       tags:
-        - tagIlluminatedScene/{Id}/3d-annotations
+        - tagIlluminatedScene/{id}/3d-annotations
       parameters:
         - in: path
           name: illuminatedSceneId
@@ -3786,7 +3786,7 @@ paths:
       summary: Get a 3D annotation of an illuminated scene
       operationId: get3DAnnotationByIdOfIlluminatedScene
       tags:
-        - tagIlluminatedScene/{Id}/3d-annotations
+        - tagIlluminatedScene/{id}/3d-annotations
       security:
         - bearerAuth: []
       parameters:
@@ -3816,7 +3816,7 @@ paths:
       summary: Replace a 3D annotation of an illuminated scene
       operationId: replace3DAnnotationOfIlluminatedScene
       tags:
-        - tagIlluminatedScene/{Id}/3d-annotations
+        - tagIlluminatedScene/{id}/3d-annotations
       security:
         - bearerAuth:
             - admin
@@ -3853,7 +3853,7 @@ paths:
       summary: Update a 3D annotation of an illuminated scene
       operationId: update3DAnnotationOfIlluminatedScene
       tags:
-        - tagIlluminatedScene/{Id}/3d-annotations
+        - tagIlluminatedScene/{id}/3d-annotations
       security:
         - bearerAuth:
             - admin
@@ -3890,7 +3890,7 @@ paths:
       summary: Delete a 3D annotation of an illuminated scene
       operationId: delete3DAnnotationOfIlluminatedScene
       tags:
-        - tagIlluminatedScene/{Id}/3d-annotations
+        - tagIlluminatedScene/{id}/3d-annotations
       security:
         - bearerAuth:
             - admin
@@ -3913,6 +3913,705 @@ paths:
           description: Unauthorized
         "404":
           description: 3D annotation not found
+  /illuminated-scenes/{illuminatedSceneId}/authors:
+    get:
+      operationId: getAuthorsOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/authors
+      summary: Get authors of an illuminated scene
+      description: returns a list of authors with support for pagination, sorting and multiple formats.
+      parameters:
+        - in: path
+          name: illuminatedSceneId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: "page"
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+          description: "Numero della pagina (facoltativo, predefinito: 0). L'indice parte da 0."
+
+        - in: query
+          name: "size"
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+          description: "Numero di elementi per pagina (facoltativo, predefinito: 20). Deve essere maggiore di 0."
+
+        - in: query
+          name: "sort"
+          schema:
+            type: string
+            example: "createdDate,desc"
+          description: "Campo per l'ordinamento (facoltativo). Formato: `campo,direzione` (es. `createdDate,desc`). Direzioni supportate: `asc`, `desc`."
+
+        - in: header
+          name: Accept
+          schema:
+            type: string
+            enum:
+              - application/json
+              - text/turtle
+          required: false
+          description: "Formato di risposta desiderato. Valori supportati: `application/json`, `text/turtle`."
+      responses:
+        "200":
+          description: Lista di autori restituita con successo.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Person"
+            text/turtle:
+              schema:
+                type: string
+        "406":
+          description: Formato non supportato
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Formato richiesto non supportato"
+                  supported_formats:
+                    type: array
+                    items:
+                      type: string
+    post:
+      summary: Add a new author to an illuminated
+      operationId: createAuthorOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/authors
+      parameters:
+        - in: path
+          name: illuminatedSceneId
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Person"
+      responses:
+        "201":
+          description: Author created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+        "401":
+          description: Unauthorized
+  /illuminated-scenes/{illuminatedSceneId}/authors/{authorId}:
+    get:
+      summary: Get an author of an illuminated scene
+      operationId: getAuthorByIdOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/authors
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: illuminatedSceneId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Author retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Author not found
+
+    put:
+      summary: Replace an author of an illuminated scene
+      operationId: replaceAuthorOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/authors
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: illuminatedSceneId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Person"
+      responses:
+        "200":
+          description: Author replaced successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Author not found
+    patch:
+      summary: Update an author of an illuminated scene
+      operationId: updateAuthorOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/authors
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: illuminatedSceneId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Person"
+      responses:
+        "200":
+          description: Author updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Author not found
+    delete:
+      summary: Delete an author of an illuminated scene
+      operationId: deleteAuthorOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/authors
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: illuminatedSceneId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: authorId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Author deleted successfully
+        "401":
+          description: Unauthorized
+        "404":
+          description: Author not found
+  /illuminated-scenes/{illuminatedSceneId}/editors:
+    get:
+      operationId: getEditorsOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/editors
+      summary: Get editors of an illuminated scene
+      description: returns a list of editors with support for pagination, sorting and multiple formats.
+      parameters:
+        - in: path
+          name: illuminatedSceneId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: "page"
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+          description: "Numero della pagina (facoltativo, predefinito: 0). L'indice parte da 0."
+
+        - in: query
+          name: "size"
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+          description: "Numero di elementi per pagina (facoltativo, predefinito: 20). Deve essere maggiore di 0."
+
+        - in: query
+          name: "sort"
+          schema:
+            type: string
+            example: "createdDate,desc"
+          description: "Campo per l'ordinamento (facoltativo). Formato: `campo,direzione` (es. `createdDate,desc`). Direzioni supportate: `asc`, `desc`."
+
+        - in: header
+          name: Accept
+          schema:
+            type: string
+            enum:
+              - application/json
+              - text/turtle
+          required: false
+          description: "Formato di risposta desiderato. Valori supportati: `application/json`, `text/turtle`."
+      responses:
+        "200":
+          description: Lista di editori restituita con successo.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Person"
+            text/turtle:
+              schema:
+                type: string
+        "406":
+          description: Formato non supportato
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Formato richiesto non supportato"
+                  supported_formats:
+                    type: array
+                    items:
+                      type: string
+    post:
+      summary: Add a new editor to an
+      operationId: createEditorOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/editors
+      parameters:
+        - in: path
+          name: illuminatedSceneId
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Person"
+      responses:
+        "201":
+          description: Editor created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+        "401":
+          description: Unauthorized
+  /illuminated-scenes/{illuminatedSceneId}/editors/{editorId}:
+    get:
+      summary: Get an editor of an illuminated scene
+      operationId: getEditorByIdOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/editors
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: illuminatedSceneId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: editorId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Editor retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Editor not found
+
+    put:
+      summary: Replace an editor of an illuminated scene
+      operationId: replaceEditorOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/editors
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: illuminatedSceneId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: editorId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Person"
+      responses:
+        "200":
+          description: Editor replaced successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Editor not found
+    patch:
+      summary: Update an editor of an illuminated scene
+      operationId: updateEditorOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/editors
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: illuminatedSceneId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: editorId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Person"
+      responses:
+        "200":
+          description: Editor updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Editor not found
+    delete:
+      summary: Delete an editor of an illuminated scene
+      operationId: deleteEditorOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/editors
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: illuminatedSceneId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: editorId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Editor deleted successfully
+        "401":
+          description: Unauthorized
+        "404":
+          description: Editor not found
+  /illuminated-scenes/{illuminatedSceneId}/poses:
+    get:
+      operationId: getPosesOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/poses
+      summary: Get poses of an illuminated scene
+      description: returns a list of poses with support for pagination, sorting and multiple formats.
+      parameters:
+        - in: path
+          name: illuminatedSceneId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: "page"
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+          description: "Numero della pagina (facoltativo, predefinito: 0). L'indice parte da 0."
+
+        - in: query
+          name: "size"
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+          description: "Numero di elementi per pagina (facoltativo, predefinito: 20). Deve essere maggiore di 0."
+
+        - in: query
+          name: "sort"
+          schema:
+            type: string
+            example: "createdDate,desc"
+          description: "Campo per l'ordinamento (facoltativo). Formato: `campo,direzione` (es. `createdDate,desc`). Direzioni supportate: `asc`, `desc`."
+
+        - in: header
+          name: Accept
+          schema:
+            type: string
+            enum:
+              - application/json
+              - text/turtle
+          required: false
+          description: "Formato di risposta desiderato. Valori supportati: `application/json`, `text/turtle`."
+      responses:
+        "200":
+          description: Lista di pose restituita con successo.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pose"
+            text/turtle:
+              schema:
+                type: string
+        "406":
+          description: Formato non supportato
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Formato richiesto non supportato"
+                  supported_formats:
+                    type: array
+                    items:
+                      type: string
+    post:
+      summary: Add a new pose to an illuminated
+      operationId: createPoseOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/poses
+      parameters:
+        - in: path
+          name: illuminatedSceneId
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pose"
+      responses:
+        "201":
+          description: Pose created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pose"
+        "401":
+          description: Unauthorized
+  /illuminated-scenes/{illuminatedSceneId}/poses/{poseId}:
+    get:
+      summary: Get a pose of an illuminated scene
+      operationId: getPoseByIdOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/poses
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: illuminatedSceneId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: poseId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Pose retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pose"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Pose not found
+
+    put:
+      summary: Replace a pose of an illuminated scene
+      operationId: replacePoseOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/poses
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: illuminatedSceneId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: poseId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pose"
+      responses:
+        "200":
+          description: Pose replaced successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pose"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Pose not found
+    patch:
+      summary: Update a pose of an illuminated scene
+      operationId: updatePoseOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/poses
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: illuminatedSceneId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: poseId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pose"
+      responses:
+        "200":
+          description: Pose updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pose"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Pose not found
+    delete:
+      summary: Delete a pose of an illuminated scene
+      operationId: deletePoseOfIlluminatedScene
+      tags:
+        - tagIlluminatedScene/{id}/poses
+      security:
+        - bearerAuth:
+            - admin
+            - editor
+      parameters:
+        - name: illuminatedSceneId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: poseId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Pose deleted successfully
+        "401":
+          description: Unauthorized
+        "404":
+          description: Pose not found
 
   /authors/{id}/manuscripts:
     get:
