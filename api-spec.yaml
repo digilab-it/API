@@ -55,13 +55,13 @@ tags:
     description: All 3D Annotation related operations
     x-displayName: 3d-annotations
   - name: tag3DAnnotation/{id}
-    description: All 3D Annotation by ID related operations
+    description: All 3D Annotation  related operations
     x-displayName: 3d-annotations/{id}
   - name: tag3DAnnotation/{id}/annotations
     description: All Annotations related to a 3D Annotations
     x-displayName: 3d-annotations/{id}/annotations
   - name: tag3DAnnotation/{id}/3d-models
-    description: All 3D Models by ID related operations
+    description: All 3D Models  related operations
     x-displayName: 3d-annotations/{id}/3d-models
   - name: tag3DModel
     description: All 3D Model related operations
@@ -70,11 +70,11 @@ tags:
     description: All Annotation related operations
     x-displayName: Annotations
   - name: tagAnnotation/{id}
-    description: All Annotation by ID related operations
-    x-displayName: Annotation by ID
+    description: All Annotation  related operations
+    x-displayName: Annotation
   - name: tagAnnotation/{id}/annotations
-    description: All Annotations by ID related operations
-    x-displayName: Annotations by ID
+    description: All Annotations  related operations
+    x-displayName: Annotations
   - name: tagEvents
     description: All Events related operations
     x-displayName: Events
@@ -349,7 +349,7 @@ paths:
       tags:
         - authentication
       summary: /userinfo
-      description: "Restituisce le informazioni dell'utente basate sul token di accesso fornito."
+      description: "returns le informazioni dell'utente basate sul token di accesso fornito."
       security:
         - bearerAuth: []
       responses:
@@ -488,7 +488,7 @@ paths:
       tags:
         - tagLocations
       operationId: getLocationById
-      summary: Get Location by ID
+      summary: Get Location
       description: Get a specific location by its ID
       parameters:
         - name: id
@@ -651,7 +651,7 @@ paths:
       tags:
         - tagPersons
       operationId: getPersonById
-      description: Get a person by ID. This operation retrieves a specific person by their ID.
+      description: Get a person . This operation retrieves a specific person by their ID.
       security:
         - bearerAuth: []
       parameters:
@@ -672,11 +672,11 @@ paths:
         "404":
           description: Person not found
     put:
-      summary: Replace a person by ID
+      summary: Replace a person
       tags:
         - tagPersons
       operationId: replacePerson
-      description: Replace a person by ID with new information
+      description: Replace a person  with new information
       security:
         - bearerAuth:
             - admin
@@ -705,11 +705,11 @@ paths:
         "404":
           description: Person not found
     patch:
-      summary: Patch a person by ID
+      summary: Patch a person
       tags:
         - tagPersons
       operationId: patchPerson
-      description: Update a person by ID. This operation updates a person's information based on their ID.
+      description: Update a person . This operation updates a person's information based on their ID.
       security:
         - bearerAuth:
             - admin
@@ -738,11 +738,11 @@ paths:
         "404":
           description: Person not found
     delete:
-      summary: Delete a person by ID
+      summary: Delete a person
       tags:
         - tagPersons
       operationId: deletePerson
-      description: Delete a person by ID. This operation deletes a person based on their ID.
+      description: Delete a person . This operation deletes a person based on their ID.
       security:
         - bearerAuth:
             - admin
@@ -812,7 +812,7 @@ paths:
         - bearerAuth: []
       tags:
         - tagEvents
-      summary: Get an event by ID
+      summary: Get an event
       description: This operation retrieves an event based on its ID.
       parameters:
         - name: id
@@ -839,7 +839,7 @@ paths:
             - editor
       tags:
         - tagEvents
-      summary: Update an event by ID
+      summary: Update an event
       description: This operation updates an event based on its ID.
       parameters:
         - name: id
@@ -872,7 +872,7 @@ paths:
             - editor
       tags:
         - tagEvents
-      summary: Delete an event by ID
+      summary: Delete an event
       description: This operation deletes an event based on its ID.
       parameters:
         - name: id
@@ -895,7 +895,7 @@ paths:
             - editor
       tags:
         - tagEvents
-      summary: Replace an event by ID
+      summary: Replace an event
       description: This operation replaces an event based on its ID.
       parameters:
         - name: id
@@ -969,7 +969,7 @@ paths:
     get:
       tags:
         - tagProjects
-      summary: Get a project by ID
+      summary: Get a project
       description: This operation retrieves a project based on its ID.
       operationId: getProjectById
       security:
@@ -994,7 +994,7 @@ paths:
     patch:
       tags:
         - tagProjects
-      summary: Update a project by ID
+      summary: Update a project
       description: This operation updates a project based on its ID.
       operationId: updateProject
       security:
@@ -1027,7 +1027,7 @@ paths:
     delete:
       tags:
         - tagProjects
-      summary: Delete a project by ID
+      summary: Delete a project
       description: This operation deletes a project based on its ID.
       operationId: deleteProject
       security:
@@ -1050,7 +1050,7 @@ paths:
     put:
       tags:
         - tagProjects
-      summary: Replace a project by ID
+      summary: Replace a project
       description: This operation replaces a project based on its ID.
       operationId: replaceProject
       security:
@@ -1250,7 +1250,7 @@ paths:
     get:
       tags:
         - tagManuscripts
-      summary: Get a manuscript by ID
+      summary: Get a manuscript
       description: This operation retrieves a manuscript based on its ID.
       operationId: getManuscriptById
       security:
@@ -1281,7 +1281,7 @@ paths:
     patch:
       tags:
         - tagManuscripts
-      summary: Update a manuscript by ID
+      summary: Update a manuscript
       description: This operation updates a manuscript based on its ID.
       operationId: updateManuscript
       security:
@@ -1314,7 +1314,7 @@ paths:
     delete:
       tags:
         - tagManuscripts
-      summary: Delete a manuscript by ID
+      summary: Delete a manuscript
       description: This operation deletes a manuscript based on its ID.
       operationId: deleteManuscript
       security:
@@ -1337,7 +1337,7 @@ paths:
     put:
       tags:
         - tagManuscripts
-      summary: Replace a manuscript by ID
+      summary: Replace a manuscript
       description: This operation replaces a manuscript based on its ID.
       operationId: replaceManuscript
       security:
@@ -1604,7 +1604,7 @@ paths:
           description: Unauthorized
   /pose/{id}:
     get:
-      summary: Get a pose by ID
+      summary: Get a pose
       operationId: getPoseById
       tags:
         - tagPose
@@ -1628,7 +1628,7 @@ paths:
         "404":
           description: Pose not found
     put:
-      summary: Replace a pose by ID
+      summary: Replace a pose
       operationId: replacePose
       tags:
         - tagPose
@@ -1660,7 +1660,7 @@ paths:
         "404":
           description: Pose not found
     patch:
-      summary: Update a pose by ID
+      summary: Update a pose
       operationId: updatePose
       tags:
         - tagPose
@@ -1692,7 +1692,7 @@ paths:
         "404":
           description: Pose not found
     delete:
-      summary: Delete a pose by ID
+      summary: Delete a pose
       operationId: deletePose
       tags:
         - tagPose
@@ -1795,7 +1795,7 @@ paths:
           description: Unauthorized
   /3d-model/{id}:
     get:
-      summary: Get a 3D model by ID
+      summary: Get a 3D model
       operationId: get3DModelById
       tags:
         - tag3DModel
@@ -1819,7 +1819,7 @@ paths:
         "404":
           description: 3D model not found
     put:
-      summary: Replace a 3D model by ID
+      summary: Replace a 3D model
       operationId: replace3DModel
       tags:
         - tag3DModel
@@ -1851,7 +1851,7 @@ paths:
         "404":
           description: 3D model not found
     patch:
-      summary: Update a 3D model by ID
+      summary: Update a 3D model
       operationId: update3DModel
       tags:
         - tag3DModel
@@ -1883,7 +1883,7 @@ paths:
         "404":
           description: 3D model not found
     delete:
-      summary: Delete a 3D model by ID
+      summary: Delete a 3D model
       operationId: delete3DModel
       tags:
         - tag3DModel
@@ -1980,7 +1980,7 @@ paths:
           description: Unauthorized
   /texture/{id}:
     get:
-      summary: Get a texture by ID
+      summary: Get a texture
       operationId: getTextureById
       tags:
         - tagTexture
@@ -2004,7 +2004,7 @@ paths:
         "404":
           description: Texture not found
     put:
-      summary: Replace a texture by ID
+      summary: Replace a texture
       operationId: replaceTexture
       tags:
         - tagTexture
@@ -2036,7 +2036,7 @@ paths:
         "404":
           description: Texture not found
     patch:
-      summary: Update a texture by ID
+      summary: Update a texture
       operationId: updateTexture
       tags:
         - tagTexture
@@ -2068,7 +2068,7 @@ paths:
         "404":
           description: Texture not found
     delete:
-      summary: Delete a texture by ID
+      summary: Delete a texture
       operationId: deleteTexture
       tags:
         - tagTexture
@@ -2166,9 +2166,9 @@ paths:
           description: 3D annotation successfully created
         "401":
           description: Unauthorized
-  /3d-annotation/{id}:
+  /3d-annotation/{annotationId}:
     get:
-      summary: Get a 3D annotation by ID
+      summary: Get a 3D annotation
       operationId: get3DAnnotationById
       tags:
         - tag3DAnnotation/{id}
@@ -2192,7 +2192,7 @@ paths:
         "404":
           description: 3D annotation not found
     put:
-      summary: Replace a 3D annotation by ID
+      summary: Replace a 3D annotation
       operationId: replace3DAnnotation
       tags:
         - tag3DAnnotation/{id}
@@ -2225,7 +2225,7 @@ paths:
           description: 3D annotation not found
 
     patch:
-      summary: Update a 3D annotation by ID
+      summary: Update a 3D annotation
       operationId: update3DAnnotation
       tags:
         - tag3DAnnotation/{id}
@@ -2258,7 +2258,7 @@ paths:
           description: 3D annotation not found
 
     delete:
-      summary: Delete a 3D annotation by ID
+      summary: Delete a 3D annotation
       operationId: delete3DAnnotation
       tags:
         - tag3DAnnotation/{id}
@@ -2279,18 +2279,18 @@ paths:
           description: Unauthorized
         "404":
           description: 3D annotation not found
-  /3d-annotation/{id}/annotations:
+  /3d-annotation/{annotationId}/annotations:
     get:
       operationId: getAnnotationsOf3dAnnotation
       security:
         - bearerAuth: []
       tags:
         - tag3DAnnotation/{id}/annotations
-      summary: Recupera le annotazioni di un'annotazione 3D
-      description: Restituisce un elenco di annotazioni con supporto per paginazione, ordinamento e formati multipli.
+      summary: Get annotations of a 3D annotation
+      description: returns a list of annotations with support for pagination, sorting and multiple formats.
       parameters:
         - in: path
-          name: id
+          name: annotationId
           required: true
           schema:
             type: string
@@ -2362,7 +2362,7 @@ paths:
         - tag3DAnnotation/{id}/annotations
       parameters:
         - in: path
-          name: id
+          name: annotationId
           required: true
           schema:
             type: string
@@ -2385,21 +2385,21 @@ paths:
                 $ref: "#/components/schemas/Annotation"
         "401":
           description: Unauthorized
-  /3d-annotation/{3d-annotation-id}/annotations/{annotations-id}:
+  /3d-annotation/{3dAnnotationId}/annotations/{annotationId}:
     get:
-      summary: Get an annotation by ID of a 3D annotation
+      summary: Get an annotation  of a 3D annotation
       operationId: getAnnotationByIdof3dAnnotation
       tags:
         - tag3DAnnotation/{id}/annotations
       security:
         - bearerAuth: []
       parameters:
-        - name: 3d-annotation-id
+        - name: 3dAnnotationId
           in: path
           required: true
           schema:
             type: string
-        - name: annotations-id
+        - name: annotationId
           in: path
           required: true
           schema:
@@ -2417,7 +2417,7 @@ paths:
           description: Annotation not found
 
     put:
-      summary: Replace an annotation by ID of a 3D annotation
+      summary: Replace an annotation  of a 3D annotation
       operationId: replaceAnnotationOf3dAnnotation
       tags:
         - tag3DAnnotation/{id}/annotations
@@ -2426,12 +2426,12 @@ paths:
             - admin
             - editor
       parameters:
-        - name: 3d-annotation-id
+        - name: 3dAnnotationId
           in: path
           required: true
           schema:
             type: string
-        - name: annotations-id
+        - name: annotationId
           in: path
           required: true
           schema:
@@ -2455,7 +2455,7 @@ paths:
           description: Annotation not found
 
     patch:
-      summary: Update an annotation by ID of a 3D annotation
+      summary: Update an annotation  of a 3D annotation
       operationId: updateAnnotationOf3dAnnotation
       tags:
         - tag3DAnnotation/{id}/annotations
@@ -2464,12 +2464,12 @@ paths:
             - admin
             - editor
       parameters:
-        - name: 3d-annotation-id
+        - name: 3dAnnotationId
           in: path
           required: true
           schema:
             type: string
-        - name: annotations-id
+        - name: annotationId
           in: path
           required: true
           schema:
@@ -2493,7 +2493,7 @@ paths:
           description: Annotation not found
 
     delete:
-      summary: Delete an annotation by ID of a 3D annotation
+      summary: Delete an annotation  of a 3D annotation
       operationId: deleteAnnotationOf3dAnnotation
       tags:
         - tag3DAnnotation/{id}/annotations
@@ -2502,12 +2502,12 @@ paths:
             - admin
             - editor
       parameters:
-        - name: 3d-annotation-id
+        - name: 3dAnnotationId
           in: path
           required: true
           schema:
             type: string
-        - name: annotations-id
+        - name: annotationId
           in: path
           required: true
           schema:
@@ -2526,8 +2526,8 @@ paths:
         - bearerAuth: []
       tags:
         - tagAnnotation
-      summary: Recupera le annotazioni
-      description: Restituisce un elenco di annotazioni con supporto per paginazione, ordinamento e formati multipli.
+      summary: Get annotations
+      description: returns returns a list of annotations with support for pagination, sorting and multiple formats.
       parameters:
         - in: query
           name: "page"
@@ -2616,7 +2616,7 @@ paths:
           description: Unauthorized
   /annotations/{id}:
     get:
-      summary: Get an annotation by ID
+      summary: Get an annotation
       operationId: getAnnotationById
       tags:
         - tagAnnotation
@@ -2641,7 +2641,7 @@ paths:
           description: Annotation not found
 
     put:
-      summary: Replace an annotation by ID
+      summary: Replace an annotation
       operationId: replaceAnnotation
       tags:
         - tagAnnotation
@@ -2674,7 +2674,7 @@ paths:
           description: Annotation not found
 
     patch:
-      summary: Update an annotation by ID
+      summary: Update an annotation
       operationId: updateAnnotation
       tags:
         - tagAnnotation
@@ -2707,7 +2707,7 @@ paths:
           description: Annotation not found
 
     delete:
-      summary: Delete an annotation by ID
+      summary: Delete an annotation
       operationId: deleteAnnotation
       tags:
         - tagAnnotation
@@ -2905,7 +2905,7 @@ paths:
     get:
       tags:
         - tagIlluminatedScene
-      summary: "Retrieve a specific illuminated manuscript scene by ID"
+      summary: "Retrieve a specific illuminated manuscript scene "
       security:
         - bearerAuth: []
       operationId: getIlluminatedManuscriptScene
@@ -2946,7 +2946,7 @@ paths:
     put:
       tags:
         - tagIlluminatedScene
-      summary: "Update an entire illuminated manuscript scene by ID"
+      summary: "Update an entire illuminated manuscript scene "
       operationId: putIlluminatedManuscriptScene
       security:
         - bearerAuth:
@@ -2974,7 +2974,7 @@ paths:
     patch:
       tags:
         - tagIlluminatedScene
-      summary: "Partially update an illuminated manuscript scene by ID"
+      summary: "Partially update an illuminated manuscript scene "
       operationId: patchIlluminatedManuscriptScene
       security:
         - bearerAuth:
@@ -3007,7 +3007,7 @@ paths:
             - editor
       tags:
         - tagIlluminatedScene
-      summary: "Delete an illuminated manuscript scene by ID"
+      summary: "Delete an illuminated manuscript scene "
       parameters:
         - name: id
           in: path
