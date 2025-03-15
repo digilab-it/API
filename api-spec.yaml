@@ -52,9 +52,11 @@ x-tagGroups:
     tags:
       - "tagPersons"
   - name: "xtagPose"
-    x-displayName: Pose
+    x-displayName: poses
     tags:
-      - "tagPose"
+      - "tagPoses"
+      - "tagPoses/{id}/3d-models"
+      - "tagPoses/{id}/contents"
   - name: "xtagProjects"
     x-displayName: Projects
     tags:
@@ -168,9 +170,9 @@ tags:
   - name: tagPersons
     x-displayName: Persons
     description: All Persons related operations
-  - name: tagPose
+  - name: tagPoses
     description: All Pose related operations
-    x-displayName: Pose
+    x-displayName: Poses
   - name: tagProjects
     description: All Projects related operations
     x-displayName: Projects
@@ -2482,14 +2484,14 @@ paths:
         "404":
           description: Illuminated scene not found
 
-  /pose:
+  /poses:
     get:
       summary: Retrieve all poses
       operationId: getPoses
       security:
         - bearerAuth: []
       tags:
-        - tagPose
+        - tagPoses
       parameters:
         - in: header
           name: Accept
@@ -2536,7 +2538,6 @@ paths:
                 type: string
         "401":
           description: Unauthorized
-
     post:
       summary: Create a new pose
       operationId: createPose
@@ -2545,7 +2546,7 @@ paths:
             - admin
             - editor
       tags:
-        - tagPose
+        - tagPoses
       requestBody:
         required: true
         content:
@@ -2557,12 +2558,12 @@ paths:
           description: Pose successfully created
         "401":
           description: Unauthorized
-  /pose/{id}:
+  /poses/{id}:
     get:
       summary: Get a pose
       operationId: getPoseById
       tags:
-        - tagPose
+        - tagPoses
       security:
         - bearerAuth: []
       parameters:
@@ -2586,7 +2587,7 @@ paths:
       summary: Replace a pose
       operationId: replacePose
       tags:
-        - tagPose
+        - tagPoses
       security:
         - bearerAuth:
             - admin
@@ -2618,7 +2619,7 @@ paths:
       summary: Update a pose
       operationId: updatePose
       tags:
-        - tagPose
+        - tagPoses
       security:
         - bearerAuth:
             - admin
@@ -2650,7 +2651,7 @@ paths:
       summary: Delete a pose
       operationId: deletePose
       tags:
-        - tagPose
+        - tagPoses
       security:
         - bearerAuth:
             - admin
@@ -2668,6 +2669,335 @@ paths:
           description: Unauthorized
         "404":
           description: Pose not found
+  /poses/{poseId}/3d-models:
+    get:
+      summary: Get 3D models of a pose
+      operationId: getPose3DModels
+      tags:
+        - tagPoses/{id}/3d-models
+      parameters:
+        - name: poseId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/3DModel"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Pose not found
+    post:
+      operationId: add3DModelToPose
+      summary: Add 3D model to pose
+      tags:
+        - tagPoses/{id}/3d-models
+      parameters:
+        - name: poseId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/3DModel"
+      responses:
+        "201":
+          description: 3D model added successfully
+        "401":
+          description: Unauthorized
+  /poses/{poseId}/3d-models/{3dModelId}:
+    get:
+      operationId: getPose3DModel
+      summary: Get 3D model of a pose
+      tags:
+        - tagPoses/{id}/3d-models
+      parameters:
+        - name: poseId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: 3dModelId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/3DModel"
+        "401":
+          description: Unauthorized
+        "404":
+          description: 3D model not found
+    put:
+      operationId: update3DModelOfPose
+      summary: Update 3D model of pose
+      tags:
+        - tagPoses/{id}/3d-models
+      parameters:
+        - name: poseId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: 3dModelId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/3DModel"
+      responses:
+        "200":
+          description: 3D model updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/3DModel"
+        "401":
+          description: Unauthorized
+        "404":
+          description: 3D model not found
+    patch:
+      operationId: patch3DModelOfPose
+      summary: Patch 3D model of pose
+      tags:
+        - tagPoses/{id}/3d-models
+      parameters:
+        - name: poseId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: 3dModelId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/3DModel"
+      responses:
+        "200":
+          description: 3D model patched successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/3DModel"
+        "401":
+          description: Unauthorized
+        "404":
+          description: 3D model not found
+    delete:
+      operationId: delete3DModelOfPose
+      summary: Delete 3D model of pose
+      tags:
+        - tagPoses/{id}/3d-models
+      parameters:
+        - name: poseId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: 3dModelId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: 3D model deleted successfully
+        "401":
+          description: Unauthorized
+        "404":
+          description: 3D model not found
+  /poses/{poseId}/contents:
+    get:
+      operationId: getPoseContents
+      summary: Get contents of a pose
+      tags:
+        - tagPoses/{id}/contents
+      parameters:
+        - name: poseId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Content"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Pose not found
+    post:
+      operationId: addContentToPose
+      summary: Add content to pose
+      tags:
+        - tagPoses/{id}/contents
+      parameters:
+        - name: poseId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Content"
+      responses:
+        "201":
+          description: Content added successfully
+        "401":
+          description: Unauthorized
+  /poses/{poseId}/contents/{contentId}:
+    get:
+      operationId: getPoseContent
+      summary: Get content of a pose
+      tags:
+        - tagPoses/{id}/contents
+      parameters:
+        - name: poseId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: contentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Content"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Content not found
+    put:
+      operationId: updateContentOfPose
+      summary: Update content of pose
+      tags:
+        - tagPoses/{id}/contents
+      parameters:
+        - name: poseId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: contentId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Content"
+      responses:
+        "200":
+          description: Content updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Content"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Content not found
+    patch:
+      operationId: patchContentOfPose
+      summary: Patch content of pose
+      tags:
+        - tagPoses/{id}/contents
+      parameters:
+        - name: poseId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: contentId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Content"
+      responses:
+        "200":
+          description: Content patched successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Content"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Content not found
+    delete:
+      operationId: deleteContentOfPose
+      summary: Delete content of pose
+      tags:
+        - tagPoses/{id}/contents
+      parameters:
+        - name: poseId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: contentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Content deleted successfully
+        "401":
+          description: Unauthorized
+        "404":
+          description: Content not found
+
   /3d-model:
     get:
       summary: Retrieve all 3D models
@@ -5432,7 +5762,7 @@ components:
         name:
           type: string
           description: Name of the pose
-        models:
+        3d-models:
           type: array
           items:
             $ref: "#/components/schemas/3DModel"
