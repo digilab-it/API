@@ -1,0 +1,12 @@
+{
+    "theme": {
+        "sidebar": {
+            "backgroundColor": "#cecece"
+        }
+    },
+    "expandResponses": "all",
+    "hideDownloadButton": true,
+    "hideHostname": true,
+    "noAutoAuth": true,
+    "disableSearch": true
+}

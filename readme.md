@@ -50,3 +50,9 @@ npm start assicura già questo step, ma se si vuole eseguirlo manualmente
 ## Swagger server
 
 npm start assicura già questo step, non è possibile lanciarlo manualmente
+
+## Export to PDF
+
+    redoc-cli bundle api-spec.yaml -o pdf.html --options redoc-config.json
+
+    node generate-pdf.js
