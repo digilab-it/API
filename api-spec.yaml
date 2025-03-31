@@ -54,9 +54,9 @@ x-tagGroups:
   - name: "xtagPose"
     x-displayName: poses
     tags:
-      - "tagPoses"
-      - "tagPoses/{id}/3d-models"
-      - "tagPoses/{id}/contents"
+      - "tagPosa3D"
+      - "tagPosa3D/{id}/3d-models"
+      - "tagPosa3D/{id}/contents"
   - name: "xtagProjects"
     x-displayName: Projects
     tags:
@@ -138,8 +138,8 @@ tags:
     x-displayName: 3d annotations of an Illuminated Scene
     description: 3D Annotations related to Illuminated Scene
   - name: tagIlluminatedScene/{id}/poses
-    x-displayName: Poses of an Illuminated Scene
-    description: Poses related to Illuminated Scene
+    x-displayName: Posa3D of an Illuminated Scene
+    description: Posa3D related to Illuminated Scene
   - name: tagIlluminatedScene/{id}/authors
     x-displayName: Authors of an Illuminated Scene
     description: Authors related to Illuminated Scene
@@ -170,9 +170,9 @@ tags:
   - name: tagPersons
     x-displayName: Persons
     description: All Persons related operations
-  - name: tagPoses
-    description: All Pose related operations
-    x-displayName: Poses
+  - name: tagPosa3D
+    description: All Posa3D related operations
+    x-displayName: Posa3D
   - name: tagProjects
     description: All Projects related operations
     x-displayName: Projects
@@ -229,9 +229,9 @@ tags:
       A light illuminated manuscript scene object
       <SchemaDefinition schemaRef="#/components/schemas/LightIlluminatedScene" />
 
-      ## Pose
+      ## Posa3D
       A pose object extending the `Base Entity`
-      <SchemaDefinition schemaRef="#/components/schemas/Pose" />
+      <SchemaDefinition schemaRef="#/components/schemas/Posa3D" />
 
       ## Texture
       A texture object extending the `Base Entity`
@@ -2487,11 +2487,11 @@ paths:
   /poses:
     get:
       summary: Retrieve all poses
-      operationId: getPoses
+      operationId: getPosa3D
       security:
         - bearerAuth: []
       tags:
-        - tagPoses
+        - tagPosa3D
       parameters:
         - in: header
           name: Accept
@@ -2546,7 +2546,7 @@ paths:
             - admin
             - editor
       tags:
-        - tagPoses
+        - tagPosa3D
       requestBody:
         required: true
         content:
@@ -2555,7 +2555,7 @@ paths:
               $ref: "#/components/schemas/InputPose"
       responses:
         "201":
-          description: Pose successfully created
+          description: Posa3D successfully created
         "401":
           description: Unauthorized
   /poses/{id}:
@@ -2563,7 +2563,7 @@ paths:
       summary: Get a pose
       operationId: getPoseById
       tags:
-        - tagPoses
+        - tagPosa3D
       security:
         - bearerAuth: []
       parameters:
@@ -2574,20 +2574,20 @@ paths:
             type: string
       responses:
         "200":
-          description: Pose retrieved successfully
+          description: Posa3D retrieved successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pose"
+                $ref: "#/components/schemas/Posa3D"
         "401":
           description: Unauthorized
         "404":
-          description: Pose not found
+          description: Posa3D not found
     put:
       summary: Replace a pose
       operationId: replacePose
       tags:
-        - tagPoses
+        - tagPosa3D
       security:
         - bearerAuth:
             - admin
@@ -2606,20 +2606,20 @@ paths:
               $ref: "#/components/schemas/InputPose"
       responses:
         "200":
-          description: Pose replaced successfully
+          description: Posa3D replaced successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pose"
+                $ref: "#/components/schemas/Posa3D"
         "401":
           description: Unauthorized
         "404":
-          description: Pose not found
+          description: Posa3D not found
     patch:
       summary: Update a pose
       operationId: updatePose
       tags:
-        - tagPoses
+        - tagPosa3D
       security:
         - bearerAuth:
             - admin
@@ -2638,20 +2638,20 @@ paths:
               $ref: "#/components/schemas/InputPose"
       responses:
         "200":
-          description: Pose updated successfully
+          description: Posa3D updated successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pose"
+                $ref: "#/components/schemas/Posa3D"
         "401":
           description: Unauthorized
         "404":
-          description: Pose not found
+          description: Posa3D not found
     delete:
       summary: Delete a pose
       operationId: deletePose
       tags:
-        - tagPoses
+        - tagPosa3D
       security:
         - bearerAuth:
             - admin
@@ -2664,17 +2664,17 @@ paths:
             type: string
       responses:
         "204":
-          description: Pose deleted successfully
+          description: Posa3D deleted successfully
         "401":
           description: Unauthorized
         "404":
-          description: Pose not found
+          description: Posa3D not found
   /poses/{poseId}/3d-models:
     get:
       summary: Get 3D models of a pose
       operationId: getPose3DModels
       tags:
-        - tagPoses/{id}/3d-models
+        - tagPosa3D/{id}/3d-models
       parameters:
         - name: poseId
           in: path
@@ -2693,12 +2693,12 @@ paths:
         "401":
           description: Unauthorized
         "404":
-          description: Pose not found
+          description: Posa3D not found
     post:
       operationId: add3DModelToPose
       summary: Add 3D model to pose
       tags:
-        - tagPoses/{id}/3d-models
+        - tagPosa3D/{id}/3d-models
       parameters:
         - name: poseId
           in: path
@@ -2721,7 +2721,7 @@ paths:
       operationId: getPose3DModel
       summary: Get 3D model of a pose
       tags:
-        - tagPoses/{id}/3d-models
+        - tagPosa3D/{id}/3d-models
       parameters:
         - name: poseId
           in: path
@@ -2748,7 +2748,7 @@ paths:
       operationId: update3DModelOfPose
       summary: Update 3D model of pose
       tags:
-        - tagPoses/{id}/3d-models
+        - tagPosa3D/{id}/3d-models
       parameters:
         - name: poseId
           in: path
@@ -2781,7 +2781,7 @@ paths:
       operationId: patch3DModelOfPose
       summary: Patch 3D model of pose
       tags:
-        - tagPoses/{id}/3d-models
+        - tagPosa3D/{id}/3d-models
       parameters:
         - name: poseId
           in: path
@@ -2814,7 +2814,7 @@ paths:
       operationId: delete3DModelOfPose
       summary: Delete 3D model of pose
       tags:
-        - tagPoses/{id}/3d-models
+        - tagPosa3D/{id}/3d-models
       parameters:
         - name: poseId
           in: path
@@ -2838,7 +2838,7 @@ paths:
       operationId: getPoseContents
       summary: Get contents of a pose
       tags:
-        - tagPoses/{id}/contents
+        - tagPosa3D/{id}/contents
       parameters:
         - name: poseId
           in: path
@@ -2857,12 +2857,12 @@ paths:
         "401":
           description: Unauthorized
         "404":
-          description: Pose not found
+          description: Posa3D not found
     post:
       operationId: addContentToPose
       summary: Add content to pose
       tags:
-        - tagPoses/{id}/contents
+        - tagPosa3D/{id}/contents
       parameters:
         - name: poseId
           in: path
@@ -2885,7 +2885,7 @@ paths:
       operationId: getPoseContent
       summary: Get content of a pose
       tags:
-        - tagPoses/{id}/contents
+        - tagPosa3D/{id}/contents
       parameters:
         - name: poseId
           in: path
@@ -2912,7 +2912,7 @@ paths:
       operationId: updateContentOfPose
       summary: Update content of pose
       tags:
-        - tagPoses/{id}/contents
+        - tagPosa3D/{id}/contents
       parameters:
         - name: poseId
           in: path
@@ -2945,7 +2945,7 @@ paths:
       operationId: patchContentOfPose
       summary: Patch content of pose
       tags:
-        - tagPoses/{id}/contents
+        - tagPosa3D/{id}/contents
       parameters:
         - name: poseId
           in: path
@@ -2978,7 +2978,7 @@ paths:
       operationId: deleteContentOfPose
       summary: Delete content of pose
       tags:
-        - tagPoses/{id}/contents
+        - tagPosa3D/{id}/contents
       parameters:
         - name: poseId
           in: path
@@ -5220,7 +5220,7 @@ paths:
           description: Editor not found
   /illuminated-scenes/{illuminatedSceneId}/poses:
     get:
-      operationId: getPosesOfIlluminatedScene
+      operationId: getPosa3DOfIlluminatedScene
       tags:
         - tagIlluminatedScene/{id}/poses
       summary: Get poses of an illuminated scene
@@ -5271,7 +5271,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Pose"
+                  $ref: "#/components/schemas/Posa3D"
             text/turtle:
               schema:
                 type: string
@@ -5309,14 +5309,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Pose"
+              $ref: "#/components/schemas/Posa3D"
       responses:
         "201":
-          description: Pose created successfully
+          description: Posa3D created successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pose"
+                $ref: "#/components/schemas/Posa3D"
         "401":
           description: Unauthorized
   /illuminated-scenes/{illuminatedSceneId}/poses/{poseId}:
@@ -5340,15 +5340,15 @@ paths:
             type: string
       responses:
         "200":
-          description: Pose retrieved successfully
+          description: Posa3D retrieved successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pose"
+                $ref: "#/components/schemas/Posa3D"
         "401":
           description: Unauthorized
         "404":
-          description: Pose not found
+          description: Posa3D not found
 
     put:
       summary: Replace a pose of an illuminated scene
@@ -5375,18 +5375,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Pose"
+              $ref: "#/components/schemas/Posa3D"
       responses:
         "200":
-          description: Pose replaced successfully
+          description: Posa3D replaced successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pose"
+                $ref: "#/components/schemas/Posa3D"
         "401":
           description: Unauthorized
         "404":
-          description: Pose not found
+          description: Posa3D not found
     patch:
       summary: Update a pose of an illuminated scene
       operationId: updatePoseOfIlluminatedScene
@@ -5412,18 +5412,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Pose"
+              $ref: "#/components/schemas/Posa3D"
       responses:
         "200":
-          description: Pose updated successfully
+          description: Posa3D updated successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pose"
+                $ref: "#/components/schemas/Posa3D"
         "401":
           description: Unauthorized
         "404":
-          description: Pose not found
+          description: Posa3D not found
     delete:
       summary: Delete a pose of an illuminated scene
       operationId: deletePoseOfIlluminatedScene
@@ -5446,11 +5446,11 @@ paths:
             type: string
       responses:
         "204":
-          description: Pose deleted successfully
+          description: Posa3D deleted successfully
         "401":
           description: Unauthorized
         "404":
-          description: Pose not found
+          description: Posa3D not found
 
   /authors/{id}/manuscripts:
     get:
@@ -5729,6 +5729,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Reference"
+        viewers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reference"
         illuminated-scenes:
           type: array
           items:
@@ -5754,7 +5758,7 @@ components:
               - `published`: Pubblicato
               - `rejected`: Rifiutato
               - `withdrawn`: Ritirato
-    Pose:
+    Posa3D:
       allOf:
         - $ref: "#/components/schemas/Base"
       type: object
@@ -5860,6 +5864,10 @@ components:
         - $ref: "#/components/schemas/Base"
       type: object
       properties:
+        authors:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reference"
         region:
           type: string
           description: 3D region where the annotation applies
@@ -5892,7 +5900,7 @@ components:
         - $ref: "#/components/schemas/Base"
       type: object
       properties:
-        type:
+        category:
           type: string
           enum:
             - text
@@ -5990,7 +5998,7 @@ components:
         poses:
           type: array
           items:
-            $ref: "#/components/schemas/Pose"
+            $ref: "#/components/schemas/Posa3D"
           description: "List of poses"
         annotations3D:
           type: array
@@ -6149,6 +6157,23 @@ components:
         last_updated:
           type: string
           format: date-time
+        language:
+          type: string
+          enum:
+            - it
+            - en
+            - fr
+            - de
+            - es
+          description: Lingua del contenuto
+        description:
+          type: string
+          description: Descrizione del contenuto
+        annotations:
+          type: array
+          items:
+            $ref: "#/components/schemas/3DAnnotation"
+          description: Lista di annotazioni 3D associate al contenuto
       example:
         id: 1
         manuscript_id: 1
@@ -6175,6 +6200,24 @@ components:
             - Bibliografia
         content:
           type: string
+        language:
+          type: string
+          enum:
+            - it
+            - en
+            - fr
+            - de
+            - es
+          description: Lingua del contenuto
+        description:
+          type: string
+          description: Descrizione del contenuto
+        annotations:
+          type: array
+          items:
+            $ref: "#/components/schemas/Light3DAnnotation"
+          description: Lista di annotazioni 3D associate al contenuto
+
       example:
         category: "Storia e contesto"
         content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
