@@ -31,21 +31,21 @@ Lanciando `npm start` si aprirà una finestra del browser dove poter visualizzar
 
 npm start assicura già questo step, ma se si vuole compilarlo manualmente
 
-Modifica il file api-spec.yaml e genera la documentazione HTML con ReDoc.
+Modifica il file redoc.yaml e genera la documentazione HTML con ReDoc.
 
-    redoc-cli bundle api-spec.yaml
+    redoc-cli bundle redoc.yaml
 
 Questo genererà un file index.html che contiene la documentazione della tua API. Puoi aprire questo file in un browser per visualizzare la documentazione.
 
 (Opzionale) Se vuoi personalizzare il nome del file HTML generato, puoi farlo utilizzando l'opzione -o o --output.
 
-    redoc-cli bundle api-spec.yaml -o index.html
+    redoc-cli bundle redoc.yaml -o index.html
 
 ## Dummy server
 
 npm start assicura già questo step, ma se si vuole eseguirlo manualmente
 
-    npx prism mock api-spec.yaml
+    npx prism mock redoc.yaml
 
 ## Swagger server
 
@@ -53,6 +53,6 @@ npm start assicura già questo step, non è possibile lanciarlo manualmente
 
 ## Export to PDF
 
-    redoc-cli bundle api-spec.yaml -o pdf.html --options redoc-config.json
+    redoc-cli bundle redoc.yaml -o pdf.html --options redoc-config.json
 
     node generate-pdf.js

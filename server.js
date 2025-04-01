@@ -9,7 +9,7 @@ const app = express();
 const PORT = 3100;
 
 // Convertire il file OpenAPI YAML in JSON
-const swaggerDocument = YAML.load("./api-spec.yaml");
+const swaggerDocument = YAML.load("./redoc.yaml");
 
 // Servire Swagger UI su /api-docs
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -51,7 +51,7 @@ app.get("/openapi.json", (req, res) => {
 });
 
 // Avviare il server Mock con Prism CLI
-exec("npx prism mock api-spec.yaml --port 4010", (err, stdout, stderr) => {
+exec("npx prism mock redoc.yaml --port 4010", (err, stdout, stderr) => {
   if (err) {
     console.error(`Errore nell'avviare Prism: ${err.message}`);
     return;
