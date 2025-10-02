@@ -4,8 +4,8 @@
     "description": "Progetto per generare documentazione API con ReDoc e hot deploy con nodemon",
     "main": "server.js",
     "scripts": {
-        "build": "redoc-cli bundle api-spec.yaml -o index.html",
-        "build:watch": "nodemon --watch api-spec.yaml --exec \"npm run build\"",
+        "build": "redoc-cli bundle redoc.yaml -o index.html",
+        "build:watch": "nodemon --watch redoc.yaml --exec \"npm run build\"",
         "server": "nodemon server.js",
         "serve": "browser-sync start --proxy \"http://127.0.0.1:3100\" --files \"**/*\"",
         "start": "concurrently \"npm run build:watch\" \"npm run server\" \"npm run serve\""
@@ -15,6 +15,7 @@
     "dependencies": {
         "@stoplight/prism-cli": "^5.12.0",
         "express": "^4.21.2",
+        "puppeteer": "^24.4.0",
         "redoc-cli": "^0.13.0",
         "redoc-express": "^2.1.0",
         "swagger-ui-express": "^5.0.1",
