@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: DIGILAB API
-  version: 1.0.0
+  version: 1.0.1
   description: >-
     API for managing manuscript, 3D models, textures, annotations, and poses in DIGILAB.
   license:
@@ -11,6 +11,10 @@ servers:
   - url: http://127.0.0.1:4010
     description: Dummy Server
 x-tagGroups:
+  - name: "xtagIoT"
+    x-displayName: IoT Integrations
+    tags:
+      - "tagSENNSE"
   - name: "xtag3DAnnotation"
     x-displayName: 3D Annotations
     tags:
@@ -78,6 +82,11 @@ x-tagGroups:
     tags:
       - "Models"
 tags:
+  - name: tagSENNSE
+    x-displayName: SENNSE (IoT)
+    description: |
+      Integrazione IoT basata su Thingsboard. Endpoint per l'import di pacchetti
+      (dataset + metadati + annotazioni) da SENNSE verso DIGILAB.
   - name: authentication
     x-displayName: Autenticazione OAuth
     description: |
@@ -5576,6 +5585,146 @@ paths:
       summary: "Get all scenes of an editor"
       description: "This operation retrieves all scenes for an editor."
       operationId: "getScenesOfEditor"
+  /iot/sennse/imports:
+    post:
+      tags:
+        - tagSENNSE
+      summary: Importa un pacchetto dati da SENNSE
+      description: |
+        Riceve un pacchetto dati esportato da SENNSE (Thingsboard): serie temporali,
+        metadati e annotazioni. Crea un job di import e restituisce lo stato iniziale.
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SennseImportPackage"
+      responses:
+        "202":
+          description: Job di import accettato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ImportJob"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "401":
+          description: Unauthorized
+    get:
+      tags:
+        - tagSENNSE
+      summary: Lista job di import SENNSE
+      description: Restituisce la lista dei job di import creati per l'integrazione SENNSE.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
+          name: status
+          schema:
+            $ref: "#/components/schemas/ImportStatus"
+          required: false
+          description: Filtra per stato del job.
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - in: query
+          name: size
+          schema:
+            type: integer
+            minimum: 1
+            default: 20
+      responses:
+        "200":
+          description: Elenco job
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ImportJob"
+        "401":
+          description: Unauthorized
+
+  /iot/sennse/imports/{id}:
+    get:
+      tags:
+        - tagSENNSE
+      summary: Dettaglio job di import
+      description: Restituisce lo stato e i dettagli del job di import SENNSE.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Dettaglio job
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ImportJob"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Job non trovato
+    delete:
+      tags:
+        - tagSENNSE
+      summary: Annulla job di import
+      description: Annulla il job se ancora in esecuzione.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Job annullato
+        "401":
+          description: Unauthorized
+        "404":
+          description: Job non trovato
+
+  /iot/sennse/imports/{id}/retry:
+    post:
+      tags:
+        - tagSENNSE
+      summary: Ritenta job di import
+      description: Crea un nuovo tentativo per il job indicato (idempotente).
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "202":
+          description: Retry accettato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ImportJob"
+        "401":
+          description: Unauthorized
+        "404":
+          description: Job non trovato
 components:
   schemas:
     Identifier:
@@ -6221,6 +6370,130 @@ components:
       example:
         category: "Storia e contesto"
         content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+
+    SennseImportPackage:
+      type: object
+      description: Pacchetto di import SENNSE con metadati, serie temporali e annotazioni.
+      properties:
+        timeStart:
+          type: string
+          format: date-time
+        timeEnd:
+          type: string
+          format: date-time
+        nomeOsservazione:
+          type: string
+        selectedMeasurePoints:
+          type: string
+          description: Punti di misura selezionati (stringa CSV)
+        selectedMeasuresIds:
+          type: string
+          description: ID misure selezionate (stringa CSV)
+        selectedWsnIds:
+          type: string
+          description: ID reti/sensori (stringa CSV)
+        selectedWsn:
+          type: array
+          items:
+            type: string
+        selectedMeasures:
+          type: array
+          items:
+            type: string
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/SennseSeries"
+        annotations:
+          type: array
+          items:
+            $ref: "#/components/schemas/SennseAnnotation"
+      required:
+        - timeStart
+        - timeEnd
+        - data
+
+    SennseSeries:
+      type: object
+      description: Serie di misure con valori [epochMillis, valore].
+      properties:
+        name:
+          type: string
+        values:
+          type: array
+          items:
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              - type: integer
+                description: Epoch millis
+              - type: string
+                description: Valore misurato (string per compatibilità)
+      required:
+        - name
+        - values
+
+    SennseAnnotation:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        user:
+          type: string
+        key:
+          type: string
+        value:
+          type: string
+      required:
+        - timestamp
+        - key
+        - value
+
+    ImportJob:
+      type: object
+      properties:
+        id:
+          type: string
+        source:
+          type: string
+          example: "SENNSE"
+        status:
+          $ref: "#/components/schemas/ImportStatus"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+
+    ImportStatus:
+      type: string
+      enum: [PENDING, RUNNING, COMPLETED, FAILED, CANCELED]
+
+    Problem:
+      type: object
+      description: RFC7807 Problem Details
+      properties:
+        type:
+          type: string
+          format: uri
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        instance:
+          type: string
+
   securitySchemes:
     bearerAuth:
       type: http

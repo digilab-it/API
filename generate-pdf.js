@@ -4,7 +4,7 @@ const { execSync } = require("child_process");
 const path = require("path");
 
 const htmlFile = "pdf.html";
-const pdfFile = "docs.pdf";
+const pdfFile = "api-reference.pdf";
 
 (async () => {
   const browser = await puppeteer.launch();
